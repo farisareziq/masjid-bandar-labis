@@ -811,7 +811,7 @@ function buildHubungi() {
     "<div><h4>E-mel</h4><p>" + CONFIG.email + "</p></div></div>" +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("clock", 22) + "</div>" +
-    "<div><h4>Waktu Operasi</h4><p>Setiap hari: 5:00 pagi \u2013 10:00 malam</p></div></div>" +
+    "<div><h4>Waktu Operasi</h4><p>Masjid: Buka <strong>24 jam</strong><br>Pejabat Pentadbiran: 8:30 pagi \u2013 5:00 petang</p></div></div>" +
     '<div class="hero-actions" style="justify-content:flex-start;">' +
     '<a class="btn btn-dark" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
     iconSvg("facebook", 18) + " Facebook Page</a>" +
