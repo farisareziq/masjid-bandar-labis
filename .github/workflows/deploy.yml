@@ -1,0 +1,52 @@
+# ============================================================
+# Deploy ke GitHub Pages (PERCUMA)
+# - Setiap push ke branch `main` akan:
+#   1) Bina website (node src/build.js)
+#   2) Semak pautan & keselamatan (node src/check-links.js)
+#   3) Deploy ke GitHub Pages
+# Deploy DIBATALKAN jika langkah 1 atau 2 gagal (fail-fast).
+# ============================================================
+name: Deploy ke GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Bina website
+        run: node src/build.js
+
+      - name: Semakan pautan & keselamatan
+        run: node src/check-links.js
+
+      - name: Konfigurasi Pages
+        uses: actions/configure-pages@v5
+
+      - name: Muat naik artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+      - name: Deploy
+        uses: actions/deploy-pages@v4

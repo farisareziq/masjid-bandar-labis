@@ -1,0 +1,19 @@
+# Dependencies (tiada dependency luar sepatutnya)
+node_modules/
+
+# Output build (dijana semula oleh CI / `node src/build.js`)
+dist/
+
+# Fail sistem operasi & editor
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Fail sensitif / rahsia — JANGAN commit ke GitHub
+*.key
+*.pem
+.env
+.env.*
+secrets.*
