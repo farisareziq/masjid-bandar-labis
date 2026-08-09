@@ -599,6 +599,19 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   transition: transform 0.25s ease;
 }
 .room-card:hover { transform: translateY(-6px); }
+.inn-photo {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 2px solid var(--yellow);
+  box-shadow: var(--shadow);
+  margin-bottom: 36px;
+}
+.inn-photo img {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  display: block;
+}
 .room-top {
   background: linear-gradient(140deg, var(--black-3), var(--black));
   color: var(--yellow);
@@ -700,6 +713,12 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 .gallery-item:hover { transform: translateY(-5px); border-color: var(--yellow); }
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .gallery-cap {
   position: absolute;
   bottom: 0; left: 0; right: 0;

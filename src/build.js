@@ -527,6 +527,22 @@ function buildAktiviti() {
    MUKA SURAT 4 — perkhidmatan.html (Urusan Harian + Musafir Inn)
    ============================================================ */
 function buildPerkhidmatan() {
+  // Foto Musafir Inn: gambar pertama dalam folder images/Musafir Inn
+  const innDir = path.join(ROOT, "images", "Musafir Inn");
+  let innPhoto = "";
+  if (fs.existsSync(innDir)) {
+    const innFiles = fs.readdirSync(innDir).filter(function (f) {
+      return /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/.test(f);
+    });
+    if (innFiles.length) {
+      innPhoto =
+        '<figure class="inn-photo" data-reveal>' +
+        '<img src="images/Musafir Inn/' + encodeURIComponent(innFiles[0]) +
+        '" alt="Musafir Inn Masjid Bandar Labis" loading="lazy">' +
+        "</figure>";
+    }
+  }
+
   const body =
     pageHeader("Perkhidmatan <span>Masjid</span>", "Perkhidmatan") +
 
@@ -608,6 +624,7 @@ function buildPerkhidmatan() {
       "Penginapan untuk musafir dan tetamu dengan kadar berpatutan.",
       true
     ) +
+    innPhoto +
     '<div class="room-grid">' +
     roomCard("\u{1F6CC}", "Bilik Single", "RM60 / malam", ["1 katil single", "Aircond & kipas", "Mandi & tandas", "Wi-Fi"]) +
     roomCard("\u{1F6CB}\uFE0F", "Bilik Double", "RM90 / malam", ["1 katil queen", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"]) +
@@ -668,27 +685,47 @@ function buildPerkhidmatan() {
    MUKA SURAT 5 — galeri.html
    ============================================================ */
 function buildGaleri() {
-  const items = [
-    ["\u{1F54C}", "Bangunan Masjid"],
-    ["\u{1F4D6}", "Tadarus Al-Quran"],
-    ["\u{1F393}", "Kuliah Agama"],
-    ["\u{1F6CC}", "Musafir Inn"],
-    ["\u{1F35C}", "Program Ihya\u2019 Ramadan"],
-    ["\u{1F4F8}", "Lawatan & Aktiviti Komuniti"],
-    ["\u{1F48D}", "Majlis Perkahwinan"],
-    ["\u{1F5DE}\uFE0F", "Kutipan Sumbangan"],
-    ["\u{1F54A}\uFE0F", "Gotong-Royong"],
-  ];
-  const tiles = items
-    .map(function (it) {
-      return (
-        '<div class="gallery-item" data-reveal>' +
-        '<span aria-hidden="true">' + it[0] + "</span>" +
-        '<span class="gallery-cap">' + it[1] + "</span>" +
-        "</div>"
-      );
-    })
-    .join("");
+  // Baca semua gambar dari folder images/Galeri
+  const dir = path.join(ROOT, "images", "Galeri");
+  let files = [];
+  if (fs.existsSync(dir)) {
+    files = fs
+      .readdirSync(dir)
+      .filter(function (f) {
+        return /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/.test(f);
+      })
+      .sort();
+  }
+
+  let tiles;
+  if (!files.length) {
+    // Fallback placeholder jika folder kosong
+    tiles =
+      '<div class="gallery-item" data-reveal>' +
+      '<span aria-hidden="true">\u{1F54C}</span>' +
+      '<span class="gallery-cap">Masjid Bandar Labis</span>' +
+      "</div>";
+  } else {
+    tiles = files
+      .map(function (file) {
+        const isAerial = /^DJI_/i.test(file);
+        const cap = isAerial
+          ? "Pandangan Aerial Masjid Bandar Labis"
+          : "Galeri Masjid Bandar Labis";
+        return (
+          '<figure class="gallery-item" data-reveal>' +
+          '<img src="images/Galeri/' +
+          encodeURIComponent(file) +
+          '" alt="' +
+          cap +
+          '" loading="lazy">' +
+          '<figcaption class="gallery-cap">' +
+          cap +
+          "</figcaption></figure>"
+        );
+      })
+      .join("");
+  }
 
   const body =
     pageHeader("Galeri <span>Masjid</span>", "Galeri") +
@@ -699,7 +736,7 @@ function buildGaleri() {
       "Gambar aktiviti dan suasana Masjid Bandar Labis."
     ) +
     '<div class="gallery-grid">' + tiles + "</div>" +
-    '<p class="form-note" style="text-align:center;margin-top:24px;">Foto rasmi akan dimuat naik dari semasa ke semasa. Ikuti Facebook page masjid untuk gambar terkini.</p>' +
+    '<p class="form-note" style="text-align:center;margin-top:24px;">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
     "</div></section>\n";
 
   write(
