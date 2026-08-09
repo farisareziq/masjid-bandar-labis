@@ -46,20 +46,38 @@ Kemudian buka `http://localhost:8080` dalam pelayar.
 
 ## 🌍 Deploy ke GitHub Pages (PERCUMA)
 
+Kaedah ini **tidak memerlukan GitHub Actions** — GitHub Pages berkhidmat terus
+daripada folder `docs/` dalam repo (tiada kos, tiada isu bil).
+
+### Kali pertama (deploy awal)
+
 1. Buka [github.com](https://github.com) dan daftar akaun (percuma) jika belum ada.
-2. Cipta **repo public** bernama `masjid-bandar-labis`.
-3. Muat naik semua fail projek ini ke repo tersebut.
-4. Pergi ke **Settings → Pages** dan tetapkan **Source: GitHub Actions**.
-5. Setiap kali anda `push` ke branch `main`, workflow `.github/workflows/deploy.yml`
-   akan automatik:
-   - Bina website (`node src/build.js`)
-   - Semak pautan & keselamatan (`node src/check-links.js`)
-   - **Deploy** ke GitHub Pages
+2. Pastikan GitHub CLI `gh` sudah log masuk:
+   ```bash
+   gh auth login
+   ```
+3. Jalankan skrip satu-klik:
+   ```powershell
+   powershell -ExecutionPolicy Bypass -File scripts\push-to-github.ps1
+   ```
+   Skrip ini akan: init repo → commit → cipta repo public → push → aktifkan Pages.
+
+### Kemas kini website (selepas sebarang perubahan)
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\deploy-branch.ps1
+```
+
+Skrip ini akan: bina website → salin ke `docs/` → commit → push.
 
 Website akan live di:
 ```
 https://<username>.github.io/masjid-bandar-labis/
 ```
+
+> **Nota:** GitHub Actions (auto-deploy) boleh diaktifkan kemudian dengan
+> memulangkan semula fail `.github/workflows/deploy.yml` — cuma pastikan akaun
+> GitHub tidak dikunci oleh isu bil.
 
 ---
 
