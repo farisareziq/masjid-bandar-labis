@@ -132,7 +132,7 @@ function iconSvg(name, size) {
 /* ============================================================
    TEMPLAT LAMAN
    ============================================================ */
-function head(title, description) {
+function head(title, description, canonicalUrl) {
   return (
     "<!DOCTYPE html>\n" +
     '<html lang="ms">\n<head>\n' +
@@ -141,6 +141,10 @@ function head(title, description) {
     "<title>" + title + "</title>\n" +
     '<meta name="description" content="' + description + '">\n' +
     '<meta name="theme-color" content="#ffc72c">\n' +
+    (canonicalUrl
+      ? '<link rel="canonical" href="' + canonicalUrl + '">\n' +
+        '<meta property="og:url" content="' + canonicalUrl + '">\n'
+      : "") +
     '<meta property="og:title" content="' + title + '">\n' +
     '<meta property="og:description" content="' + description + '">\n' +
     '<meta property="og:type" content="website">\n' +
@@ -275,7 +279,7 @@ function page(opts) {
   const scripts =
     opts.prayer ? '<script src="js/prayer-times.js" defer></script>\n' : "";
   return (
-    head(opts.title, opts.description) +
+    head(opts.title, opts.description, opts.canonical) +
     nav(opts.active) +
     opts.body +
     footer() +
@@ -464,6 +468,7 @@ function buildIndex() {
     "index.html",
     page({
       title: "Masjid Bandar Labis \u2014 Utama",
+      canonical: "https://" + CONFIG.customDomain + "/",
       description:
         "Laman rasmi Masjid Bandar Labis, Segamat, Johor. Waktu solat, aktiviti, perkhidmatan dan maklumat sumbangan.",
       active: "index",
@@ -585,6 +590,7 @@ function buildTentang() {
     "tentang.html",
     page({
       title: "Tentang Masjid \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/tentang.html",
       description:
         "Sejarah, visi dan misi serta carta organisasi Masjid Bandar Labis, Segamat, Johor.",
       active: "tentang",
@@ -674,6 +680,7 @@ function buildAktiviti() {
     "aktiviti.html",
     page({
       title: "Aktiviti \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/aktiviti.html",
       description:
         "Jadual kuliah mingguan dan siaran media Masjid Bandar Labis — video, siaran langsung dan pengumuman terkini.",
       active: "aktiviti",
@@ -838,6 +845,7 @@ function buildPerkhidmatan() {
     "perkhidmatan.html",
     page({
       title: "Perkhidmatan \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/perkhidmatan.html",
       description:
         "Urusan harian masjid — pengurusan jenazah, perkahwinan, sewaan dewan, borang lawatan — dan tempahan Musafir Inn.",
       active: "perkhidmatan",
@@ -921,6 +929,7 @@ function buildGaleri() {
     "galeri.html",
     page({
       title: "Galeri \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/galeri.html",
       description:
         "Galeri foto aktiviti dan suasana Masjid Bandar Labis, Segamat, Johor.",
       active: "galeri",
@@ -996,6 +1005,7 @@ function buildHubungi() {
     "hubungi.html",
     page({
       title: "Hubungi Kami \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/hubungi.html",
       description:
         "Alamat, e-mel, Facebook page, waktu operasi dan borang maklum balas Masjid Bandar Labis, Segamat, Johor.",
       active: "hubungi",
@@ -1071,6 +1081,34 @@ copyDir(path.join(ROOT, "images"), path.join(DIST, "images"));
 
 // Fail CNAME untuk domain khas (GitHub Pages)
 write("CNAME", CONFIG.customDomain + "\n");
+
+// robots.txt — pandu enjin carian
+write(
+  "robots.txt",
+  "User-agent: *\n" +
+  "Allow: /\n" +
+  "Sitemap: https://" + CONFIG.customDomain + "/sitemap.xml\n"
+);
+
+// sitemap.xml — senarai halaman untuk enjin carian
+const sitemapPages = [
+  "",
+  "tentang.html",
+  "aktiviti.html",
+  "perkhidmatan.html",
+  "galeri.html",
+  "hubungi.html",
+];
+const sitemapXml =
+  '<?xml version="1.0" encoding="UTF-8"?>\n' +
+  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' +
+  sitemapPages
+    .map(function (p) {
+      return "  <url><loc>https://" + CONFIG.customDomain + "/" + p + "</loc></url>";
+    })
+    .join("\n") +
+  "\n</urlset>\n";
+write("sitemap.xml", sitemapXml);
 
 console.log("\n=== BINAAN SELESAI ===");
 console.log("Folder: " + DIST);
