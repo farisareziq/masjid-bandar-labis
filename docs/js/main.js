@@ -100,12 +100,17 @@ function initReveal() {
 /* ---------- Logo masjid: papar imej jika wujud, fallback emoji ---------- */
 function initLogos() {
   document.querySelectorAll(".logo-img").forEach(function (img) {
+    var fallback = img.parentElement.querySelector(".logo-fallback");
+
     function show() {
       img.hidden = false;
+      if (fallback) fallback.hidden = true;
     }
     function hide() {
       img.hidden = true;
+      if (fallback) fallback.hidden = false;
     }
+
     img.addEventListener("load", show);
     img.addEventListener("error", hide);
     // Imej mungkin sudah dimuat/gagal sebelum listener dipasang

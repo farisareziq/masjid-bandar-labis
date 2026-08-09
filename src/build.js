@@ -121,7 +121,7 @@ function head(title, description) {
     '<link rel="apple-touch-icon" href="images/logo.png">\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
-    '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">\n' +
+    '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">\n' +
     '<link rel="stylesheet" href="css/style.css">\n' +
     "</head>\n<body>\n"
   );
@@ -154,8 +154,8 @@ function nav(active) {
     '<nav class="navbar" id="navbar">\n' +
     '<div class="container nav-container">\n' +
     '<a href="index.html" class="nav-logo">' +
-    '<span class="nav-logo-icon logo-fallback">\u{1F54C}</span>' +
     '<img src="images/logo.png" class="nav-logo-img logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
+    '<span class="nav-logo-icon logo-fallback">\u{1F54C}</span>' +
     '<span class="nav-logo-text">Masjid <b>Bandar Labis</b></span>' +
     "</a>\n" +
     '<ul class="nav-menu" id="navMenu">' +
@@ -264,7 +264,6 @@ function buildIndex() {
     '<section class="hero">' +
     '<div class="hero-pattern" aria-hidden="true"></div>' +
     '<div class="container hero-content">' +
-    '<p class="hero-bismillah">\u0628\u0650\u0633\u0652\u0645\u0650 \u0627\u0644\u0644\u0651\u064e\u0647\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0652\u0645\u064e\u0670\u0646\u0650 \u0627\u0644\u0631\u0651\u064e\u062d\u0650\u064a\u0645\u0650</p>' +
     '<h1 class="hero-title">Masjid <span>Bandar Labis</span></h1>' +
     '<p class="hero-subtitle">Memakmurkan Masjid, Menyantuni Ummah</p>' +
     '<p class="hero-admin">Di bawah seliaan ' + CONFIG.admin + " \u00B7 JAINJ</p>" +
