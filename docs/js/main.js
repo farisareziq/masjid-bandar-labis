@@ -20,6 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initReveal();
   initLogos();
   initMosqueSlider();
+  initQRModal();
   initCopyAccount();
   initQRFallback();
   initForms();
@@ -138,6 +139,38 @@ function initMosqueSlider() {
     index = (index + 1) % slides.length;
     slides[index].classList.add("active");
   }, 4000);
+}
+
+/* ---------- QR sumbangan: perbesar untuk scan (lightbox) ---------- */
+function initQRModal() {
+  const openBtn = document.getElementById("qrOpen");
+  const modal = document.getElementById("qrModal");
+  const qrImg = document.getElementById("qrDonation");
+  if (!openBtn || !modal) return;
+
+  function canOpen() {
+    // Hanya buka jika imej QR benar-benar dimuat
+    return qrImg && !qrImg.hidden && qrImg.naturalWidth > 0;
+  }
+
+  openBtn.addEventListener("click", function () {
+    if (!canOpen()) return;
+    modal.hidden = false;
+    document.body.style.overflow = "hidden";
+  });
+
+  function close() {
+    modal.hidden = true;
+    document.body.style.overflow = "";
+  }
+
+  modal.querySelectorAll("[data-qr-close]").forEach(function (el) {
+    el.addEventListener("click", close);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
 }
 
 /* ---------- Salin nombor akaun bank ---------- */

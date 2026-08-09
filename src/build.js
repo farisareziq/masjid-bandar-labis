@@ -376,12 +376,15 @@ function buildIndex() {
     "<h3>\u{1F4F1} <span>Scan QR</span></h3>" +
     "<p>Imbas kod QR di bawah menggunakan aplikasi perbankan (DuitNow QR):</p>" +
     '<div class="qr-frame">' +
+    '<button type="button" class="qr-click" id="qrOpen" aria-label="Perbesar kod QR untuk scan">' +
     '<img src="images/qr-sumbangan.png" id="qrDonation" alt="DuitNow QR sumbangan Masjid Bandar Labis" class="qr-image" width="200" height="200">' +
     '<div class="qr-placeholder" id="qrPlaceholder" hidden>' +
     "<span>\u{1F4F1}</span>" +
     "<p>QR Code akan dipaparkan di sini.</p>" +
     "<p><small>Sila letakkan fail <code>images/qr-sumbangan.png</code> (DuitNow QR rasmi daripada app Bank Rakyat).</small></p>" +
     "</div>" +
+    "</button>" +
+    '<span class="qr-hint">\u{1F446} Klik untuk besarkan &amp; scan</span>' +
     "</div>" +
     "</div>" +
     "</div>" +
@@ -396,7 +399,21 @@ function buildIndex() {
     '<a href="aktiviti.html" class="btn btn-gold">Lihat Aktiviti</a>' +
     '<a href="hubungi.html" class="btn btn-dark">Hubungi Kami</a>' +
     "</div>" +
-    "</div></div></section>\n";
+    "</div></div></section>\n" +
+
+    // ---------- Modal QR (perbesar untuk scan) ----------
+    '<div class="modal" id="qrModal" hidden role="dialog" aria-modal="true" aria-label="QR Sumbangan Masjid Bandar Labis">' +
+    '<div class="modal-backdrop" data-qr-close></div>' +
+    '<div class="modal-box">' +
+    '<button type="button" class="modal-close" data-qr-close aria-label="Tutup">\u2715</button>' +
+    '<img src="images/qr-sumbangan.png" id="qrLarge" alt="DuitNow QR sumbangan Masjid Bandar Labis">' +
+    '<p class="modal-text">Imbas QR untuk sumbangan<br><strong>' +
+    CONFIG.bank.name +
+    " " +
+    CONFIG.bank.account +
+    "</strong></p>" +
+    "</div>" +
+    "</div>";
 
   write(
     "index.html",

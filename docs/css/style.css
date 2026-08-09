@@ -460,6 +460,56 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
 .qr-placeholder span { font-size: 3.2rem; display: block; }
 .qr-placeholder p { font-size: 0.85rem; margin-top: 8px; }
 .qr-placeholder code { background: var(--cream-2); padding: 2px 8px; border-radius: 6px; font-size: 0.78rem; }
+.qr-click { display: block; width: 100%; background: none; border: 0; padding: 0; cursor: pointer; }
+.qr-click:hover .qr-image { transform: scale(1.04); }
+.qr-image { transition: transform 0.25s ease; }
+.qr-hint {
+  display: block;
+  text-align: center;
+  margin-top: 12px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Lightbox QR (perbesar untuk scan) */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+.modal-backdrop { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.9); }
+.modal-box {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 22px;
+  max-width: min(92vw, 460px);
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.modal-box img { width: 100%; height: auto; border-radius: 12px; display: block; }
+.modal-text { margin-top: 14px; font-size: 0.92rem; color: var(--muted); }
+.modal-text strong { color: var(--gold-600); }
+.modal-close {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 0;
+  background: linear-gradient(135deg, var(--yellow), var(--gold));
+  color: var(--black);
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-gold);
+}
 
 /* ---------- CTA banner ---------- */
 .cta-banner {
