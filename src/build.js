@@ -31,6 +31,8 @@ const CONFIG = {
   email: "masjidbandarlabis@gmail.com",
   // Facebook page rasmi masjid
   facebookUrl: "https://www.facebook.com/masjidbandarlabis",
+  // Video aerial masjid (YouTube embed)
+  videoAerial: "https://www.youtube-nocookie.com/embed/YbEaCgKmAC8",
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -119,7 +121,7 @@ function head(title, description) {
     "font-src 'self' https://fonts.gstatic.com; " +
     "img-src 'self' data:; " +
     "connect-src 'self' https://www.e-solat.gov.my https://formsubmit.co; " +
-    "frame-src https://maps.google.com https://www.google.com; " +
+    "frame-src https://maps.google.com https://www.google.com https://www.youtube.com https://www.youtube-nocookie.com; " +
     "form-action 'self' https://formsubmit.co; " +
     "base-uri 'self'; " +
     "frame-ancestors 'self'" +
@@ -763,6 +765,15 @@ function buildGaleri() {
       "Galeri <span>Foto</span>",
       "Gambar aktiviti dan suasana Masjid Bandar Labis."
     ) +
+    // ---------- Video aerial ----------
+    '<div class="video-feature" data-reveal>' +
+    '<div class="video-frame">' +
+    '<iframe src="' +
+    CONFIG.videoAerial +
+    '" title="Video aerial Masjid Bandar Labis" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>' +
+    "</div>" +
+    '<p class="video-caption">\u{1F3A5} Video aerial Masjid Bandar Labis</p>' +
+    "</div>" +
     '<div class="gallery-grid">' + tiles + "</div>" +
     '<p class="form-note" style="text-align:center;margin-top:24px;">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
     "</div></section>\n";
