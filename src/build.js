@@ -1110,5 +1110,11 @@ const sitemapXml =
   "\n</urlset>\n";
 write("sitemap.xml", sitemapXml);
 
+// Fail pengesahan Google Search Console (boleh dipadam selepas disahkan)
+write(
+  "google9c1edd21c724fae2.html",
+  "google-site-verification: google9c1edd21c724fae2\n"
+);
+
 console.log("\n=== BINAAN SELESAI ===");
 console.log("Folder: " + DIST);
