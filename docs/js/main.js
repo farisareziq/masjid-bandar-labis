@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initScrollTop();
   initReveal();
   initLogos();
+  initMosqueSlider();
   initCopyAccount();
   initQRFallback();
   initForms();
@@ -119,6 +120,24 @@ function initLogos() {
       else hide();
     }
   });
+}
+
+/* ---------- Slider gambar masjid (auto-scroll galeri) ---------- */
+function initMosqueSlider() {
+  const slider = document.getElementById("mosqueSlider");
+  if (!slider) return;
+  const slides = slider.querySelectorAll(".mosque-slide");
+  if (!slides.length) return;
+
+  let index = 0;
+  slides[index].classList.add("active");
+  if (slides.length < 2) return;
+
+  setInterval(function () {
+    slides[index].classList.remove("active");
+    index = (index + 1) % slides.length;
+    slides[index].classList.add("active");
+  }, 4000);
 }
 
 /* ---------- Salin nombor akaun bank ---------- */

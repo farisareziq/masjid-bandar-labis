@@ -267,6 +267,31 @@ function sectionHeader(title, subtitle, dark) {
    MUKA SURAT 1 — index.html (Utama + Sumbangan)
    ============================================================ */
 function buildIndex() {
+  // Slider gambar masjid: baca semua gambar dari folder images/Galeri
+  const galDir = path.join(ROOT, "images", "Galeri");
+  let galFiles = [];
+  if (fs.existsSync(galDir)) {
+    galFiles = fs
+      .readdirSync(galDir)
+      .filter(function (f) {
+        return /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/.test(f);
+      })
+      .sort();
+  }
+  const sliderSlides = galFiles.length
+    ? galFiles
+        .map(function (file, idx) {
+          return (
+            '<img src="images/Galeri/' +
+            encodeURIComponent(file) +
+            '" alt="Galeri Masjid Bandar Labis" class="mosque-slide' +
+            (idx === 0 ? " active" : "") +
+            '" loading="lazy">'
+          );
+        })
+        .join("")
+    : '<div class="mosque-fallback">\u{1F54C}</div>';
+
   const body =
     // ---------- Hero ----------
     '<section class="hero">' +
@@ -300,7 +325,10 @@ function buildIndex() {
     '<div class="stat"><div class="stat-num">1</div><div class="stat-label">Musafir Inn</div></div>' +
     "</div>" +
     "</div>" +
-    '<div class="about-mosque" data-reveal aria-hidden="true">\u{1F54C}</div>' +
+    '<div class="mosque-slider" id="mosqueSlider" data-reveal role="region" aria-label="Galeri gambar Masjid Bandar Labis">' +
+    sliderSlides +
+    '<a class="mosque-badge" href="galeri.html">\u{1F4F8} Lihat Galeri</a>' +
+    "</div>" +
     "</div></section>\n" +
 
     // ---------- Program ----------
