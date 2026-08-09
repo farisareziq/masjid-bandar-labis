@@ -37,6 +37,8 @@ const CONFIG = {
   qrImage: "images/qr-sumbangan.jpg",
   cartaImage: "images/carta-pentadbiran.jpg",
   sejarahImage: "images/sejarah-masjid-lama.jpg",
+  // Domain khas (GitHub Pages CNAME)
+  customDomain: "masjidlabis.my",
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -956,6 +958,9 @@ console.log("Salin aset statik...");
 copyDir(path.join(ROOT, "css"), path.join(DIST, "css"));
 copyDir(path.join(ROOT, "js"), path.join(DIST, "js"));
 copyDir(path.join(ROOT, "images"), path.join(DIST, "images"));
+
+// Fail CNAME untuk domain khas (GitHub Pages)
+write("CNAME", CONFIG.customDomain + "\n");
 
 console.log("\n=== BINAAN SELESAI ===");
 console.log("Folder: " + DIST);

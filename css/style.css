@@ -39,12 +39,14 @@ body {
   background: var(--white);
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 button { font-family: inherit; cursor: pointer; }
+a, button { -webkit-tap-highlight-color: transparent; }
 h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
 
 .container { width: min(1140px, 92%); margin-inline: auto; }
@@ -1008,7 +1010,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
     opacity: 0;
     transition: max-height 0.3s ease, opacity 0.25s ease, visibility 0.25s;
   }
-  .nav-menu.active { max-height: 640px; visibility: visible; opacity: 1; }
+  .nav-menu.active { max-height: calc(100vh - 76px); overflow-y: auto; visibility: visible; opacity: 1; }
   .nav-link { padding: 12px 14px; }
   .nav-cta { margin-left: 0; margin-top: 6px; text-align: center; }
   .dropdown-menu {
@@ -1031,6 +1033,9 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   .fb-card { flex-direction: column; text-align: center; }
   .map-frame iframe { height: 300px; }
   .section { padding: 60px 0; }
+  .history-era { padding: 20px 18px; }
+  .news-item { padding: 16px; }
+  .donation-card { padding: 26px 20px; }
 }
 
 @media (max-width: 480px) {
@@ -1039,4 +1044,21 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   .footer-grid { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr; }
   .bank-account { font-size: 1.5rem; letter-spacing: 2px; }
+  .hero-content { padding: 56px 0 72px; }
+  .hero-title { font-size: 2.1rem; }
+  .hero-admin { font-size: 0.82rem; }
+  .hero-actions { gap: 10px; }
+  .hero-actions .btn { width: 100%; }
+  .section { padding: 48px 0; }
+  .section-header { margin-bottom: 32px; }
+  .donation-card { padding: 22px 16px; }
+  .prayer-card { padding: 14px 8px; }
+  .prayer-time { font-size: 1.2rem; }
+  .prayer-name { font-size: 0.85rem; }
+  .modal-box { padding: 16px; }
+  .modal-close { top: -10px; right: -10px; width: 36px; height: 36px; }
+  .room-top { padding: 20px 12px; }
+  .contact-card { padding: 14px 16px; }
+  .video-feature { margin-bottom: 30px; }
+  .history-photo { border-width: 2px; padding: 5px; }
 }
