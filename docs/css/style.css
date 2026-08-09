@@ -595,6 +595,43 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
 }
 .carta-figure img { width: 100%; height: auto; display: block; border-radius: 10px; }
 
+/* Pegawai masjid */
+.pegawai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+.pegawai-card {
+  background: var(--white);
+  border: 1px solid #eee5c8;
+  border-radius: 16px;
+  padding: 26px 20px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.pegawai-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15); }
+.pegawai-photo {
+  width: 96px; height: 96px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  background: linear-gradient(135deg, var(--yellow), var(--gold));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  box-shadow: var(--shadow-gold);
+}
+.pegawai-initials { font-size: 1.7rem; font-weight: 800; color: var(--black); }
+.pegawai-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.pegawai-card h4 { font-size: 1.02rem; }
+.pegawai-jawatan {
+  display: inline-block;
+  margin-top: 6px;
+  background: linear-gradient(135deg, var(--yellow), var(--gold));
+  color: var(--black);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 14px;
+  border-radius: 999px;
+}
+.pegawai-tel { margin-top: 10px; font-size: 0.88rem; color: var(--muted); }
+
 /* ---------- Jadual / jadual data ---------- */
 .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid #eee5c8; box-shadow: var(--shadow); }
 .section--dark .table-wrap { border-color: var(--line); }
@@ -1011,6 +1048,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
    ============================================================ */
 @media (max-width: 992px) {
   .cards-grid, .media-grid, .room-grid { grid-template-columns: repeat(2, 1fr); }
+  .pegawai-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .steps { grid-template-columns: repeat(2, 1fr); gap: 22px; }
@@ -1065,7 +1103,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 
 @media (max-width: 480px) {
   .prayer-grid { grid-template-columns: repeat(2, 1fr); }
-  .cards-grid, .media-grid, .room-grid, .gallery-grid { grid-template-columns: 1fr; }
+  .cards-grid, .media-grid, .room-grid, .gallery-grid, .pegawai-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr; }
   .bank-account { font-size: 1.5rem; letter-spacing: 2px; }

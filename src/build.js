@@ -46,6 +46,15 @@ const CONFIG = {
     phone: "07-9311330 / 07-9333432",
     fax: "07-9321240",
   },
+  // Senarai pegawai masjid (gambar: letak dalam images/pegawai/<key>.jpg)
+  pegawai: [
+    { key: "bahari-osman", nama: "Bahari Bin Osman", jawatan: "Imam", telefon: "+60" },
+    { key: "nabiel-tukiran", nama: "Mohd Nabiel Bin Tukiran", jawatan: "Imam", telefon: "+60" },
+    { key: "najid-suyut", nama: "Mohd Najid Bin Md Suyut", jawatan: "Bilal", telefon: "+60" },
+    { key: "zainal-abidin", nama: "Hj Zainal Abidin Bin Abu", jawatan: "Bilal", telefon: "+60" },
+    { key: "azman-noja", nama: "Azman Bin Noja", jawatan: "Pembantu Am", telefon: "+60" },
+    { key: "anil-hamdi", nama: "Encik Anil Bin Hamdi", jawatan: "Pembantu Am", telefon: "+60" },
+  ],
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -459,6 +468,26 @@ function buildIndex() {
    MUKA SURAT 2 — tentang.html
    ============================================================ */
 function buildTentang() {
+  // Kad pegawai masjid (gambar auto jika wujud, jika tidak guna inisial)
+  const pegawaiDir = path.join(ROOT, "images", "pegawai");
+  const pegawaiCards = CONFIG.pegawai
+    .map(function (p) {
+      const photoPath = path.join(pegawaiDir, p.key + ".jpg");
+      const hasPhoto = fs.existsSync(photoPath);
+      const photo = hasPhoto
+        ? '<img src="images/pegawai/' + p.key + '.jpg" alt="' + p.nama + '" loading="lazy">'
+        : '<span class="pegawai-initials">' + initials(p.nama) + "</span>";
+      return (
+        '<div class="pegawai-card" data-reveal>' +
+        '<div class="pegawai-photo">' + photo + "</div>" +
+        "<h4>" + p.nama + "</h4>" +
+        '<span class="pegawai-jawatan">' + p.jawatan + "</span>" +
+        '<p class="pegawai-tel">\u{1F4DE} ' + p.telefon + "</p>" +
+        "</div>"
+      );
+    })
+    .join("");
+
   const body =
     pageHeader("Tentang <span>Masjid</span>", "Tentang Masjid") +
 
@@ -523,6 +552,17 @@ function buildTentang() {
     CONFIG.cartaImage +
     '" alt="Carta pentadbiran Masjid Bandar Labis" loading="lazy">' +
     "</figure>" +
+    "</div></section>\n" +
+
+    // ---------- Senarai pegawai masjid ----------
+    '<section class="section section--cream" id="pegawai">' +
+    '<div class="container">' +
+    sectionHeader(
+      "Senarai <span>Pegawai Masjid</span>",
+      "Imam, bilal dan petugas yang memakmurkan Masjid Bandar Labis."
+    ) +
+    '<div class="pegawai-grid">' + pegawaiCards + "</div>" +
+    '<p class="form-note" style="text-align:center;margin-top:24px;">Foto pegawai akan dimuat naik dari semasa ke semasa.</p>' +
     "</div></section>\n";
 
   write(
@@ -946,6 +986,14 @@ function card(icon, title, desc, link) {
     (link ? '<a class="card-link" href="' + link + '">Baca lagi &rarr;</a>' : "") +
     "</div>"
   );
+}
+
+// Inisial untuk avatar pegawai tanpa gambar
+function initials(name) {
+  const parts = String(name).trim().split(/\s+/);
+  const first = parts[0] ? parts[0].charAt(0) : "";
+  const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : "";
+  return (first + last).toUpperCase();
 }
 
 function newsItem(day, month, title, desc) {
