@@ -1111,9 +1111,10 @@ const sitemapXml =
 write("sitemap.xml", sitemapXml);
 
 // Fail pengesahan Google Search Console (boleh dipadam selepas disahkan)
+// Kandungan mesti TEPAT seperti fail asal daripada Google (termasuk .html)
 write(
   "google9c1edd21c724fae2.html",
-  "google-site-verification: google9c1edd21c724fae2\n"
+  "google-site-verification: google9c1edd21c724fae2.html\n"
 );
 
 console.log("\n=== BINAAN SELESAI ===");
