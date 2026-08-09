@@ -39,6 +39,13 @@ const CONFIG = {
   sejarahImage: "images/sejarah-masjid-lama.jpg",
   // Domain khas (GitHub Pages CNAME)
   customDomain: "masjidlabis.my",
+  // Pejabat Kadi Daerah Segamat (Bahagian Pengurusan Masjid Surau)
+  kadiOffice: {
+    name: "Bahagian Pengurusan Masjid Surau, Pejabat Kadi Daerah Segamat",
+    address: "KM 1, Jalan Buluh Kasap, 85000 Segamat, Johor",
+    phone: "07-9311330 / 07-9333432",
+    fax: "07-9321240",
+  },
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -87,6 +94,16 @@ function iconSvg(name, size) {
       return (
         stroke +
         '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>'
+      );
+    case "phone":
+      return (
+        stroke +
+        '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>'
+      );
+    case "printer":
+      return (
+        stroke +
+        '<polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>'
       );
     case "mail":
       return (
@@ -886,6 +903,16 @@ function buildHubungi() {
     '<input type="hidden" name="_subject" value="Maklum Balas \u2014 Masjid Bandar Labis">' +
     '<button type="submit" class="btn btn-gold btn-block">Hantar Mesej</button>' +
     "</form>" +
+    "</div>" +
+    "</div>" +
+    // ---------- Pejabat Kadi Daerah Segamat ----------
+    '<div class="kadi-card" data-reveal>' +
+    "<h3>\u{1F3DB}\uFE0F <span>Bahagian Pengurusan Masjid Surau</span>, Pejabat Kadi Daerah Segamat</h3>" +
+    "<p>Masjid Bandar Labis berada di bawah seliaan kerajaan melalui Pejabat Kadi Daerah Segamat, Jabatan Agama Islam Negeri Johor (JAINJ).</p>" +
+    '<div class="kadi-grid">' +
+    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("pin", 18) + "</span><span>" + CONFIG.kadiOffice.address + "</span></div>" +
+    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("phone", 18) + "</span><span><strong>Telefon:</strong> " + CONFIG.kadiOffice.phone + "</span></div>" +
+    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("printer", 18) + "</span><span><strong>Faks:</strong> " + CONFIG.kadiOffice.fax + "</span></div>" +
     "</div>" +
     "</div>" +
     // ---------- Peta ----------

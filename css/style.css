@@ -847,6 +847,30 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 }
 .map-frame iframe { width: 100%; height: 380px; border: 0; display: block; }
 
+/* Pejabat Kadi Daerah Segamat (seliaan kerajaan) */
+.kadi-card {
+  background: var(--cream);
+  border: 1px solid #e8dcb6;
+  border-left: 4px solid var(--gold);
+  border-radius: 16px;
+  padding: 24px 28px;
+  margin-top: 40px;
+  box-shadow: var(--shadow);
+}
+.kadi-card h3 { font-size: 1.15rem; margin-bottom: 6px; }
+.kadi-card h3 span { color: var(--gold-600); }
+.kadi-card > p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+.kadi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 18px; }
+.kadi-item { display: flex; gap: 10px; align-items: flex-start; font-size: 0.92rem; color: var(--ink); }
+.kadi-icon {
+  flex: 0 0 auto;
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--yellow), var(--gold));
+  display: grid; place-items: center;
+  color: var(--black);
+}
+
 /* ---------- Galeri ---------- */
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 /* Video aerial (embed YouTube) */
@@ -1036,6 +1060,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   .history-era { padding: 20px 18px; }
   .news-item { padding: 16px; }
   .donation-card { padding: 26px 20px; }
+  .kadi-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
