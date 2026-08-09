@@ -21,7 +21,7 @@ const DIST = path.join(ROOT, "dist");
 const CONFIG = {
   siteName: "Masjid Bandar Labis",
   admin: "Pejabat Kadi Daerah Segamat",
-  address: "Masjid Bandar Labis, 83700 Labis, Johor",
+  address: "Masjid Bandar Labis, Jalan Muar, 85300 Labis, Johor",
   email: "masjidbandarlabis@gmail.com",
   // Facebook page rasmi masjid
   facebookUrl: "https://www.facebook.com/masjidbandarlabis",
@@ -186,7 +186,7 @@ function footer() {
     '<div class="footer-col footer-about">' +
     '<img src="images/logo.png" class="footer-logo logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
     "<h3>Masjid <b>Bandar Labis</b></h3>" +
-    "<p>Bandar Labis, Daerah Segamat, Johor.</p>" +
+    "<p>Jalan Muar, 85300 Labis, Johor.</p>" +
     "<p>Di bawah seliaan " + CONFIG.admin + "</p>" +
     '<p>Jabatan Agama Islam Negeri Johor (JAINJ)</p>' +
     '<a class="social-link" href="' + faUrl + '" target="_blank" rel="noopener noreferrer">' +
@@ -754,7 +754,7 @@ function buildHubungi() {
     "</div>" +
     // ---------- Peta ----------
     '<div class="map-frame" data-reveal>' +
-    '<iframe src="https://maps.google.com/maps?q=Masjid%20Bandar%20Labis%2C%2083700%20Labis%2C%20Johor&t=m&z=15&output=embed&iwloc=near" ' +
+    '<iframe src="https://maps.google.com/maps?q=Masjid%20Bandar%20Labis%2C%20Jalan%20Muar%2C%2085300%20Labis%2C%20Johor&t=m&z=15&output=embed&iwloc=near" ' +
     'title="Peta lokasi Masjid Bandar Labis" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
     "</div>" +
     "</div></section>\n";
