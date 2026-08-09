@@ -21,7 +21,13 @@ const DIST = path.join(ROOT, "dist");
 const CONFIG = {
   siteName: "Masjid Bandar Labis",
   admin: "Pejabat Kadi Daerah Segamat",
-  address: "Masjid Bandar Labis, Jalan Muar, 85300 Labis, Johor",
+  address: "Masjid Bandar Labis, Jalan Muar, 85300 Labis, Johor Darul Ta'azim",
+  addressLines: [
+    "Masjid Bandar Labis",
+    "Jalan Muar",
+    "85300 Labis",
+    "Johor Darul Ta'azim",
+  ],
   email: "masjidbandarlabis@gmail.com",
   // Facebook page rasmi masjid
   facebookUrl: "https://www.facebook.com/masjidbandarlabis",
@@ -49,6 +55,8 @@ function copyDir(src, dest) {
   if (!fs.existsSync(src)) return;
   ensureDir(dest);
   for (const entry of fs.readdirSync(src)) {
+    // Video aerial dikecualikan (terlalu besar untuk git/web; guna YouTube)
+    if (entry === "Video Aerial Masjid") continue;
     const s = path.join(src, entry);
     const d = path.join(dest, entry);
     if (fs.statSync(s).isDirectory()) copyDir(s, d);
@@ -186,7 +194,7 @@ function footer() {
     '<div class="footer-col footer-about">' +
     '<img src="images/logo.png" class="footer-logo logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
     "<h3>Masjid <b>Bandar Labis</b></h3>" +
-    "<p>Jalan Muar, 85300 Labis, Johor.</p>" +
+    "<p>Jalan Muar, 85300 Labis, Johor Darul Ta'azim.</p>" +
     "<p>Di bawah seliaan " + CONFIG.admin + "</p>" +
     '<p>Jabatan Agama Islam Negeri Johor (JAINJ)</p>' +
     '<a class="social-link" href="' + faUrl + '" target="_blank" rel="noopener noreferrer">' +
@@ -718,7 +726,7 @@ function buildHubungi() {
     '<div class="contact-info" data-reveal>' +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("pin", 22) + "</div>" +
-    "<div><h4>Alamat</h4><p>" + CONFIG.address + "</p></div></div>" +
+    "<div><h4>Alamat</h4><p>" + CONFIG.addressLines.join("<br>") + "</p></div></div>" +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("facebook", 22) + "</div>" +
     '<div><h4>Facebook Page</h4><p><a href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">facebook.com/masjidbandarlabis</a></p></div></div>' +

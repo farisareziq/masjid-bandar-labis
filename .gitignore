@@ -17,3 +17,8 @@ Thumbs.db
 .env
 .env.*
 secrets.*
+
+# Video aerial terlalu besar untuk git (646 MB, melebihi had 100 MB GitHub)
+# Cadangan: muat naik ke YouTube dan embed dalam halaman Aktiviti.
+images/Video Aerial Masjid/
+docs/images/Video Aerial Masjid/
