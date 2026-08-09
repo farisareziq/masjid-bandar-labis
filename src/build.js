@@ -36,6 +36,7 @@ const CONFIG = {
   // Imej QR sumbangan (DuitNow) & carta organisasi
   qrImage: "images/qr-sumbangan.jpg",
   cartaImage: "images/carta-pentadbiran.jpg",
+  sejarahImage: "images/sejarah-masjid-lama.jpg",
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -449,6 +450,13 @@ function buildTentang() {
       "Sejarah <span>Masjid</span>",
       "Riwayat Masjid Jamik Labis dari awal pembinaan hingga ke tapak sekarang di Jalan Muar."
     ) +
+    // Gambar lama masjid
+    '<figure class="history-photo" data-reveal>' +
+    '<img src="' +
+    CONFIG.sejarahImage +
+    '" alt="Masjid Jamik Labis (gambar lama)" loading="lazy">' +
+    '<figcaption class="history-caption">Masjid Jamik Labis &mdash; gambar lama</figcaption>' +
+    "</figure>" +
     // Era 1
     '<div class="history-era" data-reveal>' +
     '<h3><span class="era-year">1960-an</span> Masjid Jamik Labis Pertama &mdash; Jalan Tenang</h3>' +
@@ -496,20 +504,6 @@ function buildTentang() {
     CONFIG.cartaImage +
     '" alt="Carta pentadbiran Masjid Bandar Labis" loading="lazy">' +
     "</figure>" +
-    '<div class="table-wrap" data-reveal>' +
-    "<table>" +
-    "<thead><tr><th>Lapisan</th><th>Jawatan / Badan</th><th>Peranan</th></tr></thead>" +
-    "<tbody>" +
-    "<tr><td><span class=\"badge-day\">1</span></td><td><strong>JAINJ</strong></td><td>Jabatan Agama Islam Negeri Johor</td></tr>" +
-    "<tr><td><span class=\"badge-day\">2</span></td><td><strong>" +
-    CONFIG.admin +
-    "</strong></td><td>Pengurusan masjid dan surau di daerah Segamat</td></tr>" +
-    "<tr><td><span class=\"badge-day\">3</span></td><td><strong>Imam</strong></td><td>Memimpin solat dan urusan keagamaan</td></tr>" +
-    "<tr><td><span class=\"badge-day\">4</span></td><td><strong>Bilal</strong></td><td>Melaksanakan azan dan siak</td></tr>" +
-    "<tr><td><span class=\"badge-day\">5</span></td><td><strong>Marbot / Penjaga</strong></td><td>Kebersihan, penyelenggaraan dan kebajikan masjid</td></tr>" +
-    "<tr><td><span class=\"badge-day\">6</span></td><td><strong>Jawatankuasa Kariah</strong></td><td>Pentadbiran harian dan penganjuran program</td></tr>" +
-    "</tbody></table>" +
-    "</div>" +
     "</div></section>\n";
 
   write(

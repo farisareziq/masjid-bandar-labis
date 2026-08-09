@@ -567,6 +567,20 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
 }
 .history-era p { color: var(--muted); font-size: 0.95rem; margin-top: 10px; }
 
+/* Gambar lama sejarah */
+.history-photo {
+  max-width: 640px;
+  margin: 0 auto 30px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 3px solid var(--black);
+  box-shadow: var(--shadow);
+  background: var(--white);
+  padding: 8px;
+}
+.history-photo img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.history-caption { text-align: center; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
+
 /* Carta pentadbiran */
 .carta-figure {
   border-radius: 16px;
