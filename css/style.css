@@ -539,6 +539,46 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
 .breadcrumb { margin-top: 8px; font-size: 0.9rem; color: #c9c9c9; }
 .breadcrumb a { color: var(--yellow); }
 
+/* ---------- Sejarah masjid (era) ---------- */
+.history-era {
+  background: var(--white);
+  border: 1px solid #eee5c8;
+  border-left: 4px solid var(--gold);
+  border-radius: 14px;
+  padding: 26px 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+}
+.history-era h3 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 1.15rem;
+  flex-wrap: wrap;
+}
+.history-era .era-year {
+  background: linear-gradient(135deg, var(--yellow), var(--gold));
+  color: var(--black);
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 4px 12px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.history-era p { color: var(--muted); font-size: 0.95rem; margin-top: 10px; }
+
+/* Carta pentadbiran */
+.carta-figure {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #eee5c8;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+  background: var(--white);
+  padding: 10px;
+}
+.carta-figure img { width: 100%; height: auto; display: block; border-radius: 10px; }
+
 /* ---------- Jadual / jadual data ---------- */
 .table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid #eee5c8; box-shadow: var(--shadow); }
 .section--dark .table-wrap { border-color: var(--line); }

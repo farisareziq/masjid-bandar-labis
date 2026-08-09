@@ -22,7 +22,7 @@ const DIST = path.resolve(__dirname, "..", "dist");
 // kemudian. Kehilangan fail ini hanya menjana AMARAN (bukan ralat),
 // supaya CI boleh lulus untuk deploy pertama.
 const OPTIONAL_FILES = [
-  "images/qr-sumbangan.png", // DuitNow QR rasmi daripada Bank Rakyat
+  "images/qr-sumbangan.jpg", // DuitNow QR rasmi daripada Bank Rakyat
   "images/logo.png",         // Logo masjid (navbar + footer)
 ];
 

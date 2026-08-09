@@ -33,6 +33,9 @@ const CONFIG = {
   facebookUrl: "https://www.facebook.com/masjidbandarlabis",
   // Video aerial masjid (YouTube embed)
   videoAerial: "https://www.youtube-nocookie.com/embed/YbEaCgKmAC8",
+  // Imej QR sumbangan (DuitNow) & carta organisasi
+  qrImage: "images/qr-sumbangan.jpg",
+  cartaImage: "images/carta-pentadbiran.jpg",
   bank: { name: "Bank Rakyat", account: "1101456319" },
   zone: "JHR04",
   zoneLabel: "Segamat, Johor",
@@ -377,11 +380,13 @@ function buildIndex() {
     "<p>Imbas kod QR di bawah menggunakan aplikasi perbankan (DuitNow QR):</p>" +
     '<div class="qr-frame">' +
     '<button type="button" class="qr-click" id="qrOpen" aria-label="Perbesar kod QR untuk scan">' +
-    '<img src="images/qr-sumbangan.png" id="qrDonation" alt="DuitNow QR sumbangan Masjid Bandar Labis" class="qr-image" width="200" height="200">' +
+    '<img src="' +
+    CONFIG.qrImage +
+    '" id="qrDonation" alt="DuitNow QR sumbangan Masjid Bandar Labis" class="qr-image" width="200" height="200">' +
     '<div class="qr-placeholder" id="qrPlaceholder" hidden>' +
     "<span>\u{1F4F1}</span>" +
     "<p>QR Code akan dipaparkan di sini.</p>" +
-    "<p><small>Sila letakkan fail <code>images/qr-sumbangan.png</code> (DuitNow QR rasmi daripada app Bank Rakyat).</small></p>" +
+    "<p><small>Sila letakkan fail <code>images/qr-sumbangan.jpg</code> (DuitNow QR rasmi daripada app Bank Rakyat).</small></p>" +
     "</div>" +
     "</button>" +
     '<span class="qr-hint">\u{1F446} Klik untuk besarkan &amp; scan</span>' +
@@ -406,7 +411,9 @@ function buildIndex() {
     '<div class="modal-backdrop" data-qr-close></div>' +
     '<div class="modal-box">' +
     '<button type="button" class="modal-close" data-qr-close aria-label="Tutup">\u2715</button>' +
-    '<img src="images/qr-sumbangan.png" id="qrLarge" alt="DuitNow QR sumbangan Masjid Bandar Labis">' +
+    '<img src="' +
+    CONFIG.qrImage +
+    '" id="qrLarge" alt="DuitNow QR sumbangan Masjid Bandar Labis">' +
     '<p class="modal-text">Imbas QR untuk sumbangan<br><strong>' +
     CONFIG.bank.name +
     " " +
@@ -434,17 +441,42 @@ function buildIndex() {
 function buildTentang() {
   const body =
     pageHeader("Tentang <span>Masjid</span>", "Tentang Masjid") +
+
+    // ---------- Sejarah ----------
     '<section class="section">' +
-    '<div class="container about-grid">' +
-    '<div class="about-text" data-reveal>' +
-    '<h2 class="section-title">Sejarah <span>Masjid</span></h2>' +
-    "<p>Masjid Bandar Labis merupakan pusat ibadah utama masyarakat Islam di Bandar Labis, Daerah Segamat, Johor. Ia menjadi tumpuan solat jemaah, pendidikan agama dan pelbagai kegiatan kemasyarakatan.</p>" +
-    "<p>Pentadbiran masjid berada di bawah seliaan " +
-    CONFIG.admin + ", Jabatan Agama Islam Negeri Johor (JAINJ), dengan kerjasama jawatankuasa dan komuniti setempat.</p>" +
+    '<div class="container">' +
+    sectionHeader(
+      "Sejarah <span>Masjid</span>",
+      "Riwayat Masjid Jamik Labis dari awal pembinaan hingga ke tapak sekarang di Jalan Muar."
+    ) +
+    // Era 1
+    '<div class="history-era" data-reveal>' +
+    '<h3><span class="era-year">1960-an</span> Masjid Jamik Labis Pertama &mdash; Jalan Tenang</h3>' +
+    "<p>Sebelum terdirinya bangunan Masjid Bandar Labis di Jalan Muar sekarang, Masjid Jamik Labis yang awal terletak di Jalan Tenang, bersebelahan betul-betul dengan rumah En. Ibrahim (mantan YB ADUN Tenang). Tapak masjid tersebut masih wujud sehingga hari ini, dan di atas tapak masjid awal ini kini terdapat sebuah warung orang kampung Paya Merah yang menumpang sementara.</p>" +
+    "<p>Masjid ini dibina oleh masyarakat setempat sekitar tahun 1960-an. Seni binanya bercirikan Islamik dan keseluruhan bangunannya terdiri daripada binaan kayu, serta dikatakan tiada menara. Ia mampu memuatkan kira-kira 200 orang jemaah dalam satu-satu masa.</p>" +
+    "<p>Dari segi pentadbiran, masjid ini ditadbir oleh jawatankuasa daripada masyarakat setempat di Labis. Imam pertama yang berkhidmat ialah Imam Talib dan Imam Haji Khalid bin Chidun, manakala bilalnya bernama Bilal Mohd Deli.</p>" +
     "</div>" +
-    '<div class="about-mosque" data-reveal aria-hidden="true">\u{1F54C}</div>' +
+    // Era 2
+    '<div class="history-era" data-reveal>' +
+    '<h3><span class="era-year">1968</span> Masjid Jamik Labis Kedua &mdash; Jalan Yong Peng</h3>' +
+    "<p>Dengan perubahan suasana dan perkembangan semasa, Masjid Jamik Labis yang pertama di Jalan Tenang berpindah ke tempat baharu di Jalan Yong Peng, bersebelahan dengan Sekolah Kebangsaan Labis, pada tahun 1968.</p>" +
+    "<p>Keadaan binaan masjid yang kedua ini lebih baik, cantik dan sempurna, dengan keseluruhan binaannya daripada batu bata. Reka bentuknya lebih menarik dan selesa, sama ada di bahagian dalaman mahupun halaman persekitaran luar. Kawasan penempatan kenderaan agak luas dan menepati keperluan jemaah. Terdapat satu menara yang tinggi dengan corong pembesar suara, dan masjid ini boleh memuatkan kira-kira 500 orang jemaah dalam satu-satu masa.</p>" +
+    "<p>Pada permulaannya, pentadbiran masjid dipimpin oleh pengerusi daripada ahli kariah setempat, dan kemudiannya bertukar kepada Haji Wagiman. Imam pertama yang berkhidmat ialah Imam Haji Khalid bin Chindun, Imam Tukiran dan Imam Abdul Rafar bin Yusof.</p>" +
+    "<p>Selepas itu, pentadbiran Masjid Jamik Labis di Jalan Yong Peng diambil alih oleh Kerajaan Johor dan berada di bawah pentadbiran " +
+    CONFIG.admin +
+    ". Pengerusinya ialah Assyekh Haji Azman bin Mokhsin, disusuli Assyekh Haji Ahmad Faisal bin Mohamad, dan Assyekh Haji Sulaiman bin Maiden.</p>" +
+    "</div>" +
+    // Era 3
+    '<div class="history-era" data-reveal>' +
+    '<h3><span class="era-year">Kini</span> Perpindahan ke Jalan Muar (Masjid Bandar Labis)</h3>' +
+    "<p>Saban tahun, Labis menyaksikan perubahan kepadatan penduduk, perkembangan ekonomi dan pembangunan yang semakin berkembang. Justeru, beberapa pihak yang bertanggungjawab &mdash; termasuk pihak Pejabat Kadi Daerah Segamat beserta AJK, YB ADUN Tenang dan Majlis Daerah Labis &mdash; bersetuju bahawa Masjid Jamik Labis di Jalan Yong Peng perlu diperbaharui.</p>" +
+    "<p>Bagi menjayakan hasrat ini, semua pihak bersetuju untuk berpindah ke tapak yang lebih luas dan selesa, iaitu sebuah padang milik Majlis Daerah Labis di Jalan Muar, bersebelahan dengan dewan Majlis Daerah Labis. Tapak inilah yang menjadi lokasi Masjid Bandar Labis yang ada pada hari ini, di bawah seliaan " +
+    CONFIG.admin +
+    ", Jabatan Agama Islam Negeri Johor (JAINJ).</p>" +
+    "</div>" +
     "</div></section>\n" +
 
+    // ---------- Visi & Misi ----------
     '<section class="section section--cream">' +
     '<div class="container">' +
     sectionHeader("Visi & <span>Misi</span>") +
@@ -455,9 +487,15 @@ function buildTentang() {
     "</div>" +
     "</div></section>\n" +
 
+    // ---------- Carta Organisasi ----------
     '<section class="section" id="carta">' +
     '<div class="container">' +
     sectionHeader("Carta <span>Organisasi</span>") +
+    '<figure class="carta-figure" data-reveal>' +
+    '<img src="' +
+    CONFIG.cartaImage +
+    '" alt="Carta pentadbiran Masjid Bandar Labis" loading="lazy">' +
+    "</figure>" +
     '<div class="table-wrap" data-reveal>' +
     "<table>" +
     "<thead><tr><th>Lapisan</th><th>Jawatan / Badan</th><th>Peranan</th></tr></thead>" +
