@@ -14,7 +14,7 @@
 # Prasyarat: gh CLI sudah log masuk (gh auth status)
 # ============================================================
 
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'
 
 $PROJECT = Split-Path $PSScriptRoot -Parent
 Set-Location $PROJECT
@@ -58,7 +58,8 @@ Write-Host "  Akaun: $USER"
 # ---------- 4. Remote origin ----------
 Step 4 'Sambung remote origin'
 $remoteUrl = "https://github.com/$USER/$REPO_NAME.git"
-$origin = git remote get-url origin 2>$null
+$origin = $null
+try { $origin = git remote get-url origin 2>$null } catch { $origin = $null }
 if ($origin) {
   git remote set-url origin $remoteUrl
   Write-Host "  origin dikemas kini -> $remoteUrl"
@@ -69,7 +70,11 @@ if ($origin) {
 
 # ---------- 5. Cipta repo GitHub (public) ----------
 Step 5 'Cipta repo GitHub PUBLIC (jika belum wujud)'
-$exists = gh repo view "$USER/$REPO_NAME" --json name 2>$null
+$exists = $false
+try {
+  $null = gh repo view "$USER/$REPO_NAME" --json name 2>$null
+  if ($LASTEXITCODE -eq 0) { $exists = $true }
+} catch { $exists = $false }
 if (-not $exists) {
   gh repo create $REPO_NAME --public --source . --remote origin
   Write-Host "  Repo public '$REPO_NAME' dicipta."
