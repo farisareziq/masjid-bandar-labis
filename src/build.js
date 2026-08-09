@@ -352,12 +352,6 @@ function buildIndex() {
     '<h2 class="section-title">Selamat Datang ke <span>Masjid Bandar Labis</span></h2>' +
     "<p>Pusat ibadah dan kebajikan umat Islam di Bandar Labis, Daerah Segamat, Johor. Masjid ini menjadi nadi kegiatan keagamaan, pendidikan dan kemasyarakatan setempat, di bawah seliaan " +
     CONFIG.admin + ".</p>" +
-    '<div class="stats">' +
-    '<div class="stat"><div class="stat-num">500+</div><div class="stat-label">Jemaah</div></div>' +
-    '<div class="stat"><div class="stat-num">5</div><div class="stat-label">Waktu Solat</div></div>' +
-    '<div class="stat"><div class="stat-num">12+</div><div class="stat-label">Program</div></div>' +
-    '<div class="stat"><div class="stat-num">1</div><div class="stat-label">Musafir Inn</div></div>' +
-    "</div>" +
     "</div>" +
     '<div class="mosque-slider" id="mosqueSlider" data-reveal role="region" aria-label="Galeri gambar Masjid Bandar Labis">' +
     sliderSlides +
@@ -374,12 +368,12 @@ function buildIndex() {
       true
     ) +
     '<div class="cards-grid">' +
-    card("\u{1F54C}", "Solat Berjemaah", "Solat fardhu berjemaah lima waktu sehari semalam.", "aktiviti.html") +
-    card("\u{1F4D6}", "Tadarus Al-Quran", "Mengaji dan tadarus bersama setiap pagi Ahad.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F393}", "Kuliah Agama", "Kuliah tafsir, fiqh dan hadis pada malam hari.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F4DD}", "Kelas Fardhu Ain", "Pendidikan asas agama untuk dewasa dan kanak-kanak.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F48D}", "Perkahwinan & Sewaan", "Pendaftaran perkahwinan dan sewaan dewan masjid.", "perkhidmatan.html#urusan-harian") +
-    card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan pengurusan jenazah 24 jam untuk umat Islam.", "perkhidmatan.html#urusan-harian") +
+    card("\u{1F54C}", "Solat Jemaah", "Solat fardhu berjemaah lima waktu sehari semalam di masjid.", "aktiviti.html") +
+    card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "aktiviti.html#jadual-kuliah") +
+    card("\u{1F393}", "Kuliah Mingguan", "Kuliah tafsir, fiqh dan sirah diadakan setiap minggu.", "aktiviti.html#jadual-kuliah") +
+    card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "aktiviti.html#jadual-kuliah") +
+    card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian") +
+    card("\u{1F6CC}", "Sewaan Bilik Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn") +
     "</div>" +
     "</div></section>\n" +
 
