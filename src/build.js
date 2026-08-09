@@ -170,24 +170,29 @@ function head(title, description) {
 }
 
 function nav(active) {
-  const item = function (href, label, isActive, extra) {
+  const item = function (href, label, isActive, extra, key) {
     return (
       '<li class="nav-item">' +
       '<a href="' + href + '" class="nav-link' +
       (isActive ? " active" : "") +
       (extra ? " " + extra : "") +
-      '">' + label + "</a></li>"
+      '"' + (key ? ' data-i18n="' + key + '"' : "") + ">" + label + "</a></li>"
     );
   };
-  const dropdown = function (href, label, isActive, children) {
+  const dropdown = function (href, label, isActive, children, key) {
     const links = children
       .map(function (c) {
-        return '<li><a href="' + c.href + '">' + c.label + "</a></li>";
+        return (
+          '<li><a href="' + c.href + '"' +
+          (c.key ? ' data-i18n="' + c.key + '"' : "") +
+          ">" + c.label + "</a></li>"
+        );
       })
       .join("");
     return (
       '<li class="nav-item has-dropdown">' +
-      '<a href="' + href + '" class="nav-link' + (isActive ? " active" : "") + '">' + label + "</a>" +
+      '<a href="' + href + '" class="nav-link' + (isActive ? " active" : "") +
+      '"' + (key ? ' data-i18n="' + key + '"' : "") + ">" + label + "</a>" +
       '<ul class="dropdown-menu">' + links + "</ul></li>"
     );
   };
@@ -201,20 +206,21 @@ function nav(active) {
     '<span class="nav-logo-text">Masjid <b>Bandar Labis</b></span>' +
     "</a>\n" +
     '<ul class="nav-menu" id="navMenu">' +
-    item("index.html", "Utama", active === "index") +
-    item("tentang.html", "Tentang", active === "tentang") +
+    item("index.html", "Utama", active === "index", null, "nav.utama") +
+    item("tentang.html", "Tentang", active === "tentang", null, "nav.tentang") +
     dropdown("aktiviti.html", "Aktiviti", active === "aktiviti", [
-      { href: "aktiviti.html#jadual-kuliah", label: "Jadual Kuliah" },
-      { href: "aktiviti.html#siaran-media", label: "Siaran Media" },
-    ]) +
+      { href: "aktiviti.html#jadual-kuliah", label: "Jadual Kuliah", key: "nav.aktiviti.jadual" },
+      { href: "aktiviti.html#siaran-media", label: "Siaran Media", key: "nav.aktiviti.siaran" },
+    ], "nav.aktiviti") +
     dropdown("perkhidmatan.html", "Perkhidmatan", active === "perkhidmatan", [
-      { href: "perkhidmatan.html#urusan-harian", label: "Urusan Harian" },
-      { href: "perkhidmatan.html#musafir-inn", label: "Musafir Inn" },
-    ]) +
-    item("galeri.html", "Galeri", active === "galeri") +
-    item("hubungi.html", "Hubungi", active === "hubungi") +
-    item("index.html#sumbangan", "Sumbangan", false, "nav-cta") +
+      { href: "perkhidmatan.html#urusan-harian", label: "Urusan Harian", key: "nav.perkhidmatan.urusan" },
+      { href: "perkhidmatan.html#musafir-inn", label: "Musafir Inn", key: "nav.perkhidmatan.musafir" },
+    ], "nav.perkhidmatan") +
+    item("galeri.html", "Galeri", active === "galeri", null, "nav.galeri") +
+    item("hubungi.html", "Hubungi", active === "hubungi", null, "nav.hubungi") +
+    item("index.html#sumbangan", "Sumbangan", false, "nav-cta", "nav.sumbangan") +
     "</ul>\n" +
+    '<button type="button" class="lang-toggle" id="langToggle" aria-label="Tukar bahasa">EN</button>\n' +
     '<button class="nav-toggle" id="navToggle" aria-label="Buka menu"><span></span><span></span><span></span></button>\n' +
     "</div>\n</nav>\n"
   );
@@ -228,30 +234,30 @@ function footer() {
     '<div class="footer-col footer-about">' +
     '<img src="images/logo.png" class="footer-logo logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
     "<h3>Masjid <b>Bandar Labis</b></h3>" +
-    "<p>Jalan Muar, 85300 Labis, Johor Darul Ta'azim.</p>" +
-    "<p>Di bawah seliaan " + CONFIG.admin + "</p>" +
+    '<p data-i18n="footer.about">Jalan Muar, 85300 Labis, Johor Darul Ta\'azim.</p>' +
+    '<p data-i18n="footer.seliaan">Di bawah seliaan ' + CONFIG.admin + "</p>" +
     '<p>Jabatan Agama Islam Negeri Johor (JAINJ)</p>' +
     '<a class="social-link" href="' + faUrl + '" target="_blank" rel="noopener noreferrer">' +
-    iconSvg("facebook", 18) + " Facebook Masjid Bandar Labis</a>" +
+    iconSvg("facebook", 18) + '<span data-i18n="footer.fb"> Facebook Masjid Bandar Labis</span></a>' +
     "</div>\n" +
     '<div class="footer-col">' +
-    "<h4>Pautan</h4><ul>" +
-    '<li><a href="index.html">Utama</a></li>' +
-    '<li><a href="tentang.html">Tentang</a></li>' +
-    '<li><a href="galeri.html">Galeri</a></li>' +
-    '<li><a href="hubungi.html">Hubungi</a></li>' +
-    '<li><a href="index.html#sumbangan">Sumbangan</a></li>' +
+    '<h4 data-i18n="footer.pautan">Pautan</h4><ul>' +
+    '<li><a href="index.html" data-i18n="nav.utama">Utama</a></li>' +
+    '<li><a href="tentang.html" data-i18n="nav.tentang">Tentang</a></li>' +
+    '<li><a href="galeri.html" data-i18n="nav.galeri">Galeri</a></li>' +
+    '<li><a href="hubungi.html" data-i18n="nav.hubungi">Hubungi</a></li>' +
+    '<li><a href="index.html#sumbangan" data-i18n="nav.sumbangan">Sumbangan</a></li>' +
     "</ul></div>\n" +
     '<div class="footer-col">' +
-    "<h4>Perkhidmatan</h4><ul>" +
-    '<li><a href="aktiviti.html#jadual-kuliah">Jadual Kuliah</a></li>' +
-    '<li><a href="aktiviti.html#siaran-media">Siaran Media</a></li>' +
-    '<li><a href="perkhidmatan.html#urusan-harian">Urusan Harian</a></li>' +
-    '<li><a href="perkhidmatan.html#musafir-inn">Musafir Inn</a></li>' +
+    '<h4 data-i18n="footer.perkhidmatan">Perkhidmatan</h4><ul>' +
+    '<li><a href="aktiviti.html#jadual-kuliah" data-i18n="nav.aktiviti.jadual">Jadual Kuliah</a></li>' +
+    '<li><a href="aktiviti.html#siaran-media" data-i18n="nav.aktiviti.siaran">Siaran Media</a></li>' +
+    '<li><a href="perkhidmatan.html#urusan-harian" data-i18n="nav.perkhidmatan.urusan">Urusan Harian</a></li>' +
+    '<li><a href="perkhidmatan.html#musafir-inn" data-i18n="nav.perkhidmatan.musafir">Musafir Inn</a></li>' +
     "</ul></div>\n" +
     '<div class="footer-col">' +
-    "<h4>Sumbangan</h4>" +
-    '<p>Infaq ikhlas anda amat dihargai.</p>' +
+    '<h4 data-i18n="footer.sumbangan">Sumbangan</h4>' +
+    '<p data-i18n="footer.sumbangan.text">Infaq ikhlas anda amat dihargai.</p>' +
     '<div class="footer-bank">' +
     '<span class="bn">' + CONFIG.bank.name + "</span><br>" +
     '<span class="ba">' + CONFIG.bank.account + "</span>" +
@@ -273,26 +279,30 @@ function page(opts) {
     nav(opts.active) +
     opts.body +
     footer() +
+    '<script src="js/i18n.js" defer></script>\n' +
     '<script src="js/main.js" defer></script>\n' +
     scripts +
     "</body>\n</html>\n"
   );
 }
 
-function pageHeader(title, crumb) {
+function pageHeader(title, crumb, titleKey, crumbKey) {
   return (
     '<section class="page-header"><div class="container">' +
-    "<h1>" + title + "</h1>" +
-    '<p class="breadcrumb"><a href="index.html">Utama</a> &raquo; ' + crumb + "</p>" +
+    "<h1" + (titleKey ? ' data-i18n-html="' + titleKey + '"' : "") + ">" + title + "</h1>" +
+    '<p class="breadcrumb"><a href="index.html" data-i18n="nav.breadcrumb">Utama</a> &raquo; <span' +
+    (crumbKey ? ' data-i18n="' + crumbKey + '"' : "") + ">" + crumb + "</span></p>" +
     "</div></section>"
   );
 }
 
-function sectionHeader(title, subtitle, dark) {
+function sectionHeader(title, subtitle, dark, titleKey, subKey) {
   return (
     '<div class="section-header" data-reveal>' +
-    '<h2 class="section-title">' + title + "</h2>" +
-    (subtitle ? "<p>" + subtitle + "</p>" : "") +
+    '<h2 class="section-title"' +
+    (titleKey ? ' data-i18n-html="' + titleKey + '"' : "") +
+    ">" + title + "</h2>" +
+    (subtitle ? "<p" + (subKey ? ' data-i18n="' + subKey + '"' : "") + ">" + subtitle + "</p>" : "") +
     '<div class="divider"></div></div>'
   );
 }
@@ -332,30 +342,30 @@ function buildIndex() {
     '<div class="hero-pattern" aria-hidden="true"></div>' +
     '<div class="container hero-content">' +
     '<h1 class="hero-title">Masjid <span>Bandar Labis</span></h1>' +
-    '<p class="hero-subtitle">Memakmurkan Masjid, Menyantuni Ummah</p>' +
-    '<p class="hero-admin">Di bawah seliaan ' + CONFIG.admin + " \u00B7 JAINJ</p>" +
+    '<p class="hero-subtitle" data-i18n="hero.subtitle">Memakmurkan Masjid, Menyantuni Ummah</p>' +
+    '<p class="hero-admin" data-i18n="hero.admin">Di bawah seliaan ' + CONFIG.admin + " \u00B7 JAINJ</p>" +
     '<div class="hero-actions">' +
-    '<a href="tentang.html" class="btn btn-gold">Kenali Kami</a>' +
-    '<a href="#sumbangan" class="btn btn-outline">Sumbangan</a>' +
+    '<a href="tentang.html" class="btn btn-gold" data-i18n="hero.kenali">Kenali Kami</a>' +
+    '<a href="#sumbangan" class="btn btn-outline" data-i18n="hero.sumbangan">Sumbangan</a>' +
     "</div>" +
     "</div></section>\n" +
 
     // ---------- Widget waktu solat ----------
     '<div class="prayer-widget" id="prayerWidget">' +
-    '<div class="container"><div class="prayer-loading">Memuatkan waktu solat...</div></div>' +
+    '<div class="container"><div class="prayer-loading" data-i18n="prayer.loading">Memuatkan waktu solat...</div></div>' +
     "</div>\n" +
 
     // ---------- Ringkasan tentang ----------
     '<section class="section">' +
     '<div class="container about-grid">' +
     '<div class="about-text" data-reveal>' +
-    '<h2 class="section-title">Selamat Datang ke <span>Masjid Bandar Labis</span></h2>' +
-    "<p>Pusat ibadah dan kebajikan umat Islam di Bandar Labis, Daerah Segamat, Johor. Masjid ini menjadi nadi kegiatan keagamaan, pendidikan dan kemasyarakatan setempat, di bawah seliaan " +
+    '<h2 class="section-title" data-i18n-html="about.title">Selamat Datang ke <span>Masjid Bandar Labis</span></h2>' +
+    '<p data-i18n="about.text">Pusat ibadah dan kebajikan umat Islam di Bandar Labis, Daerah Segamat, Johor. Masjid ini menjadi nadi kegiatan keagamaan, pendidikan dan kemasyarakatan setempat, di bawah seliaan ' +
     CONFIG.admin + ".</p>" +
     "</div>" +
-    '<div class="mosque-slider" id="mosqueSlider" data-reveal role="region" aria-label="Galeri gambar Masjid Bandar Labis">' +
+    '<div class="mosque-slider" id="mosqueSlider" data-reveal role="region" aria-label="Galeri gambar Masjid Bandar Labis" data-i18n-attr="aria-label:about.slider">' +
     sliderSlides +
-    '<a class="mosque-badge" href="galeri.html">\u{1F4F8} Lihat Galeri</a>' +
+    '<a class="mosque-badge" href="galeri.html" data-i18n-html="about.badge">\u{1F4F8} Lihat Galeri</a>' +
     "</div>" +
     "</div></section>\n" +
 
@@ -365,15 +375,17 @@ function buildIndex() {
     sectionHeader(
       "Program <span>Masjid</span>",
       "Kegiatan utama yang dikendalikan sepanjang tahun.",
-      true
+      true,
+      "program.title",
+      "program.sub"
     ) +
     '<div class="cards-grid">' +
-    card("\u{1F54C}", "Solat Jemaah", "Solat fardhu berjemaah lima waktu sehari semalam di masjid.", "aktiviti.html") +
-    card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F393}", "Kuliah Mingguan", "Kuliah tafsir, fiqh dan sirah diadakan setiap minggu.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "aktiviti.html#jadual-kuliah") +
-    card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian") +
-    card("\u{1F6CC}", "Sewaan Bilik Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn") +
+    card("\u{1F54C}", "Solat Jemaah", "Solat fardhu berjemaah lima waktu sehari semalam di masjid.", "aktiviti.html", "program.solat", "program.solat.d") +
+    card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "aktiviti.html#jadual-kuliah", "program.hadis", "program.hadis.d") +
+    card("\u{1F393}", "Kuliah Mingguan", "Kuliah tafsir, fiqh dan sirah diadakan setiap minggu.", "aktiviti.html#jadual-kuliah", "program.kuliah", "program.kuliah.d") +
+    card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "aktiviti.html#jadual-kuliah", "program.quran", "program.quran.d") +
+    card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian", "program.dewan", "program.dewan.d") +
+    card("\u{1F6CC}", "Sewaan Bilik Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn", "program.inn", "program.inn.d") +
     "</div>" +
     "</div></section>\n" +
 
@@ -382,37 +394,40 @@ function buildIndex() {
     '<div class="container">' +
     sectionHeader(
       "Sumbangan & <span>Infaq</span>",
-      "Sumbangan ikhlas anda menyokong program dan kebajikan masjid. Semoga Allah membalas kebaikan anda."
+      "Sumbangan ikhlas anda menyokong program dan kebajikan masjid. Semoga Allah membalas kebaikan anda.",
+      undefined,
+      "sumbangan.title",
+      "sumbangan.sub"
     ) +
     '<div class="donation-grid">' +
     // Kad akaun bank
     '<div class="donation-card" data-reveal>' +
-    "<h3>\u{1F3E6} <span>Sumbangan Terus ke Akaun</span></h3>" +
-    "<p>Salurkan infaq anda melalui akaun rasmi masjid:</p>" +
+    "<h3 data-i18n-html=\"sumbangan.bank.title\">\u{1F3E6} <span>Sumbangan Terus ke Akaun</span></h3>" +
+    '<p data-i18n="sumbangan.bank.desc">Salurkan infaq anda melalui akaun rasmi masjid:</p>' +
     '<div class="bank-box">' +
     '<span class="bank-name">' + CONFIG.bank.name + "</span>" +
     '<span class="bank-account" id="bankAccount">' + CONFIG.bank.account + "</span><br>" +
-    '<button type="button" class="btn btn-gold" id="copyAccount">Salin Nombor Akaun</button>' +
+    '<button type="button" class="btn btn-gold" id="copyAccount" data-i18n="sumbangan.copy">Salin Nombor Akaun</button>' +
     '<span class="copy-msg" id="copyMsg" style="display:none"></span>' +
     "</div>" +
-    "<p>Semua kutipan digunakan untuk pengurusan masjid, program ilmiah dan kebajikan ummah. Mohon sertakan rujukan \u201CInfaq\u201D sekiranya membuat pindahan.</p>" +
+    '<p data-i18n="sumbangan.bank.note">Semua kutipan digunakan untuk pengurusan masjid, program ilmiah dan kebajikan ummah. Mohon sertakan rujukan \u201CInfaq\u201D sekiranya membuat pindahan.</p>' +
     "</div>" +
     // Kad QR
     '<div class="donation-card" data-reveal>' +
-    "<h3>\u{1F4F1} <span>Scan QR</span></h3>" +
-    "<p>Imbas kod QR di bawah menggunakan aplikasi perbankan (DuitNow QR):</p>" +
+    "<h3 data-i18n-html=\"sumbangan.qr.title\">\u{1F4F1} <span>Scan QR</span></h3>" +
+    '<p data-i18n="sumbangan.qr.desc">Imbas kod QR di bawah menggunakan aplikasi perbankan (DuitNow QR):</p>' +
     '<div class="qr-frame">' +
     '<button type="button" class="qr-click" id="qrOpen" aria-label="Perbesar kod QR untuk scan">' +
     '<img src="' +
     CONFIG.qrImage +
-    '" id="qrDonation" alt="DuitNow QR sumbangan Masjid Bandar Labis" class="qr-image" width="200" height="200">' +
+    '" id="qrDonation" alt="DuitNow QR sumbangan Masjid Bandar Labis" class="qr-image" width="200" height="200" data-i18n-attr="alt:sumbangan.qr.alt">' +
     '<div class="qr-placeholder" id="qrPlaceholder" hidden>' +
     "<span>\u{1F4F1}</span>" +
     "<p>QR Code akan dipaparkan di sini.</p>" +
     "<p><small>Sila letakkan fail <code>images/qr-sumbangan.jpg</code> (DuitNow QR rasmi daripada app Bank Rakyat).</small></p>" +
     "</div>" +
     "</button>" +
-    '<span class="qr-hint">\u{1F446} Klik untuk besarkan &amp; scan</span>' +
+    '<span class="qr-hint" data-i18n="sumbangan.qr.hint">\u{1F446} Klik untuk besarkan &amp; scan</span>' +
     "</div>" +
     "</div>" +
     "</div>" +
@@ -421,11 +436,11 @@ function buildIndex() {
     // ---------- CTA ----------
     '<section class="section">' +
     '<div class="container"><div class="cta-banner" data-reveal>' +
-    "<h3>Jom Sertai <span>Aktiviti Masjid</span></h3>" +
-    "<p>Lawati kami, sertai kuliah, atau hubungi pihak pengurusan untuk sebarang pertanyaan.</p>" +
+    '<h3 data-i18n-html="cta.title">Jom Sertai <span>Aktiviti Masjid</span></h3>' +
+    '<p data-i18n="cta.text">Lawati kami, sertai kuliah, atau hubungi pihak pengurusan untuk sebarang pertanyaan.</p>' +
     '<div class="hero-actions">' +
-    '<a href="aktiviti.html" class="btn btn-gold">Lihat Aktiviti</a>' +
-    '<a href="hubungi.html" class="btn btn-dark">Hubungi Kami</a>' +
+    '<a href="aktiviti.html" class="btn btn-gold" data-i18n="cta.btn1">Lihat Aktiviti</a>' +
+    '<a href="hubungi.html" class="btn btn-dark" data-i18n="cta.btn2">Hubungi Kami</a>' +
     "</div>" +
     "</div></div></section>\n" +
 
@@ -437,7 +452,7 @@ function buildIndex() {
     '<img src="' +
     CONFIG.qrImage +
     '" id="qrLarge" alt="DuitNow QR sumbangan Masjid Bandar Labis">' +
-    '<p class="modal-text">Imbas QR untuk sumbangan<br><strong>' +
+    '<p class="modal-text"><span data-i18n="sumbangan.qr.modal">Imbas QR untuk sumbangan</span><br><strong>' +
     CONFIG.bank.name +
     " " +
     CONFIG.bank.account +
@@ -463,6 +478,7 @@ function buildIndex() {
    ============================================================ */
 function buildTentang() {
   // Kad pegawai masjid (gambar auto jika wujud, jika tidak guna inisial)
+  const JKT = { "Imam": "jawatan.imam", "Bilal": "jawatan.bilal", "Pembantu Am": "jawatan.pa" };
   const pegawaiDir = path.join(ROOT, "images", "pegawai");
   const pegawaiCards = CONFIG.pegawai
     .map(function (p) {
@@ -475,7 +491,7 @@ function buildTentang() {
         '<div class="pegawai-card" data-reveal>' +
         '<div class="pegawai-photo">' + photo + "</div>" +
         "<h4>" + p.nama + "</h4>" +
-        '<span class="pegawai-jawatan">' + p.jawatan + "</span>" +
+        '<span class="pegawai-jawatan"' + (JKT[p.jawatan] ? ' data-i18n="' + JKT[p.jawatan] + '"' : "") + ">" + p.jawatan + "</span>" +
         '<p class="pegawai-tel">\u{1F4DE} ' + p.telefon + "</p>" +
         "</div>"
       );
@@ -483,44 +499,47 @@ function buildTentang() {
     .join("");
 
   const body =
-    pageHeader("Tentang <span>Masjid</span>", "Tentang Masjid") +
+    pageHeader("Tentang <span>Masjid</span>", "Tentang Masjid", "tentang.header", "crumb.tentang") +
 
     // ---------- Sejarah ----------
     '<section class="section">' +
     '<div class="container">' +
     sectionHeader(
       "Sejarah <span>Masjid</span>",
-      "Riwayat Masjid Jamik Labis dari awal pembinaan hingga ke tapak sekarang di Jalan Muar."
+      "Riwayat Masjid Jamik Labis dari awal pembinaan hingga ke tapak sekarang di Jalan Muar.",
+      undefined,
+      "sejarah.title",
+      "sejarah.sub"
     ) +
     // Gambar lama masjid
     '<figure class="history-photo" data-reveal>' +
     '<img src="' +
     CONFIG.sejarahImage +
-    '" alt="Masjid Jamik Labis (gambar lama)" loading="lazy">' +
-    '<figcaption class="history-caption">Masjid Jamik Labis &mdash; gambar lama</figcaption>' +
+    '" alt="Masjid Jamik Labis (gambar lama)" loading="lazy" data-i18n-attr="alt:sejarah.photo.alt">' +
+    '<figcaption class="history-caption" data-i18n="sejarah.photo.cap">Masjid Jamik Labis &mdash; gambar lama</figcaption>' +
     "</figure>" +
     // Era 1
     '<div class="history-era" data-reveal>' +
-    '<h3><span class="era-year">1960-an</span> Masjid Jamik Labis Pertama &mdash; Jalan Tenang</h3>' +
-    "<p>Sebelum terdirinya bangunan Masjid Bandar Labis di Jalan Muar sekarang, Masjid Jamik Labis yang awal terletak di Jalan Tenang, bersebelahan betul-betul dengan rumah En. Ibrahim (mantan YB ADUN Tenang). Tapak masjid tersebut masih wujud sehingga hari ini, dan di atas tapak masjid awal ini kini terdapat sebuah warung orang kampung Paya Merah yang menumpang sementara.</p>" +
-    "<p>Masjid ini dibina oleh masyarakat setempat sekitar tahun 1960-an. Seni binanya bercirikan Islamik dan keseluruhan bangunannya terdiri daripada binaan kayu, serta dikatakan tiada menara. Ia mampu memuatkan kira-kira 200 orang jemaah dalam satu-satu masa.</p>" +
-    "<p>Dari segi pentadbiran, masjid ini ditadbir oleh jawatankuasa daripada masyarakat setempat di Labis. Imam pertama yang berkhidmat ialah Imam Talib dan Imam Haji Khalid bin Chidun, manakala bilalnya bernama Bilal Mohd Deli.</p>" +
+    '<h3><span class="era-year">1960-an</span> <span data-i18n="era1.title">Masjid Jamik Labis Pertama &mdash; Jalan Tenang</span></h3>' +
+    '<p data-i18n="era1.p1">Sebelum terdirinya bangunan Masjid Bandar Labis di Jalan Muar sekarang, Masjid Jamik Labis yang awal terletak di Jalan Tenang, bersebelahan betul-betul dengan rumah En. Ibrahim (mantan YB ADUN Tenang). Tapak masjid tersebut masih wujud sehingga hari ini, dan di atas tapak masjid awal ini kini terdapat sebuah warung orang kampung Paya Merah yang menumpang sementara.</p>' +
+    '<p data-i18n="era1.p2">Masjid ini dibina oleh masyarakat setempat sekitar tahun 1960-an. Seni binanya bercirikan Islamik dan keseluruhan bangunannya terdiri daripada binaan kayu, serta dikatakan tiada menara. Ia mampu memuatkan kira-kira 200 orang jemaah dalam satu-satu masa.</p>' +
+    '<p data-i18n="era1.p3">Dari segi pentadbiran, masjid ini ditadbir oleh jawatankuasa daripada masyarakat setempat di Labis. Imam pertama yang berkhidmat ialah Imam Talib dan Imam Haji Khalid bin Chidun, manakala bilalnya bernama Bilal Mohd Deli.</p>' +
     "</div>" +
     // Era 2
     '<div class="history-era" data-reveal>' +
-    '<h3><span class="era-year">1968</span> Masjid Jamik Labis Kedua &mdash; Jalan Yong Peng</h3>' +
-    "<p>Dengan perubahan suasana dan perkembangan semasa, Masjid Jamik Labis yang pertama di Jalan Tenang berpindah ke tempat baharu di Jalan Yong Peng, bersebelahan dengan Sekolah Kebangsaan Labis, pada tahun 1968.</p>" +
-    "<p>Keadaan binaan masjid yang kedua ini lebih baik, cantik dan sempurna, dengan keseluruhan binaannya daripada batu bata. Reka bentuknya lebih menarik dan selesa, sama ada di bahagian dalaman mahupun halaman persekitaran luar. Kawasan penempatan kenderaan agak luas dan menepati keperluan jemaah. Terdapat satu menara yang tinggi dengan corong pembesar suara, dan masjid ini boleh memuatkan kira-kira 500 orang jemaah dalam satu-satu masa.</p>" +
-    "<p>Pada permulaannya, pentadbiran masjid dipimpin oleh pengerusi daripada ahli kariah setempat, dan kemudiannya bertukar kepada Haji Wagiman. Imam pertama yang berkhidmat ialah Imam Haji Khalid bin Chindun, Imam Tukiran dan Imam Abdul Rafar bin Yusof.</p>" +
-    "<p>Selepas itu, pentadbiran Masjid Jamik Labis di Jalan Yong Peng diambil alih oleh Kerajaan Johor dan berada di bawah pentadbiran " +
+    '<h3><span class="era-year">1968</span> <span data-i18n="era2.title">Masjid Jamik Labis Kedua &mdash; Jalan Yong Peng</span></h3>' +
+    '<p data-i18n="era2.p1">Dengan perubahan suasana dan perkembangan semasa, Masjid Jamik Labis yang pertama di Jalan Tenang berpindah ke tempat baharu di Jalan Yong Peng, bersebelahan dengan Sekolah Kebangsaan Labis, pada tahun 1968.</p>' +
+    '<p data-i18n="era2.p2">Keadaan binaan masjid yang kedua ini lebih baik, cantik dan sempurna, dengan keseluruhan binaannya daripada batu bata. Reka bentuknya lebih menarik dan selesa, sama ada di bahagian dalaman mahupun halaman persekitaran luar. Kawasan penempatan kenderaan agak luas dan menepati keperluan jemaah. Terdapat satu menara yang tinggi dengan corong pembesar suara, dan masjid ini boleh memuatkan kira-kira 500 orang jemaah dalam satu-satu masa.</p>' +
+    '<p data-i18n="era2.p3">Pada permulaannya, pentadbiran masjid dipimpin oleh pengerusi daripada ahli kariah setempat, dan kemudiannya bertukar kepada Haji Wagiman. Imam pertama yang berkhidmat ialah Imam Haji Khalid bin Chindun, Imam Tukiran dan Imam Abdul Rafar bin Yusof.</p>' +
+    '<p data-i18n="era2.p4">Selepas itu, pentadbiran Masjid Jamik Labis di Jalan Yong Peng diambil alih oleh Kerajaan Johor dan berada di bawah pentadbiran ' +
     CONFIG.admin +
     ". Pengerusinya ialah Assyekh Haji Azman bin Mokhsin, disusuli Assyekh Haji Ahmad Faisal bin Mohamad, dan Assyekh Haji Sulaiman bin Maiden.</p>" +
     "</div>" +
     // Era 3
     '<div class="history-era" data-reveal>' +
-    '<h3><span class="era-year">Kini</span> Perpindahan ke Jalan Muar (Masjid Bandar Labis)</h3>' +
-    "<p>Saban tahun, Labis menyaksikan perubahan kepadatan penduduk, perkembangan ekonomi dan pembangunan yang semakin berkembang. Justeru, beberapa pihak yang bertanggungjawab &mdash; termasuk pihak Pejabat Kadi Daerah Segamat beserta AJK, YB ADUN Tenang dan Majlis Daerah Labis &mdash; bersetuju bahawa Masjid Jamik Labis di Jalan Yong Peng perlu diperbaharui.</p>" +
-    "<p>Bagi menjayakan hasrat ini, semua pihak bersetuju untuk berpindah ke tapak yang lebih luas dan selesa, iaitu sebuah padang milik Majlis Daerah Labis di Jalan Muar, bersebelahan dengan dewan Majlis Daerah Labis. Tapak inilah yang menjadi lokasi Masjid Bandar Labis yang ada pada hari ini, di bawah seliaan " +
+    '<h3><span class="era-year">Kini</span> <span data-i18n="era3.title">Perpindahan ke Jalan Muar (Masjid Bandar Labis)</span></h3>' +
+    '<p data-i18n="era3.p1">Saban tahun, Labis menyaksikan perubahan kepadatan penduduk, perkembangan ekonomi dan pembangunan yang semakin berkembang. Justeru, beberapa pihak yang bertanggungjawab &mdash; termasuk pihak Pejabat Kadi Daerah Segamat beserta AJK, YB ADUN Tenang dan Majlis Daerah Labis &mdash; bersetuju bahawa Masjid Jamik Labis di Jalan Yong Peng perlu diperbaharui.</p>' +
+    '<p data-i18n="era3.p2">Bagi menjayakan hasrat ini, semua pihak bersetuju untuk berpindah ke tapak yang lebih luas dan selesa, iaitu sebuah padang milik Majlis Daerah Labis di Jalan Muar, bersebelahan dengan dewan Majlis Daerah Labis. Tapak inilah yang menjadi lokasi Masjid Bandar Labis yang ada pada hari ini, di bawah seliaan ' +
     CONFIG.admin +
     ", Jabatan Agama Islam Negeri Johor (JAINJ).</p>" +
     "</div>" +
@@ -529,22 +548,22 @@ function buildTentang() {
     // ---------- Visi & Misi ----------
     '<section class="section section--cream">' +
     '<div class="container">' +
-    sectionHeader("Visi & <span>Misi</span>") +
+    sectionHeader("Visi & <span>Misi</span>", undefined, undefined, "visi.title") +
     '<div class="cards-grid">' +
-    card("\u{1F4A1}", "Visi", "Menjadi pusat kecemerlangan ibadah dan pembangunan ummah di Bandar Labis.", "tentang.html") +
-    card("\u{1F3AF}", "Misi", "Memakmurkan masjid dengan ibadah, pendidikan, kebajikan dan perpaduan komuniti.", "tentang.html") +
-    card("\u{1F4AD}", "Nilai", "Ikhlas, Amanah, Ilmu dan Kebersamaan dalam setiap urusan.", "tentang.html") +
+    card("\u{1F4A1}", "Visi", "Menjadi pusat kecemerlangan ibadah dan pembangunan ummah di Bandar Labis.", "tentang.html", "visi.card1.t", "visi.card1.d") +
+    card("\u{1F3AF}", "Misi", "Memakmurkan masjid dengan ibadah, pendidikan, kebajikan dan perpaduan komuniti.", "tentang.html", "visi.card2.t", "visi.card2.d") +
+    card("\u{1F4AD}", "Nilai", "Ikhlas, Amanah, Ilmu dan Kebersamaan dalam setiap urusan.", "tentang.html", "visi.card3.t", "visi.card3.d") +
     "</div>" +
     "</div></section>\n" +
 
     // ---------- Carta Organisasi ----------
     '<section class="section" id="carta">' +
     '<div class="container">' +
-    sectionHeader("Carta <span>Organisasi</span>") +
+    sectionHeader("Carta <span>Organisasi</span>", undefined, undefined, "carta.title") +
     '<figure class="carta-figure" data-reveal>' +
     '<img src="' +
     CONFIG.cartaImage +
-    '" alt="Carta pentadbiran Masjid Bandar Labis" loading="lazy">' +
+    '" alt="Carta pentadbiran Masjid Bandar Labis" loading="lazy" data-i18n-attr="alt:carta.alt">' +
     "</figure>" +
     "</div></section>\n" +
 
@@ -553,10 +572,13 @@ function buildTentang() {
     '<div class="container">' +
     sectionHeader(
       "Senarai <span>Pegawai Masjid</span>",
-      "Imam, bilal dan petugas yang memakmurkan Masjid Bandar Labis."
+      "Imam, bilal dan petugas yang memakmurkan Masjid Bandar Labis.",
+      undefined,
+      "pegawai.title",
+      "pegawai.sub"
     ) +
     '<div class="pegawai-grid">' + pegawaiCards + "</div>" +
-    '<p class="form-note" style="text-align:center;margin-top:24px;">Foto pegawai akan dimuat naik dari semasa ke semasa.</p>' +
+    '<p class="form-note" style="text-align:center;margin-top:24px;" data-i18n="pegawai.note">Foto pegawai akan dimuat naik dari semasa ke semasa.</p>' +
     "</div></section>\n";
 
   write(
@@ -576,29 +598,32 @@ function buildTentang() {
    ============================================================ */
 function buildAktiviti() {
   const body =
-    pageHeader("Aktiviti <span>Masjid</span>", "Aktiviti") +
+    pageHeader("Aktiviti <span>Masjid</span>", "Aktiviti", "aktiviti.header", "crumb.aktiviti") +
 
     // ---------- Jadual kuliah ----------
     '<section class="section" id="jadual-kuliah">' +
     '<div class="container">' +
     sectionHeader(
       "Jadual <span>Kuliah</span>",
-      "Kuliah mingguan diadakan selepas solat, terbuka kepada semua."
+      "Kuliah mingguan diadakan selepas solat, terbuka kepada semua.",
+      undefined,
+      "jadual.title",
+      "jadual.sub"
     ) +
     '<div class="table-wrap" data-reveal>' +
     "<table>" +
-    "<thead><tr><th>Hari</th><th>Masa</th><th>Tajuk / Aktiviti</th><th>Penceramah / Pihak</th></tr></thead>" +
+    "<thead><tr><th data-i18n=\"jadual.col.hari\">Hari</th><th data-i18n=\"jadual.col.masa\">Masa</th><th data-i18n=\"jadual.col.tajuk\">Tajuk / Aktiviti</th><th data-i18n=\"jadual.col.penceramah\">Penceramah / Pihak</th></tr></thead>" +
     "<tbody>" +
-    '<tr><td><span class="badge-day">Isnin</span></td><td>9:30 malam</td><td>Tafsir Al-Quran</td><td>Ustaz Jemputan</td></tr>' +
-    '<tr><td><span class="badge-day">Selasa</span></td><td>9:30 malam</td><td>Fiqh Ibadah</td><td>Imam Masjid</td></tr>' +
-    '<tr><td><span class="badge-day">Rabu</span></td><td>9:30 malam</td><td>Hadis & Sirah</td><td>Ustaz Jemputan</td></tr>' +
-    '<tr><td><span class="badge-day">Khamis</span></td><td>9:30 malam</td><td>Tazkirah & Doa</td><td>Imam Masjid</td></tr>' +
-    '<tr><td><span class="badge-day">Jumaat</span></td><td>1:15 petang</td><td>Khutbah Jumaat</td><td>Khatib / Panel</td></tr>' +
-    '<tr><td><span class="badge-day">Sabtu</span></td><td>10:00 pagi</td><td>Kelas Fardhu Ain</td><td>Jawatankuasa Pendidikan</td></tr>' +
-    '<tr><td><span class="badge-day">Ahad</span></td><td>10:00 pagi</td><td>Tadarus & Tafsir</td><td>Bilal / Fasilitator</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.isnin">Isnin</span></td><td>9:30 malam</td><td data-i18n="jadual.t1">Tafsir Al-Quran</td><td data-i18n="jadual.s1">Ustaz Jemputan</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.selasa">Selasa</span></td><td>9:30 malam</td><td data-i18n="jadual.t2">Fiqh Ibadah</td><td data-i18n="jadual.s2">Imam Masjid</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.rabu">Rabu</span></td><td>9:30 malam</td><td data-i18n="jadual.t3">Hadis & Sirah</td><td data-i18n="jadual.s1">Ustaz Jemputan</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.khamis">Khamis</span></td><td>9:30 malam</td><td data-i18n="jadual.t4">Tazkirah & Doa</td><td data-i18n="jadual.s2">Imam Masjid</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.jumaat">Jumaat</span></td><td>1:15 petang</td><td data-i18n="jadual.t5">Khutbah Jumaat</td><td data-i18n="jadual.s3">Khatib / Panel</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.sabtu">Sabtu</span></td><td>10:00 pagi</td><td data-i18n="jadual.t6">Kelas Fardhu Ain</td><td data-i18n="jadual.s4">Jawatankuasa Pendidikan</td></tr>' +
+    '<tr><td><span class="badge-day" data-i18n="day.ahad">Ahad</span></td><td>10:00 pagi</td><td data-i18n="jadual.t7">Tadarus & Tafsir</td><td data-i18n="jadual.s5">Bilal / Fasilitator</td></tr>' +
     "</tbody></table>" +
     "</div>" +
-    '<p class="form-note" style="margin-top:16px;text-align:center;">* Jadual boleh berubah. Sila rujuk pengumuman rasmi masjid atau Facebook page untuk pengesahan.</p>' +
+    '<p class="form-note" style="margin-top:16px;text-align:center;" data-i18n="jadual.note">* Jadual boleh berubah. Sila rujuk pengumuman rasmi masjid atau Facebook page untuk pengesahan.</p>' +
     "</div></section>\n" +
 
     // ---------- Siaran media ----------
@@ -607,39 +632,41 @@ function buildAktiviti() {
     sectionHeader(
       "Siaran <span>Media</span>",
       "Ikuti siaran, video dan pengumuman terkini masjid.",
-      true
+      true,
+      "siaran.title",
+      "siaran.sub"
     ) +
 
     // Facebook card
     '<div class="fb-card" data-reveal>' +
     '<div class="fb-icon">' + iconSvg("facebook", 30) + "</div>" +
     "<div>" +
-    "<h3>Ikuti Facebook Rasmi Masjid Bandar Labis</h3>" +
-    "<p>Siaran langsung kuliah, video program dan pengumuman terkini dikongsi melalui page rasmi.</p>" +
+    '<h3 data-i18n="siaran.fb.title">Ikuti Facebook Rasmi Masjid Bandar Labis</h3>' +
+    '<p data-i18n="siaran.fb.text">Siaran langsung kuliah, video program dan pengumuman terkini dikongsi melalui page rasmi.</p>' +
     '<a class="btn btn-gold" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    iconSvg("facebook", 18) + " Lawati Facebook Page</a>" +
+    iconSvg("facebook", 18) + '<span data-i18n="siaran.fb.btn"> Lawati Facebook Page</span></a>' +
     "</div></div>\n" +
 
     // Video grid
-    "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\">Video &amp; Siaran Terkini</h3>" +
+    "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\" data-i18n-html=\"siaran.video.title\">Video &amp; Siaran Terkini</h3>" +
     '<div class="media-grid">' +
     '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption">Kuliah Tafsir Al-Quran</span></a>' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap1">Kuliah Tafsir Al-Quran</span></a>' +
     '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption">Sambutan Maulidur Rasul</span></a>' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap2">Sambutan Maulidur Rasul</span></a>' +
     '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption">Program Ihya\u2019 Ramadan</span></a>' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap3">Program Ihya\u2019 Ramadan</span></a>' +
     "</div>\n" +
-    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin-top:16px;">Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.</p>' +
+    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin-top:16px;" data-i18n="siaran.video.note">Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.</p>' +
 
     // Pengumuman
     '<div style="margin-top:52px;">' +
-    "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\">Pengumuman &amp; Surat Berita</h3>" +
+    "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\" data-i18n-html=\"siaran.news.title\">Pengumuman &amp; Surat Berita</h3>" +
     '<div class="news-list">' +
-    newsItem("01", "Jun", "Kursus Pra Perkahwinan", "Pendaftaran dibuka untuk sesi akan datang. Hubungi pejabat kadi untuk maklumat lanjut.") +
-    newsItem("16", "Mei", "Program Kutipan Dana Musafir Inn", "Kutipan tahunan untuk penyelenggaraan dan naik taraf Musafir Inn dijalankan.") +
-    newsItem("01", "Mei", "Kelas Al-Quran Kanak-Kanak", "Pendaftaran kelas mengaji untuk kanak-kanak dibuka sepanjang tahun.") +
-    newsItem("20", "Apr", "Gotong-Royong Perdana", "Terima kasih kepada semua sukarelawan yang menyertai gotong-royong membersihkan masjid.") +
+    newsItem("01", "Jun", "Kursus Pra Perkahwinan", "Pendaftaran dibuka untuk sesi akan datang. Hubungi pejabat kadi untuk maklumat lanjut.", "news1.t", "news1.d") +
+    newsItem("16", "Mei", "Program Kutipan Dana Musafir Inn", "Kutipan tahunan untuk penyelenggaraan dan naik taraf Musafir Inn dijalankan.", "news2.t", "news2.d") +
+    newsItem("01", "Mei", "Kelas Al-Quran Kanak-Kanak", "Pendaftaran kelas mengaji untuk kanak-kanak dibuka sepanjang tahun.", "news3.t", "news3.d") +
+    newsItem("20", "Apr", "Gotong-Royong Perdana", "Terima kasih kepada semua sukarelawan yang menyertai gotong-royong membersihkan masjid.", "news4.t", "news4.d") +
     "</div></div>\n" +
     "</div></section>\n";
 
@@ -676,19 +703,22 @@ function buildPerkhidmatan() {
   }
 
   const body =
-    pageHeader("Perkhidmatan <span>Masjid</span>", "Perkhidmatan") +
+    pageHeader("Perkhidmatan <span>Masjid</span>", "Perkhidmatan", "perkhidmatan.header", "crumb.perkhidmatan") +
 
     // ---------- Urusan harian ----------
     '<section class="section" id="urusan-harian">' +
     '<div class="container">' +
     sectionHeader(
       "Urusan <span>Harian</span>",
-      "Perkhidmatan harian yang disediakan kepada masyarakat."
+      "Perkhidmatan harian yang disediakan kepada masyarakat.",
+      undefined,
+      "urusan.title",
+      "urusan.sub"
     ) +
     '<div class="cards-grid">' +
-    card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan mandi, kafan, solat jenazah dan urusan pengkebumian. Beroperasi 24 jam.", "perkhidmatan.html#urusan-harian") +
-    card("\u{1F48D}", "Perkahwinan & Sewaan", "Pendaftaran perkahwinan mengikut prosedur dan sewaan dewan untuk majlis.", "perkhidmatan.html#urusan-harian") +
-    card("\u{1F9F3}", "Borang Lawatan", "Tempahan lawatan ke masjid untuk sekolah, institusi atau kumpulan.", "perkhidmatan.html#urusan-harian") +
+    card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan mandi, kafan, solat jenazah dan urusan pengkebumian. Beroperasi 24 jam.", "perkhidmatan.html#urusan-harian", "urusan.jenazah.t", "urusan.jenazah.d") +
+    card("\u{1F48D}", "Perkahwinan & Sewaan", "Pendaftaran perkahwinan mengikut prosedur dan sewaan dewan untuk majlis.", "perkhidmatan.html#urusan-harian", "urusan.perkahwinan.t", "urusan.perkahwinan.d") +
+    card("\u{1F9F3}", "Borang Lawatan", "Tempahan lawatan ke masjid untuk sekolah, institusi atau kumpulan.", "perkhidmatan.html#urusan-harian", "urusan.lawatan.t", "urusan.lawatan.d") +
     "</div>" +
     "</div></section>\n" +
 
@@ -697,27 +727,27 @@ function buildPerkhidmatan() {
     '<div class="container">' +
     '<div class="about-grid">' +
     '<div data-reveal>' +
-    "<h2 class=\"section-title\">Pengurusan <span>Jenazah</span></h2>" +
-    "<p style=\"color:var(--muted);margin-top:10px;\">Masjid menyediakan perkhidmatan pengurusan jenazah untuk umat Islam di kawasan Bandar Labis dan sekitarnya:</p>" +
+    "<h2 class=\"section-title\" data-i18n-html=\"jenazah.title\">Pengurusan <span>Jenazah</span></h2>" +
+    '<p style="color:var(--muted);margin-top:10px;" data-i18n="jenazah.desc">Masjid menyediakan perkhidmatan pengurusan jenazah untuk umat Islam di kawasan Bandar Labis dan sekitarnya:</p>' +
     "<ul style=\"margin:16px 0 0 20px;display:grid;gap:8px;color:var(--muted);list-style:disc;\">" +
-    "<li>Mandi dan kafan jenazah</li>" +
-    "<li>Solat jenazah di masjid</li>" +
-    "<li>Urusan tanah perkuburan</li>" +
-    "<li>Koordinasi bersama pihak berkuasa agama</li>" +
+    '<li data-i18n="jenazah.li1">Mandi dan kafan jenazah</li>' +
+    '<li data-i18n="jenazah.li2">Solat jenazah di masjid</li>' +
+    '<li data-i18n="jenazah.li3">Urusan tanah perkuburan</li>' +
+    '<li data-i18n="jenazah.li4">Koordinasi bersama pihak berkuasa agama</li>' +
     "</ul>" +
-    '<p style="margin-top:16px;"><a class="btn btn-gold" href="hubungi.html">Hubungi Pihak Masjid</a></p>' +
+    '<p style="margin-top:16px;"><a class="btn btn-gold" href="hubungi.html" data-i18n="jenazah.btn">Hubungi Pihak Masjid</a></p>' +
     "</div>" +
     '<div class="table-wrap" data-reveal>' +
-    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 18px;padding-top:18px;">Sewaan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
+    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 18px;padding-top:18px;" data-i18n-html="sewaan.title">Sewaan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
     "<table>" +
-    "<thead><tr><th>Pakej Sewaan Dewan</th><th>Kadar</th></tr></thead>" +
+    "<thead><tr><th data-i18n=\"sewaan.col1\">Pakej Sewaan Dewan</th><th data-i18n=\"sewaan.col2\">Kadar</th></tr></thead>" +
     "<tbody>" +
     "<tr><td>Dewan Imam Malik (Pagi)</td><td><strong>RM500</strong></td></tr>" +
     "<tr><td>Dewan Imam Malik (Petang)</td><td><strong>RM700</strong></td></tr>" +
     "<tr><td>Dewan Kecil</td><td><strong>RM300</strong></td></tr>" +
     "<tr><td>Kenduri / Majlis Kecil</td><td><strong>RM200</strong></td></tr>" +
     "</tbody></table>" +
-    '<p class="form-note" style="margin-top:10px;padding:0 18px;">Dewan Imam Malik, Masjid Bandar Labis. Kadar boleh berubah &mdash; mohon semak dengan pihak pengurusan.</p>' +
+    '<p class="form-note" style="margin-top:10px;padding:0 18px;" data-i18n="sewaan.note">Dewan Imam Malik, Masjid Bandar Labis. Kadar boleh berubah &mdash; mohon semak dengan pihak pengurusan.</p>' +
     "</div>" +
     "</div>" +
     "</div></section>\n" +
@@ -726,26 +756,26 @@ function buildPerkhidmatan() {
     '<section class="section">' +
     '<div class="container">' +
     '<div class="cta-banner" data-reveal>' +
-    "<h3>Borang <span>Lawatan</span></h3>" +
-    "<p>Rancang lawatan kumpulan anda ke masjid. Isi borang di bawah dan pihak kami akan menghubungi anda.</p>" +
+    "<h3 data-i18n-html=\"lawatan.title\">Borang <span>Lawatan</span></h3>" +
+    '<p data-i18n="lawatan.desc">Rancang lawatan kumpulan anda ke masjid. Isi borang di bawah dan pihak kami akan menghubungi anda.</p>' +
     '<form data-form="lawatan" style="max-width:560px;margin:0 auto;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="lv-nama">Nama Organisasi / Kumpulan</label>' +
+    '<div class="form-group"><label for="lv-nama" data-i18n="lawatan.nama">Nama Organisasi / Kumpulan</label>' +
     '<input type="text" class="form-control" id="lv-nama" name="Nama Organisasi" required maxlength="100"></div>' +
-    '<div class="form-group"><label for="lv-hubungi">Nama Wakil</label>' +
+    '<div class="form-group"><label for="lv-hubungi" data-i18n="lawatan.wakil">Nama Wakil</label>' +
     '<input type="text" class="form-control" id="lv-hubungi" name="Nama Wakil" required maxlength="100"></div>' +
     "</div>" +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="lv-tarikh">Tarikh Cadangan</label>' +
+    '<div class="form-group"><label for="lv-tarikh" data-i18n="lawatan.tarikh">Tarikh Cadangan</label>' +
     '<input type="date" class="form-control" id="lv-tarikh" name="Tarikh" required></div>' +
-    '<div class="form-group"><label for="lv-bilangan">Bilangan Peserta</label>' +
+    '<div class="form-group"><label for="lv-bilangan" data-i18n="lawatan.bilangan">Bilangan Peserta</label>' +
     '<input type="number" class="form-control" id="lv-bilangan" name="Bilangan" min="1" max="999" required></div>' +
     "</div>" +
-    '<div class="form-group"><label for="lv-nota">Maklumat Tambahan</label>' +
+    '<div class="form-group"><label for="lv-nota" data-i18n="lawatan.nota">Maklumat Tambahan</label>' +
     '<textarea class="form-control" id="lv-nota" name="Maklumat Tambahan" maxlength="500"></textarea></div>' +
     '<input type="hidden" name="_subject" value="Permohonan Lawatan \u2014 Masjid Bandar Labis">' +
-    '<button type="submit" class="btn btn-gold btn-block">Hantar Permohonan</button>' +
+    '<button type="submit" class="btn btn-gold btn-block" data-i18n="lawatan.hantar">Hantar Permohonan</button>' +
     "</form>" +
     "</div></div></section>\n" +
 
@@ -755,49 +785,51 @@ function buildPerkhidmatan() {
     sectionHeader(
       "Musafir <span>Inn</span>",
       "Penginapan untuk musafir dan tetamu dengan kadar berpatutan.",
-      true
+      true,
+      "musafir.title",
+      "musafir.sub"
     ) +
     innPhoto +
     '<div class="room-grid">' +
-    roomCard("\u{1F6CC}", "Bilik Single", "RM60 / malam", ["1 katil single", "Aircond & kipas", "Mandi & tandas", "Wi-Fi"]) +
-    roomCard("\u{1F6CB}\uFE0F", "Bilik Double", "RM90 / malam", ["1 katil queen", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"]) +
-    roomCard("\u{1F6C6}", "Bilik Keluarga", "RM130 / malam", ["2 katil double", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"]) +
+    roomCard("\u{1F6CC}", "Bilik Single", "RM60", ["1 katil single", "Aircond & kipas", "Mandi & tandas", "Wi-Fi"], "room.single", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
+    roomCard("\u{1F6CB}\uFE0F", "Bilik Double", "RM90", ["1 katil queen", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"], "room.double", ["room.f5", "room.f2", "room.f3", "room.f6"]) +
+    roomCard("\u{1F6C6}", "Bilik Keluarga", "RM130", ["2 katil double", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"], "room.keluarga", ["room.f7", "room.f2", "room.f3", "room.f6"]) +
     "</div>" +
-    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Sila tempah awal.</p>' +
+    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Sila tempah awal.</p>' +
 
     '<div class="cta-banner" data-reveal>' +
-    "<h3>Tempahan <span>Bilik</span></h3>" +
-    "<p>Isi borang di bawah untuk membuat tempahan. Kami akan sahkan melalui e-mel atau Facebook page.</p>" +
+    "<h3 data-i18n-html=\"tempahan.title\">Tempahan <span>Bilik</span></h3>" +
+    '<p data-i18n="tempahan.desc">Isi borang di bawah untuk membuat tempahan. Kami akan sahkan melalui e-mel atau Facebook page.</p>' +
     '<form data-form="booking" style="max-width:560px;margin:0 auto;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="bk-nama">Nama Penuh</label>' +
+    '<div class="form-group"><label for="bk-nama" data-i18n="tempahan.nama">Nama Penuh</label>' +
     '<input type="text" class="form-control" id="bk-nama" name="Nama" required maxlength="100"></div>' +
-    '<div class="form-group"><label for="bk-ic">No. K/P atau Passport</label>' +
+    '<div class="form-group"><label for="bk-ic" data-i18n="tempahan.ic">No. K/P atau Passport</label>' +
     '<input type="text" class="form-control" id="bk-ic" name="No KP" required maxlength="20"></div>' +
     "</div>" +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="bk-emel">E-mel</label>' +
+    '<div class="form-group"><label for="bk-emel" data-i18n="tempahan.emel">E-mel</label>' +
     '<input type="email" class="form-control" id="bk-emel" name="E-mel" required maxlength="150"></div>' +
-    '<div class="form-group"><label for="bk-bilik">Jenis Bilik</label>' +
+    '<div class="form-group"><label for="bk-bilik" data-i18n="tempahan.bilik">Jenis Bilik</label>' +
     '<select class="form-control" id="bk-bilik" name="Jenis Bilik" required>' +
-    '<option value="">-- Pilih --</option>' +
+    '<option value="" data-i18n="tempahan.pilih">-- Pilih --</option>' +
     '<option value="Single RM60">Single (RM60)</option>' +
     '<option value="Double RM90">Double (RM90)</option>' +
     '<option value="Keluarga RM130">Keluarga (RM130)</option>' +
     "</select></div>" +
     "</div>" +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="bk-masuk">Tarikh Masuk</label>' +
+    '<div class="form-group"><label for="bk-masuk" data-i18n="tempahan.masuk">Tarikh Masuk</label>' +
     '<input type="date" class="form-control" id="bk-masuk" name="Tarikh Masuk" required></div>' +
-    '<div class="form-group"><label for="bk-keluar">Tarikh Keluar</label>' +
+    '<div class="form-group"><label for="bk-keluar" data-i18n="tempahan.keluar">Tarikh Keluar</label>' +
     '<input type="date" class="form-control" id="bk-keluar" name="Tarikh Keluar" required></div>' +
     "</div>" +
-    '<div class="form-group"><label for="bk-nota">Nota (pilihan)</label>' +
+    '<div class="form-group"><label for="bk-nota" data-i18n="tempahan.nota">Nota (pilihan)</label>' +
     '<textarea class="form-control" id="bk-nota" name="Nota" maxlength="500"></textarea></div>' +
     '<input type="hidden" name="_subject" value="Tempahan Musafir Inn \u2014 Masjid Bandar Labis">' +
-    '<button type="submit" class="btn btn-gold btn-block">Hantar Tempahan</button>' +
-    '<p class="form-note" style="text-align:center;margin-top:10px;">Tempahan hanya disahkan selepas pihak masjid menghubungi anda.</p>' +
+    '<button type="submit" class="btn btn-gold btn-block" data-i18n="tempahan.hantar">Hantar Tempahan</button>' +
+    '<p class="form-note" style="text-align:center;margin-top:10px;" data-i18n="tempahan.note">Tempahan hanya disahkan selepas pihak masjid menghubungi anda.</p>' +
     "</form>" +
     "</div>" +
     "</div></section>\n";
@@ -845,14 +877,15 @@ function buildGaleri() {
         const cap = isAerial
           ? "Pandangan Aerial Masjid Bandar Labis"
           : "Galeri Masjid Bandar Labis";
+        const capKey = isAerial ? "galeri.aerial" : "galeri.photo";
         return (
           '<figure class="gallery-item" data-reveal>' +
           '<img src="images/Galeri/' +
           encodeURIComponent(file) +
           '" alt="' +
           cap +
-          '" loading="lazy">' +
-          '<figcaption class="gallery-cap">' +
+          '" loading="lazy" data-i18n-attr="alt:' + capKey + '">' +
+          '<figcaption class="gallery-cap" data-i18n="' + capKey + '">' +
           cap +
           "</figcaption></figure>"
         );
@@ -861,24 +894,27 @@ function buildGaleri() {
   }
 
   const body =
-    pageHeader("Galeri <span>Masjid</span>", "Galeri") +
+    pageHeader("Galeri <span>Masjid</span>", "Galeri", "galeri.header", "crumb.galeri") +
     '<section class="section">' +
     '<div class="container">' +
     sectionHeader(
       "Galeri <span>Foto</span>",
-      "Gambar aktiviti dan suasana Masjid Bandar Labis."
+      "Gambar aktiviti dan suasana Masjid Bandar Labis.",
+      undefined,
+      "galeri.title",
+      "galeri.sub"
     ) +
     // ---------- Video aerial ----------
     '<div class="video-feature" data-reveal>' +
     '<div class="video-frame">' +
     '<iframe src="' +
     CONFIG.videoAerial +
-    '" title="Video aerial Masjid Bandar Labis" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"></iframe>' +
+    '" title="Video aerial Masjid Bandar Labis" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" data-i18n-attr="title:galeri.video.title"></iframe>' +
     "</div>" +
-    '<p class="video-caption">\u{1F3A5} Video aerial Masjid Bandar Labis</p>' +
+    '<p class="video-caption" data-i18n="galeri.video.title">\u{1F3A5} Video aerial Masjid Bandar Labis</p>' +
     "</div>" +
     '<div class="gallery-grid">' + tiles + "</div>" +
-    '<p class="form-note" style="text-align:center;margin-top:24px;">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
+    '<p class="form-note" style="text-align:center;margin-top:24px;" data-i18n="galeri.note">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
     "</div></section>\n";
 
   write(
@@ -898,61 +934,61 @@ function buildGaleri() {
    ============================================================ */
 function buildHubungi() {
   const body =
-    pageHeader("Hubungi <span>Kami</span>", "Hubungi") +
+    pageHeader("Hubungi <span>Kami</span>", "Hubungi", "hubungi.header", "crumb.hubungi") +
     '<section class="section">' +
     '<div class="container">' +
     '<div class="contact-grid">' +
     '<div class="contact-info" data-reveal>' +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("pin", 22) + "</div>" +
-    "<div><h4>Alamat</h4><p>" + CONFIG.addressLines.join("<br>") + "</p></div></div>" +
+    "<div><h4 data-i18n=\"contact.alamat\">Alamat</h4><p>" + CONFIG.addressLines.join("<br>") + "</p></div></div>" +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("facebook", 22) + "</div>" +
-    '<div><h4>Facebook Page</h4><p><a href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">facebook.com/masjidbandarlabis</a></p></div></div>' +
+    '<div><h4 data-i18n="contact.fb">Facebook Page</h4><p><a href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">facebook.com/masjidbandarlabis</a></p></div></div>' +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("mail", 22) + "</div>" +
-    "<div><h4>E-mel</h4><p>" + CONFIG.email + "</p></div></div>" +
+    "<div><h4 data-i18n=\"contact.email\">E-mel</h4><p>" + CONFIG.email + "</p></div></div>" +
     '<div class="contact-card">' +
     '<div class="contact-icon">' + iconSvg("clock", 22) + "</div>" +
-    "<div><h4>Waktu Operasi</h4><p>Masjid: Buka <strong>24 jam</strong><br>Pejabat Pentadbiran: 8:30 pagi \u2013 5:00 petang</p></div></div>" +
+    '<div><h4 data-i18n="contact.waktu">Waktu Operasi</h4><p data-i18n-html="contact.waktu.d">Masjid: Buka <strong>24 jam</strong><br>Pejabat Pentadbiran: 8:30 pagi \u2013 5:00 petang</p></div></div>' +
     '<div class="hero-actions" style="justify-content:flex-start;">' +
     '<a class="btn btn-dark" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    iconSvg("facebook", 18) + " Facebook Page</a>" +
+    iconSvg("facebook", 18) + '<span data-i18n="contact.fb.btn"> Facebook Page</span></a>' +
     '<a class="btn btn-gold" href="mailto:' + CONFIG.email + '">' +
-    iconSvg("mail", 18) + " Hantar E-mel</a>" +
+    iconSvg("mail", 18) + '<span data-i18n="contact.email.btn"> Hantar E-mel</span></a>' +
     "</div>" +
     "</div>" +
     '<div data-reveal>' +
-    "<h3 style=\"margin-bottom:20px;font-size:1.35rem;\">Hantar <span style=\"color:var(--gold-600);\">Maklum Balas</span></h3>" +
+    "<h3 style=\"margin-bottom:20px;font-size:1.35rem;\" data-i18n-html=\"contact.form.title\">Hantar <span style=\"color:var(--gold-600);\">Maklum Balas</span></h3>" +
     '<form data-form="contact" id="contactForm">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="ct-nama">Nama</label>' +
+    '<div class="form-group"><label for="ct-nama" data-i18n="contact.nama">Nama</label>' +
     '<input type="text" class="form-control" id="ct-nama" name="Nama" required maxlength="100"></div>' +
-    '<div class="form-group"><label for="ct-emel">E-mel</label>' +
+    '<div class="form-group"><label for="ct-emel" data-i18n="contact.emel">E-mel</label>' +
     '<input type="email" class="form-control" id="ct-emel" name="E-mel" required maxlength="150"></div>' +
     "</div>" +
-    '<div class="form-group"><label for="ct-mesej">Mesej</label>' +
+    '<div class="form-group"><label for="ct-mesej" data-i18n="contact.mesej">Mesej</label>' +
     '<textarea class="form-control" id="ct-mesej" name="Mesej" required maxlength="1000"></textarea></div>' +
     '<input type="hidden" name="_subject" value="Maklum Balas \u2014 Masjid Bandar Labis">' +
-    '<button type="submit" class="btn btn-gold btn-block">Hantar Mesej</button>' +
+    '<button type="submit" class="btn btn-gold btn-block" data-i18n="contact.hantar">Hantar Mesej</button>' +
     "</form>" +
     "</div>" +
     "</div>" +
     // ---------- Pejabat Kadi Daerah Segamat ----------
     '<div class="kadi-card" data-reveal>' +
-    "<h3>\u{1F3DB}\uFE0F <span>Bahagian Pengurusan Masjid Surau</span>, Pejabat Kadi Daerah Segamat</h3>" +
-    "<p>Masjid Bandar Labis berada di bawah seliaan kerajaan melalui Pejabat Kadi Daerah Segamat, Jabatan Agama Islam Negeri Johor (JAINJ).</p>" +
+    "<h3 data-i18n-html=\"kadi.title\">\u{1F3DB}\uFE0F <span>Bahagian Pengurusan Masjid Surau</span>, Pejabat Kadi Daerah Segamat</h3>" +
+    '<p data-i18n="kadi.desc">Masjid Bandar Labis berada di bawah seliaan kerajaan melalui Pejabat Kadi Daerah Segamat, Jabatan Agama Islam Negeri Johor (JAINJ).</p>' +
     '<div class="kadi-grid">' +
     '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("pin", 18) + "</span><span>" + CONFIG.kadiOffice.address + "</span></div>" +
-    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("phone", 18) + "</span><span><strong>Telefon:</strong> " + CONFIG.kadiOffice.phone + "</span></div>" +
-    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("printer", 18) + "</span><span><strong>Faks:</strong> " + CONFIG.kadiOffice.fax + "</span></div>" +
+    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("phone", 18) + "</span><span><strong data-i18n=\"kadi.tel\">Telefon:</strong> " + CONFIG.kadiOffice.phone + "</span></div>" +
+    '<div class="kadi-item"><span class="kadi-icon">' + iconSvg("printer", 18) + "</span><span><strong data-i18n=\"kadi.faks\">Faks:</strong> " + CONFIG.kadiOffice.fax + "</span></div>" +
     "</div>" +
     "</div>" +
     // ---------- Peta ----------
     '<div class="map-frame" data-reveal>' +
     '<iframe src="https://maps.google.com/maps?q=Masjid%20Bandar%20Labis%2C%20Jalan%20Muar%2C%2085300%20Labis%2C%20Johor&t=m&z=15&output=embed&iwloc=near" ' +
-    'title="Peta lokasi Masjid Bandar Labis" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>' +
+    'title="Peta lokasi Masjid Bandar Labis" loading="lazy" referrerpolicy="no-referrer-when-downgrade" data-i18n-attr="title:map.title"></iframe>' +
     "</div>" +
     "</div></section>\n";
 
@@ -971,13 +1007,13 @@ function buildHubungi() {
 /* ============================================================
    KOMPONEN KECIL
    ============================================================ */
-function card(icon, title, desc, link) {
+function card(icon, title, desc, link, titleKey, descKey) {
   return (
     '<div class="card" data-reveal>' +
     '<div class="card-icon" aria-hidden="true">' + icon + "</div>" +
-    "<h3>" + title + "</h3>" +
-    "<p>" + desc + "</p>" +
-    (link ? '<a class="card-link" href="' + link + '">Baca lagi &rarr;</a>' : "") +
+    "<h3" + (titleKey ? ' data-i18n="' + titleKey + '"' : "") + ">" + title + "</h3>" +
+    "<p" + (descKey ? ' data-i18n="' + descKey + '"' : "") + ">" + desc + "</p>" +
+    (link ? '<a class="card-link" href="' + link + '"><span data-i18n="program.more">Baca lagi</span> &rarr;</a>' : "") +
     "</div>"
   );
 }
@@ -990,21 +1026,25 @@ function initials(name) {
   return (first + last).toUpperCase();
 }
 
-function newsItem(day, month, title, desc) {
+function newsItem(day, month, title, desc, titleKey, descKey) {
   return (
     '<div class="news-item" data-reveal>' +
     '<div class="news-date"><span class="d">' + day + '</span><span class="m">' + month + "</span></div>" +
-    "<div><h4>" + title + "</h4><p>" + desc + "</p></div>" +
+    "<div><h4" + (titleKey ? ' data-i18n="' + titleKey + '"' : "") + ">" + title + "</h4><p" + (descKey ? ' data-i18n="' + descKey + '"' : "") + ">" + desc + "</p></div>" +
     "</div>"
   );
 }
 
-function roomCard(icon, name, price, features) {
-  const feats = features.map(function (f) { return "<li>" + f + "</li>"; }).join("");
+function roomCard(icon, name, price, features, nameKey, featKeys) {
+  const feats = features
+    .map(function (f, i) {
+      return "<li" + (featKeys && featKeys[i] ? ' data-i18n="' + featKeys[i] + '"' : "") + ">" + f + "</li>";
+    })
+    .join("");
   return (
     '<div class="room-card" data-reveal>' +
     '<div class="room-top"><div class="r-icon">' + icon + "</div>" +
-    "<h4>" + name + '</h4><div class="r-price">' + price + "</div></div>" +
+    "<h4" + (nameKey ? ' data-i18n="' + nameKey + '"' : "") + ">" + name + '</h4><div class="r-price">' + price + ' <span data-i18n="room.rate">/ malam</span></div></div>' +
     '<div class="room-body"><ul>' + feats + "</ul></div>" +
     "</div>"
   );

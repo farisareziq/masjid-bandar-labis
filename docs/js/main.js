@@ -205,7 +205,9 @@ function initCopyAccount() {
     }
 
     if (msg) {
-      msg.textContent = ok ? "Nombor akaun disalin ✓" : "Sila salin secara manual";
+      var okTxt = window.I18N ? I18N.t("copy.success") : "Nombor akaun disalin \u2713";
+      var noTxt = window.I18N ? I18N.t("copy.manual") : "Sila salin secara manual";
+      msg.textContent = ok ? okTxt : noTxt;
       msg.style.display = "inline-block";
       setTimeout(function () {
         msg.style.display = "none";
@@ -249,11 +251,7 @@ function initForms() {
 
       // Honeypot anti-spam: jika diisi oleh bot, senyap-senyap "berjaya"
       if (fd.get("botcheck")) {
-        showFormResult(
-          form,
-          "success",
-          "Terima kasih! Maklumat anda telah diterima."
-        );
+        showFormResult(form, "success", i18nMsg("form.sent", "Terima kasih! Maklumat anda telah diterima."));
         form.reset();
         if (submitBtn) submitBtn.disabled = false;
         return;
@@ -289,23 +287,15 @@ function initForms() {
         const data = await res.json();
 
         if (data && (data.success === "true" || data.success === true)) {
-          showFormResult(
-            form,
-            "success",
-            "Terima kasih! Maklumat anda telah dihantar ke pihak masjid."
-          );
+          showFormResult(form, "success", i18nMsg("form.sent", "Terima kasih! Maklumat anda telah dihantar ke pihak masjid."));
           form.reset();
         } else if (data && /activat/i.test(data.message || "")) {
-          showFormResult(
-            form,
-            "warning",
-            "Penghantaran pertama memerlukan pengesahan. Pihak masjid perlu klik pautan pengesahan dalam e-mel daripada FormSubmit, kemudian cuba semula."
-          );
+          showFormResult(form, "warning", i18nMsg("form.activate", "Penghantaran pertama memerlukan pengesahan. Pihak masjid perlu klik pautan pengesahan dalam e-mel daripada FormSubmit, kemudian cuba semula."));
         } else {
-          showFormResult(form, "error", "Penghantaran gagal. Sila cuba lagi.");
+          showFormResult(form, "error", i18nMsg("form.fail", "Penghantaran gagal. Sila cuba lagi."));
         }
       } catch (err) {
-        showFormResult(form, "error", "Ralat rangkaian. Sila cuba lagi.");
+        showFormResult(form, "error", i18nMsg("form.network", "Ralat rangkaian. Sila cuba lagi."));
       } finally {
         if (submitBtn) submitBtn.disabled = false;
       }
@@ -314,6 +304,10 @@ function initForms() {
 }
 
 /* ---------- Papar hasil borang ---------- */
+function i18nMsg(key, fallback) {
+  return window.I18N ? I18N.t(key) : fallback;
+}
+
 function showFormResult(form, type, message) {
   // Buang mesej lama
   const old = form.parentElement.querySelector(".form-result");
@@ -329,19 +323,19 @@ function showFormResult(form, type, message) {
   box.appendChild(text);
 
   if (type === "warning" || type === "error") {
-    box.appendChild(document.createTextNode(" Hubungi kami melalui "));
+    box.appendChild(document.createTextNode(i18nMsg("form.contact", " Hubungi kami melalui ")));
 
     const mail = document.createElement("a");
-    mail.textContent = "e-mel";
+    mail.textContent = i18nMsg("form.email", "e-mel");
     mail.href = "mailto:" + SITE_CONFIG.formEmail;
     mail.style.textDecoration = "underline";
     mail.style.fontWeight = "700";
     box.appendChild(mail);
 
-    box.appendChild(document.createTextNode(" atau "));
+    box.appendChild(document.createTextNode(i18nMsg("form.or", " atau ")));
 
     const fb = document.createElement("a");
-    fb.textContent = "Facebook page";
+    fb.textContent = i18nMsg("form.fb", "Facebook page");
     fb.href = SITE_CONFIG.facebookPage;
     fb.target = "_blank";
     fb.rel = "noopener noreferrer";

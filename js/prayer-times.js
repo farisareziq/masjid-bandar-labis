@@ -48,6 +48,12 @@ document.addEventListener("DOMContentLoaded", function () {
     isha: "20:30",
   };
 
+  // Bantuan terjemahan
+  function L(key, fb) {
+    return window.I18N ? I18N.t(key) : fb;
+  }
+  var lastState = null;
+
   fetchTimes();
 
   async function fetchTimes() {
@@ -57,12 +63,15 @@ document.addEventListener("DOMContentLoaded", function () {
       var data = await res.json();
       var record = getRecord(data);
       if (record) {
+        lastState = { record: record, fallback: false };
         render(record, false);
         startCountdown(record);
       } else {
+        lastState = { record: FALLBACK, fallback: true };
         render(FALLBACK, true);
       }
     } catch (err) {
+      lastState = { record: FALLBACK, fallback: true };
       render(FALLBACK, true);
     }
   }
@@ -94,14 +103,14 @@ document.addEventListener("DOMContentLoaded", function () {
     var wrap = document.createElement("div");
     wrap.className = "prayer-wrap";
     wrap.setAttribute("role", "region");
-    wrap.setAttribute("aria-label", "Waktu solat hari ini");
+    wrap.setAttribute("aria-label", L("prayer.title", "Waktu solat hari ini"));
 
     // ---------- Kepala ----------
     var head = document.createElement("div");
     head.className = "prayer-head";
 
     var h3 = document.createElement("h3");
-    h3.textContent = "\u{1F54C} Waktu Solat Hari Ini";
+    h3.textContent = "\u{1F54C} " + L("prayer.title", "Waktu Solat Hari Ini");
     head.appendChild(h3);
 
     var date = document.createElement("p");
@@ -113,7 +122,9 @@ document.addEventListener("DOMContentLoaded", function () {
         month: "long",
         year: "numeric",
       }) +
-      " | Zon " +
+      " | " +
+      L("prayer.zone", "Zon") +
+      " " +
       ZONE_LABEL;
     head.appendChild(date);
 
@@ -170,11 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isFallback) {
       var badge = document.createElement("span");
       badge.className = "prayer-badge";
-      badge.textContent = "Waktu anggaran (API JAKIM tidak dapat dicapai)";
+      badge.textContent = L("prayer.estimate", "Waktu anggaran (API JAKIM tidak dapat dicapai)");
       foot.appendChild(badge);
     }
     var src = document.createElement("p");
-    src.textContent = "Sumber: JAKIM e-Solat \u00B7 zon " + ZONE;
+    src.textContent = L("prayer.source", "Sumber: JAKIM e-Solat \u00B7 zon " + ZONE);
     foot.appendChild(src);
     wrap.appendChild(foot);
 
@@ -222,7 +233,8 @@ document.addEventListener("DOMContentLoaded", function () {
       var cdLabel = root.querySelector(".cd-label");
       var cdTime = root.querySelector(".cd-time");
       if (cdLabel) {
-        cdLabel.textContent = "Waktu " + NAMES[next] + " dalam:";
+        cdLabel.textContent =
+          L("prayer.next", "Waktu ") + NAMES[next] + L("prayer.in", " dalam:");
       }
       if (cdTime) {
         cdTime.textContent =
@@ -237,4 +249,12 @@ document.addEventListener("DOMContentLoaded", function () {
   function pad2(n) {
     return String(n).padStart(2, "0");
   }
+
+  // Terjemah semula widget bila bahasa ditukar
+  document.addEventListener("langchange", function () {
+    if (lastState) {
+      render(lastState.record, lastState.fallback);
+      startCountdown(lastState.record);
+    }
+  });
 });
