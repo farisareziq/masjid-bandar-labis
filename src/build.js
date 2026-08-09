@@ -657,15 +657,16 @@ function buildPerkhidmatan() {
     '<p style="margin-top:16px;"><a class="btn btn-gold" href="hubungi.html">Hubungi Pihak Masjid</a></p>' +
     "</div>" +
     '<div class="table-wrap" data-reveal>' +
+    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 18px;padding-top:18px;">Sewaan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
     "<table>" +
     "<thead><tr><th>Pakej Sewaan Dewan</th><th>Kadar</th></tr></thead>" +
     "<tbody>" +
-    "<tr><td>Dewan Utama (Pagi)</td><td><strong>RM500</strong></td></tr>" +
-    "<tr><td>Dewan Utama (Petang)</td><td><strong>RM700</strong></td></tr>" +
+    "<tr><td>Dewan Imam Malik (Pagi)</td><td><strong>RM500</strong></td></tr>" +
+    "<tr><td>Dewan Imam Malik (Petang)</td><td><strong>RM700</strong></td></tr>" +
     "<tr><td>Dewan Kecil</td><td><strong>RM300</strong></td></tr>" +
     "<tr><td>Kenduri / Majlis Kecil</td><td><strong>RM200</strong></td></tr>" +
     "</tbody></table>" +
-    '<p class="form-note" style="margin-top:10px;">* Kadar boleh berubah. Mohon semak dengan pihak pengurusan.</p>' +
+    '<p class="form-note" style="margin-top:10px;padding:0 18px;">Dewan Imam Malik, Masjid Bandar Labis. Kadar boleh berubah &mdash; mohon semak dengan pihak pengurusan.</p>' +
     "</div>" +
     "</div>" +
     "</div></section>\n" +
