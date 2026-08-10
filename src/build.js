@@ -307,7 +307,8 @@ function footer() {
     "</div>\n" +
     '<div class="footer-bottom"><div class="container">' +
     '<p>&copy; <span data-year></span> ' + CONFIG.copyright +
-    ' &nbsp;|&nbsp; Dibina oleh komuniti dengan <span class="heart">\u2665</span> &nbsp;|&nbsp; Open Source (MIT)</p>' +
+    ' &nbsp;|&nbsp; Dibina oleh komuniti dengan <span class="heart">\u2665</span> &nbsp;|&nbsp; Open Source (MIT)' +
+    ' &nbsp;|&nbsp; <a href="privacy.html">Dasar Privasi</a> &nbsp;|&nbsp; <a href="terms.html">Terma</a></p>' +
     "</div></div>\n</footer>\n" +
     '<button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">\u2191</button>\n'
   );
@@ -1272,6 +1273,87 @@ function buildHubungi() {
 }
 
 /* ============================================================
+   MUKA SURAT 7 — privacy.html (Dasar Privasi)
+   ============================================================ */
+function buildPrivasi() {
+  const body =
+    pageHeader("Dasar <span>Privasi</span>", "Dasar Privasi") +
+    '<section class="section"><div class="container">' +
+    '<div class="legal-block" data-reveal>' +
+    '<h2>Data yang Kami Kumpul</h2>' +
+    "<p>Laman web ini bersifat maklumat dan tidak memerlukan pendaftaran akaun. Satu-satunya maklumat peribadi yang mungkin kami terima adalah melalui borang maklum balas, iaitu nama, alamat e-mel dan mesej anda. Maklumat ini dihantar terus ke e-mel pentadbir melalui perkhidmatan FormSubmit dan hanya digunakan untuk menjawab pertanyaan anda.</p>" +
+    "<p>Kami tidak menjual, menyewa atau berkongsi maklumat peribadi anda dengan mana-mana pihak ketiga, kecuali yang diperlukan oleh undang-undang Malaysia.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Data daripada Perkhidmatan Pihak Ketiga</h2>" +
+    "<p>Waktu solat dipaparkan daripada API rasmi JAKIM e-Solat. Siaran media di halaman Aktiviti dipaparkan daripada halaman Facebook awam rasmi masjid. Laman ini tidak menyimpan data peribadi daripada perkhidmatan tersebut.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Kuki dan Pautan Luar</h2>" +
+    "<p>Laman ini tidak menggunakan kuki pelacakan. Kami menyediakan pautan ke platform luar seperti Facebook, TikTok, YouTube dan Google Maps; dasar privasi platform tersebut adalah di luar kawalan kami.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Hubungi</h2>" +
+    "<p>Sebarang pertanyaan mengenai dasar privasi ini boleh dihantar kepada " +
+    '<a href="mailto:' + CONFIG.email + '">' + CONFIG.email + "</a>.</p>" +
+    "</div>" +
+    "</div></section>\n";
+
+  write(
+    "privacy.html",
+    page({
+      title: "Dasar Privasi \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/privacy.html",
+      description: "Dasar privasi laman web rasmi Masjid Bandar Labis, Bandar Labis, Johor.",
+      active: "",
+      body: body,
+    })
+  );
+}
+
+/* ============================================================
+   MUKA SURAT 8 — terms.html (Terma Penggunaan)
+   ============================================================ */
+function buildTerma() {
+  const body =
+    pageHeader("Terma <span>Penggunaan</span>", "Terma Penggunaan") +
+    '<section class="section"><div class="container">' +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Penggunaan Kandungan</h2>" +
+    "<p>Maklumat di laman web ini disediakan untuk kegunaan umum jemaah dan masyarakat. Walaupun kami berusaha memastikan ketepatannya, pihak pengurusan berhak membuat kemas kini, pindaan atau pembuangan maklumat pada bila-bila masa tanpa notis awal.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Hak Cipta</h2>" +
+    "<p>Kandungan laman ini adalah milik Masjid Bandar Labis melainkan dinyatakan sebaliknya. Pengagihan semula digalakkan untuk tujuan dakwah dengan menyatakan sumber asal.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Pautan Pihak Ketiga</h2>" +
+    "<p>Laman ini mengandungi pautan ke platform dan laman pihak ketiga. Kami tidak bertanggungjawab ke atas kandungan, ketepatan atau dasar platform tersebut.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Sumbangan</h2>" +
+    "<p>Maklumat akaun sumbangan yang dipaparkan adalah rasmi. Sila hubungi pejabat pentadbiran masjid untuk sebarang pengesahan sebelum membuat pindahan.</p>" +
+    "</div>" +
+    '<div class="legal-block" data-reveal>' +
+    "<h2>Undang-Undang</h2>" +
+    "<p>Terma ini ditadbir mengikut undang-undang Malaysia. Sebarang pertanyaan boleh diajukan melalui " +
+    '<a href="mailto:' + CONFIG.email + '">' + CONFIG.email + "</a>.</p>" +
+    "</div>" +
+    "</div></section>\n";
+
+  write(
+    "terms.html",
+    page({
+      title: "Terma Penggunaan \u2014 Masjid Bandar Labis",
+      canonical: "https://" + CONFIG.customDomain + "/terms.html",
+      description: "Terma penggunaan laman web rasmi Masjid Bandar Labis, Bandar Labis, Johor.",
+      active: "",
+      body: body,
+    })
+  );
+}
+
+/* ============================================================
    KOMPONEN KECIL
    ============================================================ */
 function card(icon, title, desc, link, titleKey, descKey) {
@@ -1320,6 +1402,8 @@ buildAktiviti();
 buildPerkhidmatan();
 buildGaleri();
 buildHubungi();
+buildPrivasi();
+buildTerma();
 
 // Salin aset statik
 console.log("Salin aset statik...");
@@ -1346,6 +1430,8 @@ const sitemapPages = [
   "perkhidmatan.html",
   "galeri.html",
   "hubungi.html",
+  "privacy.html",
+  "terms.html",
 ];
 const sitemapXml =
   '<?xml version="1.0" encoding="UTF-8"?>\n' +

@@ -28,6 +28,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+/* Anchor: ruang untuk navbar tetap + elak bahagian tertutup */
+[id] { scroll-margin-top: 88px; }
+
 /* Atribut hidden mesti benar-benar sembunyi (atasi display author) */
 [hidden] { display: none !important; }
 
@@ -599,7 +602,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
   background: var(--white);
   padding: 8px;
 }
-.history-photo img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.history-photo img { width: 100%; height: auto; display: block; border-radius: 10px; aspect-ratio: 895 / 719; }
 .history-caption { text-align: center; font-size: 0.85rem; color: var(--muted); margin-top: 8px; }
 
 /* Carta pentadbiran */
@@ -612,7 +615,7 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
   background: var(--white);
   padding: 10px;
 }
-.carta-figure img { width: 100%; height: auto; display: block; border-radius: 10px; }
+.carta-figure img { width: 100%; height: auto; display: block; border-radius: 10px; aspect-ratio: 4 / 3; }
 
 /* Pegawai masjid */
 .pegawai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
@@ -874,6 +877,7 @@ tbody tr:hover { background: rgba(255, 253, 208, 0.09); }
   max-height: 420px;
   object-fit: cover;
   display: block;
+  aspect-ratio: 16 / 9;
 }
 .room-top {
   background: linear-gradient(140deg, var(--black-3), var(--black));
@@ -1306,4 +1310,26 @@ textarea.form-control { min-height: 120px; resize: vertical; }
     -webkit-line-clamp: 3;
   }
   .fb-post-link { font-size: 0.8rem; }
+}
+
+/* ---------- Halaman undang-undang (privacy.html / terms.html) ---------- */
+.legal-block {
+  max-width: 780px;
+  margin: 0 auto 30px;
+}
+.legal-block h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--black);
+}
+.legal-block p {
+  line-height: 1.8;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.legal-block a {
+  color: var(--black);
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
