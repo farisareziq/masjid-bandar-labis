@@ -898,6 +898,31 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   line-height: 1.6;
 }
 .fac-icon { font-size: 1.15rem; line-height: 1.4; }
+.spjm-box {
+  margin-top: 20px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.spjm-box h3 { font-size: 1.02rem; color: var(--black); margin-bottom: 6px; }
+.spjm-box p { font-size: 0.85rem; color: var(--muted); margin-bottom: 12px; }
+.spjm-list { display: grid; gap: 8px; }
+.spjm-list li { display: flex; align-items: center; gap: 10px; }
+.spjm-name { font-weight: 700; color: var(--black); min-width: 74px; }
+.spjm-tel { color: var(--gold-600); font-weight: 600; text-decoration: none; }
+.spjm-tel:hover { text-decoration: underline; }
+.spjm-wa {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #25d366;
+  color: var(--white);
+}
+.spjm-wa:hover { background: #1eb855; }
 
 /* ---------- Borang ---------- */
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }

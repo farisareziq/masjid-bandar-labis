@@ -858,6 +858,17 @@ function buildPerkhidmatan() {
     '<li data-i18n="jenazah.li4">Koordinasi bersama pihak berkuasa agama</li>' +
     "</ul>" +
     '<p style="margin-top:16px;"><a class="btn btn-gold" href="hubungi.html" data-i18n="jenazah.btn">Hubungi Pihak Masjid</a></p>' +
+    '<div class="spjm-box">' +
+    '<h3 data-i18n="jenazah.spjm.title">Bantuan SPJM Johor Cawangan Labis</h3>' +
+    '<p data-i18n="jenazah.spjm.desc">Untuk urusan jenazah segera, hubungi sukarelawan SPJM Johor Cawangan Labis:</p>' +
+    '<ul class="spjm-list">' +
+    '<li><span class="spjm-name">Zali</span><a class="spjm-tel" href="tel:+60127681518">012-7681518</a>' +
+    '<a class="spjm-wa" href="https://wa.me/60127681518" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Zali">' + iconSvg("whatsapp", 16) + "</a></li>" +
+    '<li><span class="spjm-name">Akil</span><a class="spjm-tel" href="tel:+60177545530">017-7545530</a>' +
+    '<a class="spjm-wa" href="https://wa.me/60177545530" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Akil">' + iconSvg("whatsapp", 16) + "</a></li>" +
+    '<li><span class="spjm-name">Bro Fizi</span><a class="spjm-tel" href="tel:+60177494773">017-7494773</a>' +
+    '<a class="spjm-wa" href="https://wa.me/60177494773" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Bro Fizi">' + iconSvg("whatsapp", 16) + "</a></li>" +
+    "</ul></div>" +
     "</div>" +
     '<div class="table-wrap" data-reveal>' +
     '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 18px;padding-top:18px;" data-i18n-html="sewaan.title">Sewaan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
