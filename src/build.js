@@ -918,6 +918,13 @@ function buildPerkhidmatan() {
     roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 2 katil single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f5"]) +
     "</div>" +
     '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Bilik tidak menyediakan Wi-Fi dan televisyen. Sila tempah awal.</p>' +
+    '<div class="inn-facilities" data-reveal>' +
+    "<h3 data-i18n=\"inn.fac.title\">Lokasi &amp; Kemudahan</h3>" +
+    '<ul class="inn-fac-list">' +
+    '<li><span class="fac-icon">\u{1F17F}\uFE0F</span><span data-i18n="inn.fac.parking">Kawasan parking luas, bersebelahan dengan masjid dan dewan serbaguna Majlis Daerah Labis.</span></li>' +
+    '<li><span class="fac-icon">\u{1F6D2}</span><span data-i18n="inn.fac.shop">Kedai runcit dan kedai makan dalam lingkungan 1km (kawasan Taman Perling Labis).</span></li>' +
+    '<li><span class="fac-icon">\u{1F3D9}\uFE0F</span><span data-i18n="inn.fac.bandar">Bandar Labis dengan landmark Dataran Labis dalam lingkungan 3km dengan menaiki kenderaan.</span></li>' +
+    "</ul></div>" +
 
     '<div class="cta-banner" data-reveal>' +
     "<h3 data-i18n-html=\"tempahan.title\">Pertanyaan <span>Bilik</span></h3>" +

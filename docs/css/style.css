@@ -835,7 +835,12 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
 .step p { font-size: 0.84rem; color: var(--muted); margin-top: 4px; }
 
 /* ---------- Musafir Inn ---------- */
-.room-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(280px, 460px));
+  justify-content: center;
+  gap: 20px;
+}
 .room-card {
   background: var(--white);
   border-radius: 20px;
@@ -872,6 +877,26 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
 .room-body ul { display: grid; gap: 6px; }
 .room-body li { font-size: 0.86rem; color: var(--muted); display: flex; gap: 8px; align-items: center; }
 .room-body li::before { content: "✔"; color: var(--gold-600); font-weight: 700; }
+.inn-facilities {
+  max-width: 760px;
+  margin: 0 auto 40px;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px 26px;
+}
+.inn-facilities h3 { color: var(--white); font-size: 1.1rem; margin-bottom: 14px; }
+.inn-fac-list { display: grid; gap: 10px; list-style: none; }
+.inn-fac-list li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #d8d8d8;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.fac-icon { font-size: 1.15rem; line-height: 1.4; }
 
 /* ---------- Borang ---------- */
 .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
