@@ -75,6 +75,9 @@ Sediakan sekali sahaja:
 Jika fetch gagal atau token belum diset, workflow menggunakan cache terakhir
 (`src/fb-posts.json`) - laman tidak terjejas.
 
+Status fetch disimpan dalam `src/fetch-status.json` (`ok: true/false` + bilangan
+siaran) - berguna untuk mengesahkan token Actions berfungsi.
+
 > Tiada `npm install` diperlukan — projek ini **sifar dependency** (lebih selamat,
 > tiada pakej pihak ketiga yang boleh diserang/diaudit).
 

@@ -28,6 +28,7 @@ const https = require("https");
 
 const ROOT = path.resolve(__dirname, "..");
 const OUT = path.join(__dirname, "fb-posts.json");
+const STATUS = path.join(__dirname, "fetch-status.json");
 const ENV_FILE = path.join(ROOT, ".env");
 
 const PAGE_REF = "masjidbandarlabis"; // username halaman Facebook rasmi
@@ -98,10 +99,19 @@ function escapeHtml(s) {
     .replace(/'/g, "&#39;");
 }
 
+function writeStatus(status) {
+  try {
+    fs.writeFileSync(STATUS, JSON.stringify(status, null, 2) + "\n", "utf8");
+  } catch (e) {
+    // Kegagalan menulis status tidak sepatutnya menghentikan binaan
+  }
+}
+
 async function main() {
   const token = getToken();
   if (!token) {
     console.log("  Tiada FB_ACCESS_TOKEN - siaran Facebook dikemaskini, guna fallback statik.");
+    writeStatus({ ok: false, reason: "no-token" });
     return;
   }
 
@@ -148,10 +158,12 @@ async function main() {
 
     fs.writeFileSync(OUT, JSON.stringify(data, null, 2) + "\n", "utf8");
     console.log("  OK - " + data.length + " siaran disimpan ke src/fb-posts.json");
+    writeStatus({ ok: true, count: data.length });
   } catch (e) {
     // Jangan gagalkan deploy: simpan cache lama & guna fallback
     console.warn("  Amaran: gagal ambil siaran Facebook -> " + e.message);
     console.warn("  Cache sedia ada dikekalkan (jika ada); laman guna fallback statik.");
+    writeStatus({ ok: false, reason: "fetch-failed" });
   }
 }
 
