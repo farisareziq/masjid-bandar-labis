@@ -914,11 +914,12 @@ function buildPerkhidmatan() {
     ) +
     innPhoto +
     '<div class="room-grid">' +
-    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 3 tilam single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
-    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 2 tilam single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f5"]) +
+    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Mini fridge", "Boleh tambah 3 tilam single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f6", "room.f4"]) +
+    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Mini fridge", "Boleh tambah 2 tilam single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f6", "room.f5"]) +
     "</div>" +
     '<div class="inn-facilities" data-reveal>' +
     "<h3 data-i18n=\"inn.fac.title\">Lokasi &amp; Kemudahan</h3>" +
+    '<p class="inn-fac-note" data-i18n="inn.fac.notv">Semua bilik tidak menyediakan televisyen dan Wi-Fi.</p>' +
     '<ul class="inn-fac-list">' +
     '<li><span class="fac-icon">\u{1F17F}\uFE0F</span><span data-i18n="inn.fac.parking">Kawasan parking luas, bersebelahan dengan masjid dan dewan serbaguna Majlis Daerah Labis.</span></li>' +
     '<li><span class="fac-icon">\u{1F6D2}</span><span data-i18n="inn.fac.shop">Kedai runcit dan kedai makan dalam lingkungan 1km (kawasan Taman Perling Labis).</span></li>' +
