@@ -32,3 +32,6 @@ scripts/tiktok/tmp/
 
 # Contoh konfigurasi ikut di-commit (bukan rahsia)
 !.env.example
+
+# Fail kerja/pelan — jangan biar auto-deploy (docs/) sentuh atau padam
+docs/PELAN-*.md
