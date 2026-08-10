@@ -25,8 +25,9 @@ function Step($n, $title) {
   Write-Host "`n==> [$n/5] $title" -ForegroundColor Cyan
 }
 
-# ---------- 1. Bina website ----------
-Step 1 'Bina website (node src/build.js)'
+# ---------- 1. Muat turun siaran Facebook + bina website ----------
+Step 1 'Muat turun siaran Facebook + bina website'
+node src/fetch-fb-posts.js
 node src/build.js
 if ($LASTEXITCODE -ne 0) { Write-Host 'Ralat semasa bina. Berhenti.' -ForegroundColor Red; exit 1 }
 

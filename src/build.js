@@ -155,7 +155,7 @@ function head(title, description, canonicalUrl) {
     "script-src 'self'; " +
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
     "font-src 'self' https://fonts.gstatic.com; " +
-    "img-src 'self' data:; " +
+    "img-src 'self' data: https://*.fbcdn.net https://lookaside.fbsbx.com; " +
     "connect-src 'self' https://www.e-solat.gov.my https://formsubmit.co; " +
     "frame-src https://maps.google.com https://www.google.com https://www.youtube.com https://www.youtube-nocookie.com; " +
     "form-action 'self' https://formsubmit.co; " +
@@ -603,7 +603,70 @@ function buildTentang() {
 /* ============================================================
    MUKA SURAT 3 — aktiviti.html (Jadual Kuliah + Siaran Media)
    ============================================================ */
+/* ---------- Siaran Facebook (dari src/fb-posts.json) ---------- */
+function esc(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function readFbPosts() {
+  try {
+    const data = JSON.parse(fs.readFileSync(path.join(__dirname, "fb-posts.json"), "utf8"));
+    if (Array.isArray(data) && data.length) return data;
+  } catch (e) {
+    // Tiada cache - guna fallback statik
+  }
+  return null;
+}
+
+function formatFbDate(iso) {
+  if (!iso) return "";
+  try {
+    return new Intl.DateTimeFormat("ms-MY", {
+      timeZone: "Asia/Kuala_Lumpur",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    }).format(new Date(iso));
+  } catch (e) {
+    return String(iso).slice(0, 10);
+  }
+}
+
+function fbPostCard(p) {
+  const link = esc(p.permalink_url);
+  const img = p.full_picture
+    ? '<div class="fb-post-img"><img src="' + esc(p.full_picture) + '" alt="Gambar siaran Facebook Masjid Bandar Labis" loading="lazy"></div>'
+    : "";
+  const msg = p.message ? '<p class="fb-post-msg">' + esc(p.message) + "</p>" : "";
+  return (
+    '<a class="fb-post-card" href="' + link + '" target="_blank" rel="noopener noreferrer">' +
+    img +
+    '<div class="fb-post-body">' +
+    '<span class="fb-post-date">' + esc(formatFbDate(p.created_time)) + "</span>" +
+    msg +
+    '<span class="fb-post-link">Lihat di Facebook &rarr;</span>' +
+    "</div></a>"
+  );
+}
+
 function buildAktiviti() {
+  // Siaran Facebook terkini (dijana oleh src/fetch-fb-posts.js pada masa bina)
+  const fbFeed = readFbPosts();
+  const fbTiles =
+    '<div class="media-grid">' +
+    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap1">Kuliah Tafsir Al-Quran</span></a>' +
+    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap2">Sambutan Maulidur Rasul</span></a>' +
+    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
+    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap3">Program Ihya\u2019 Ramadan</span></a>' +
+    "</div>";
+
   const body =
     pageHeader("Aktiviti <span>Masjid</span>", "Aktiviti", "aktiviti.header", "crumb.aktiviti") +
 
@@ -654,16 +717,12 @@ function buildAktiviti() {
     iconSvg("facebook", 18) + '<span data-i18n="siaran.fb.btn"> Lawati Facebook Page</span></a>' +
     "</div></div>\n" +
 
-    // Video grid
+    // Video grid / Siaran Facebook terkini
     "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\" data-i18n-html=\"siaran.video.title\">Video &amp; Siaran Terkini</h3>" +
-    '<div class="media-grid">' +
-    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap1">Kuliah Tafsir Al-Quran</span></a>' +
-    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap2">Sambutan Maulidur Rasul</span></a>' +
-    '<a class="media-tile" href="' + CONFIG.facebookUrl + '" target="_blank" rel="noopener noreferrer">' +
-    '<span class="media-play">\u25B6</span><span class="media-caption" data-i18n="video.cap3">Program Ihya\u2019 Ramadan</span></a>' +
-    "</div>\n" +
+    (fbFeed && fbFeed.length
+      ? '<div class="fb-posts-grid">' + fbFeed.map(fbPostCard).join("") + "</div>"
+      : fbTiles) +
+    "\n" +
     '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin-top:16px;" data-i18n="siaran.video.note">Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.</p>' +
 
     // Pengumuman

@@ -45,6 +45,22 @@ powershell -ExecutionPolicy Bypass -File scripts\optimize-images.ps1
 ```
 Gambar asal disalin ke `backup-images/` sebelum fail dikompres (maks. 1600px, kualiti 82).
 
+### Siaran Facebook (pilihan - guna token System User)
+1. Cipta fail `.env` di root projek (FAIL INI TIDAK BOLEH DI-COMMIT):
+   ```bash
+   FB_ACCESS_TOKEN=token-system-user-anda
+   ```
+2. Token mesti daripada **System User** Facebook dengan permission `pages_read_engagement`, dan halaman `masjidbandarlabis` perlu di-assign kepada system user itu.
+3. Setiap kali `scripts\deploy-branch.ps1` dijalankan, skrip akan muat turun **6 siaran terkini** halaman dan memasukkannya ke `aktiviti.html` (bahagian Siaran Media).
+4. Jika token tiada / gagal / luar talian, laman menggunakan kad statik sedia ada sebagai fallback.
+
+> Skrip mendapatkan **Page Access Token** secara automatik melalui `/me/accounts`
+> (diperlukan oleh Facebook untuk endpoint /posts) — anda hanya perlu sediakan
+> token System User dalam `.env`.
+
+> **Keselamatan:** Token hanya digunakan pada komputer anda semasa bina dan TIDAK PERNAH
+> dimasukkan ke dalam kod website yang di-deploy. Jangan kongsi token atau fail `.env`.
+
 > Tiada `npm install` diperlukan — projek ini **sifar dependency** (lebih selamat,
 > tiada pakej pihak ketiga yang boleh diserang/diaudit).
 

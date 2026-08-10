@@ -712,6 +712,38 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   font-size: 0.85rem;
   font-weight: 600;
 }
+/* ---------- Siaran Facebook terkini (dari src/fb-posts.json) ---------- */
+.fb-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.fb-post-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.fb-post-card:hover { transform: translateY(-4px); border-color: var(--yellow); }
+.fb-post-img { aspect-ratio: 16 / 9; overflow: hidden; background: var(--black-3); }
+.fb-post-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.fb-post-body { padding: 14px 16px 16px; display: grid; gap: 8px; }
+.fb-post-date {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.fb-post-msg {
+  color: var(--white);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.fb-post-link { color: var(--yellow); font-size: 0.85rem; font-weight: 700; }
 .fb-card {
   background: linear-gradient(135deg, #1d2a4a, #0c0c0c);
   border: 1px solid rgba(59, 89, 152, 0.5);
@@ -1069,14 +1101,14 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   [data-reveal] { opacity: 1; transform: none; transition: none; }
-  .btn, .card, .room-card, .media-tile, .gallery-item { transition: none; }
+.btn, .card, .room-card, .media-tile, .fb-post-card, .gallery-item { transition: none; }
 }
 
 /* ============================================================
    RESPONSIF
    ============================================================ */
 @media (max-width: 992px) {
-  .cards-grid, .media-grid, .room-grid { grid-template-columns: repeat(2, 1fr); }
+.cards-grid, .media-grid, .fb-posts-grid, .room-grid { grid-template-columns: repeat(2, 1fr); }
   .pegawai-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
@@ -1132,7 +1164,7 @@ textarea.form-control { min-height: 120px; resize: vertical; }
 
 @media (max-width: 480px) {
   .prayer-grid { grid-template-columns: repeat(2, 1fr); }
-  .cards-grid, .media-grid, .room-grid, .gallery-grid, .pegawai-grid { grid-template-columns: 1fr; }
+.cards-grid, .media-grid, .fb-posts-grid, .room-grid, .gallery-grid, .pegawai-grid { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr; }
   .steps { grid-template-columns: 1fr; }
   .bank-account { font-size: 1.5rem; letter-spacing: 2px; }

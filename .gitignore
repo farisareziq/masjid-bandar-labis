@@ -25,3 +25,6 @@ docs/images/Video Aerial Masjid/
 
 # Sandaran gambar asal daripada scripts/optimize-images.ps1
 backup-images/
+
+# Cache siaran Facebook (dijana oleh src/fetch-fb-posts.js pada masa bina)
+src/fb-posts.json
