@@ -1,7 +1,8 @@
 # ============================================================
 # optimize-images.ps1
 # Kompres gambar JPG dalam folder images/ untuk kegunaan web
-# (maksimum 1600px, kualiti 82). Gambar asal kekal di peranti.
+# (maksimum 1600px, kualiti 82). Gambar asal disalin ke folder
+# backup-images/ sebelum fail dikompres.
 # Guna: powershell -ExecutionPolicy Bypass -File scripts\optimize-images.ps1
 # ============================================================
 
@@ -12,6 +13,7 @@ Set-Location $PROJECT
 
 $MAX_W = 1600
 $QUALITY = 82
+$BACKUP = Join-Path $PROJECT 'backup-images'
 
 $files = Get-ChildItem (Join-Path $PROJECT 'images') -Recurse -File |
   Where-Object { $_.Extension -match '^\.jpe?g$' -or $_.Extension -match '^\.JPE?G$' }
@@ -32,7 +34,10 @@ foreach ($f in $files) {
     $orientation = 1
     try {
       $prop = $img.GetPropertyItem(0x0112)
-      if ($prop) { $orientation = [BitConverter]::ToInt32($prop.Value, 0) }
+      if ($prop -and $prop.Value.Length -ge 2) {
+        # Tag orientasi EXIF ialah UShort (2 bait)
+        $orientation = [BitConverter]::ToUInt16($prop.Value, 0)
+      }
     } catch { $orientation = 1 }
 
     # Kira saiz baru
@@ -55,6 +60,13 @@ foreach ($f in $files) {
       6 { $bmp.RotateFlip([System.Drawing.RotateFlipType]::Rotate90FlipNone) }
       8 { $bmp.RotateFlip([System.Drawing.RotateFlipType]::Rotate270FlipNone) }
     }
+
+    # Sandarkan fail asal sebelum timpa (backup-images/ diabaikan oleh git)
+    $rel = $f.FullName.Substring($PROJECT.Length).TrimStart('\', '/')
+    $backupFile = Join-Path $BACKUP $rel
+    $backupDir = Split-Path $backupFile -Parent
+    New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
+    Copy-Item $f.FullName $backupFile -Force
 
     $bmp.Save($f.FullName, $encoder, $params)
     $bmp.Dispose()

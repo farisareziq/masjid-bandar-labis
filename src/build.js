@@ -237,6 +237,7 @@ function footer() {
     '<div class="container footer-grid">\n' +
     '<div class="footer-col footer-about">' +
     '<img src="images/logo.png" class="footer-logo logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
+    '<span class="logo-fallback footer-logo-fallback" hidden>\u{1F54C}</span>' +
     "<h3>Masjid <b>Bandar Labis</b></h3>" +
     '<p data-i18n="footer.about">Jalan Muar, 85300 Labis, Johor Darul Ta\'azim.</p>' +
     '<p data-i18n="footer.seliaan">Di bawah seliaan ' + CONFIG.admin + "</p>" +
@@ -767,6 +768,7 @@ function buildPerkhidmatan() {
     '<p data-i18n="lawatan.desc">Rancang lawatan kumpulan anda ke masjid. Isi borang di bawah dan pihak kami akan menghubungi anda.</p>' +
     '<form data-form="lawatan" style="max-width:560px;margin:0 auto;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
+    '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
     '<div class="form-group"><label for="lv-nama" data-i18n="lawatan.nama">Nama Organisasi / Kumpulan</label>' +
     '<input type="text" class="form-control" id="lv-nama" name="Nama Organisasi" required maxlength="100"></div>' +
@@ -809,11 +811,12 @@ function buildPerkhidmatan() {
     '<p data-i18n="tempahan.desc">Isi borang di bawah untuk membuat tempahan. Kami akan sahkan melalui e-mel atau Facebook page.</p>' +
     '<form data-form="booking" style="max-width:560px;margin:0 auto;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
+    '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
     '<div class="form-group"><label for="bk-nama" data-i18n="tempahan.nama">Nama Penuh</label>' +
     '<input type="text" class="form-control" id="bk-nama" name="Nama" required maxlength="100"></div>' +
-    '<div class="form-group"><label for="bk-ic" data-i18n="tempahan.ic">No. K/P atau Passport</label>' +
-    '<input type="text" class="form-control" id="bk-ic" name="No KP" required maxlength="20"></div>' +
+    '<div class="form-group"><label for="bk-tel" data-i18n="tempahan.tel">No. Telefon</label>' +
+    '<input type="tel" class="form-control" id="bk-tel" name="No. Telefon" required maxlength="20" autocomplete="tel"></div>' +
     "</div>" +
     '<div class="form-grid-2">' +
     '<div class="form-group"><label for="bk-emel" data-i18n="tempahan.emel">E-mel</label>' +
@@ -971,6 +974,7 @@ function buildHubungi() {
     "<h3 style=\"margin-bottom:20px;font-size:1.35rem;\" data-i18n-html=\"contact.form.title\">Hantar <span style=\"color:var(--gold-600);\">Maklum Balas</span></h3>" +
     '<form data-form="contact" id="contactForm">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
+    '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
     '<div class="form-group"><label for="ct-nama" data-i18n="contact.nama">Nama</label>' +
     '<input type="text" class="form-control" id="ct-nama" name="Nama" required maxlength="100"></div>' +

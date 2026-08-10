@@ -26,14 +26,22 @@ const MIME = {
 };
 
 const server = http.createServer(function (req, res) {
-  let urlPath = decodeURIComponent(req.url.split("?")[0]);
+  let urlPath;
+  try {
+    urlPath = decodeURIComponent(req.url.split("?")[0]);
+  } catch (e) {
+    res.writeHead(400);
+    res.end("Bad Request");
+    return;
+  }
   if (urlPath === "/") urlPath = "/index.html";
 
   // Cegah directory traversal
   const safePath = path.normalize(urlPath).replace(/^(\.\.[/\\])+/, "");
   const file = path.join(DIST, safePath);
 
-  if (!file.startsWith(DIST)) {
+  const rel = path.relative(DIST, file);
+  if (rel.startsWith("..") || path.isAbsolute(rel)) {
     res.writeHead(403);
     res.end("Forbidden");
     return;

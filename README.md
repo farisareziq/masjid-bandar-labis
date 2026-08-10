@@ -39,6 +39,12 @@ node src/serve.js
 ```
 Kemudian buka `http://localhost:8080` dalam pelayar.
 
+### Optimumkan gambar (pilihan)
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\optimize-images.ps1
+```
+Gambar asal disalin ke `backup-images/` sebelum fail dikompres (maks. 1600px, kualiti 82).
+
 > Tiada `npm install` diperlukan — projek ini **sifar dependency** (lebih selamat,
 > tiada pakej pihak ketiga yang boleh diserang/diaudit).
 
@@ -103,13 +109,14 @@ Selepas sebarang perubahan: jalankan `node src/build.js` dan push ke GitHub.
 
 | Isu | Penyelesaian |
 |---|---|
-| Pautan patah | `src/check-links.js` sahkan semua pautan dalaman wujud sebelum deploy |
+| Pautan patah | `src/check-links.js` sahkan semua pautan dalaman (fail + `#anchor`) wujud sebelum deploy |
 | XSS dari data API | Waktu solat dibina dengan `textContent` (DOM), bukan `innerHTML` |
 | Tabnabbing | Semua pautan luaran (`target="_blank"`) ada `rel="noopener noreferrer"` |
 | Skrip inline | Dilarang oleh CSP (`script-src 'self'`) dan disemak oleh CI |
 | Pautan `http://` | Ditolak oleh CI — semua pautan mesti `https://` |
-| Borang palsu | Disambungkan ke **FormSubmit.co** → e-mel `masjidbandarlabis@gmail.com` + fallback e-mel/Facebook + honeypot anti-spam |
+| Borang palsu | Disambungkan ke **FormSubmit.co** → e-mel `masjidbandarlabis@gmail.com` + fallback e-mel/Facebook + honeypot anti-spam (`botcheck` + `_honey` sisi pelayan) |
 | Supply-chain | Sifar dependency npm |
+| Clickjacking | `frame-ancestors` tidak berfungsi dalam meta CSP — set header HTTP di Cloudflare untuk `masjidlabis.my` |
 
 > **Amaran:** Fail dalam repo ini adalah **awam**. Jangan commit kata laluan,
 > kunci API peribadi, atau maklumat sensitif.
@@ -137,6 +144,9 @@ ke **`masjidbandarlabis@gmail.com`** melalui [FormSubmit.co](https://formsubmit.
 
 > Nota: Pelan percuma FormSubmit mengehadkan bilangan penghantaran setiap bulan.
 > Sekiranya mencecah had, boleh naik taraf atau tukar pembekal lain.
+
+> Privasi: Borang tempahan Musafir Inn tidak lagi meminta No. K/P — guna
+> **No. Telefon** untuk pengesahan tempahan oleh pihak masjid.
 
 ## 🙏 Kredit
 

@@ -7,9 +7,9 @@
 #   2. Stage & commit semua fail
 #   3. Cipta repo GitHub PUBLIC (jika belum wujud)
 #   4. Sambung remote origin
-#   5. Aktifkan GitHub Pages (source: GitHub Actions)
+#   5. Aktifkan GitHub Pages (source: main /docs)
 #   6. Push ke branch main
-#   7. (Actions CI akan bina + deploy secara automatik)
+#   7. (GitHub Pages akan deploy automatik daripada folder docs/)
 #
 # Prasyarat: gh CLI sudah log masuk (gh auth status)
 # ============================================================
@@ -83,23 +83,23 @@ if (-not $exists) {
 }
 
 # ---------- 6. Aktifkan GitHub Pages ----------
-Step 6 'Aktifkan GitHub Pages (source: GitHub Actions)'
+Step 6 'Aktifkan GitHub Pages (source: main /docs)'
 $ok = $false
 try {
-  gh api "repos/$USER/$REPO_NAME/pages" -X POST -f build_type=workflow 2>$null | Out-Null
+  $null = gh api "repos/$USER/$REPO_NAME/pages" -X PUT -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/docs' 2>$null
   $ok = ($LASTEXITCODE -eq 0)
 } catch { $ok = $false }
 if (-not $ok) {
   try {
-    gh api "repos/$USER/$REPO_NAME/pages" -X PUT -f build_type=workflow 2>$null | Out-Null
+    $null = gh api "repos/$USER/$REPO_NAME/pages" -X POST -f build_type=legacy -f 'source[branch]=main' -f 'source[path]=/docs' 2>$null
     $ok = ($LASTEXITCODE -eq 0)
   } catch { $ok = $false }
 }
 if ($ok) {
-  Write-Host '  GitHub Pages diaktifkan (build_type: workflow).'
+  Write-Host '  GitHub Pages ditetapkan ke main /docs.'
 } else {
   Write-Host '  Amaran: tidak dapat tetapkan Pages secara automatik.' -ForegroundColor Yellow
-  Write-Host '  Sila buka: Settings > Pages > Source: GitHub Actions' -ForegroundColor Yellow
+  Write-Host '  Sila buka: Settings > Pages > Source: Deploy from branch > main /docs' -ForegroundColor Yellow
 }
 
 # ---------- 7. Push ----------

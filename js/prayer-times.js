@@ -53,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
     return window.I18N ? I18N.t(key) : fb;
   }
   var lastState = null;
+  var countdownTimer = null;
 
   fetchTimes();
 
@@ -115,13 +116,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var date = document.createElement("p");
     var now = new Date();
-    date.textContent =
-      now.toLocaleDateString("ms-MY", {
+    var dateLabel = "";
+    try {
+      dateLabel = new Intl.DateTimeFormat("ms-MY", {
+        timeZone: "Asia/Kuala_Lumpur",
         weekday: "long",
         day: "numeric",
         month: "long",
         year: "numeric",
-      }) +
+      }).format(now);
+    } catch (e) {
+      // Fallback untuk pelayar lama tanpa Intl timeZone
+      dateLabel = now.toLocaleDateString("ms-MY", {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      });
+    }
+    date.textContent =
+      dateLabel +
       " | " +
       L("prayer.zone", "Zon") +
       " " +
@@ -201,9 +215,20 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function startCountdown(record) {
+    // Elak timer bertindih setiap kali bahasa ditukar
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
+
+    function malaysiaNow() {
+      // JAKIM memberikan waktu Malaysia (UTC+8, tiada DST)
+      return new Date(Date.now() + 8 * 60 * 60 * 1000);
+    }
+
     function update() {
-      var now = new Date();
-      var currentMin = now.getHours() * 60 + now.getMinutes() + now.getSeconds() / 60;
+      var now = malaysiaNow();
+      var currentMin = now.getUTCHours() * 60 + now.getUTCMinutes() + now.getUTCSeconds() / 60;
       var next = null;
       var nextMin = null;
 
@@ -243,7 +268,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     update();
-    setInterval(update, 1000);
+    countdownTimer = setInterval(update, 1000);
   }
 
   function pad2(n) {

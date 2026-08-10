@@ -51,8 +51,10 @@ function initNav() {
   // Dropdown untuk mobile: klik parent untuk buka/tutup submenu
   document.querySelectorAll(".nav-item.has-dropdown").forEach(function (item) {
     const parentLink = item.querySelector(":scope > .nav-link");
-    if (window.innerWidth <= 768 && parentLink) {
+    if (parentLink) {
       parentLink.addEventListener("click", function (e) {
+        // Mobile sahaja: klik parent buka/tutup submenu; desktop kekal navigasi biasa
+        if (window.innerWidth > 768) return;
         e.preventDefault();
         item.classList.toggle("open");
       });

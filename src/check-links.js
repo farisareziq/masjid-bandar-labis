@@ -45,16 +45,6 @@ function read(file) {
   return fs.readFileSync(file, "utf8");
 }
 
-function urlExists(rel, fromDir) {
-  // Buang anchor (#...)
-  const clean = rel.split("#")[0];
-  if (!clean) return true; // anchor sahaja
-  const target = path.resolve(fromDir, clean);
-  const relToDist = path.relative(DIST, target);
-  if (relToDist.startsWith("..")) return false; // di luar dist
-  return fs.existsSync(target);
-}
-
 /* ============================================================
    PEMERIKSAAN UTAMA
    ============================================================ */
@@ -65,9 +55,49 @@ if (!htmlFiles.length) {
   process.exit(1);
 }
 
+// Kumpul semua id untuk semakan anchor (#fragment)
+const idMap = {};
+for (const f of htmlFiles) {
+  const rel = path.relative(DIST, f).split(path.sep).join("/");
+  const ids = new Set();
+  const idRe = /\bid="([^"]+)"/g;
+  let im;
+  while ((im = idRe.exec(read(f))) !== null) ids.add(im[1]);
+  idMap[rel] = ids;
+}
+
+function resolveInternal(url, fromFile) {
+  const idx = url.indexOf("#");
+  const filePart = idx === -1 ? url : url.slice(0, idx);
+  const frag = idx === -1 ? "" : url.slice(idx + 1);
+
+  let targetFile;
+  if (!filePart) {
+    targetFile = fromFile; // anchor pada halaman semasa
+  } else {
+    targetFile = path.resolve(path.dirname(fromFile), filePart);
+    const relToDist = path.relative(DIST, targetFile);
+    if (relToDist.startsWith("..") || path.isAbsolute(relToDist)) {
+      return { ok: false, reason: "di luar dist" };
+    }
+    if (!fs.existsSync(targetFile)) return { ok: false, reason: "fail tiada" };
+    if (fs.statSync(targetFile).isDirectory()) {
+      targetFile = path.join(targetFile, "index.html");
+    }
+  }
+
+  if (frag) {
+    const key = path.relative(DIST, targetFile).split(path.sep).join("/");
+    const ids = idMap[key];
+    if (!ids || !ids.has(frag)) {
+      return { ok: false, reason: "anchor #" + frag + " tiada dalam " + key };
+    }
+  }
+  return { ok: true };
+}
+
 for (const file of htmlFiles) {
   const content = read(file);
-  const dir = path.dirname(file);
   const name = path.relative(DIST, file);
 
   // ---- 1 & 4. Semua href / src / action ----
@@ -90,8 +120,9 @@ for (const file of htmlFiles) {
       continue;
     }
 
-    // Pautan dalaman — mesti wujud
-    if (!urlExists(url, dir)) {
+    // Pautan dalaman — fail & anchor mesti wujud
+    const res = resolveInternal(url, file);
+    if (!res.ok) {
       const clean = url.split("#")[0];
       if (OPTIONAL_FILES.includes(clean)) {
         const key = "optional:" + clean;
@@ -103,7 +134,7 @@ for (const file of htmlFiles) {
           );
         }
       } else {
-        errors.push(name + ": pautan dalaman tiada -> " + url);
+        errors.push(name + ": pautan dalaman tiada -> " + url + " (" + res.reason + ")");
       }
     }
   }

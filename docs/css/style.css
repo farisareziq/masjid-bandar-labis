@@ -994,6 +994,16 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   padding: 4px;
   margin-bottom: 12px;
 }
+/* Apabila logo imej dipaparkan, sembunyikan emoji fallback di sebelahnya */
+.footer-logo:not([hidden]) + .footer-logo-fallback { display: none; }
+.footer-logo-fallback {
+  width: 72px; height: 72px;
+  display: grid; place-items: center;
+  font-size: 2rem;
+  background: var(--white);
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
 .footer h4 { color: var(--yellow); font-size: 0.95rem; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 1px; }
 .footer p { font-size: 0.88rem; line-height: 1.8; }
 .footer ul { display: grid; gap: 8px; }

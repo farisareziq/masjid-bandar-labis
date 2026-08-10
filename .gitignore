@@ -22,3 +22,6 @@ secrets.*
 # Cadangan: muat naik ke YouTube dan embed dalam halaman Aktiviti.
 images/Video Aerial Masjid/
 docs/images/Video Aerial Masjid/
+
+# Sandaran gambar asal daripada scripts/optimize-images.ps1
+backup-images/
