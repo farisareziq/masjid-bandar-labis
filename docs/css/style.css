@@ -715,7 +715,8 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
 /* ---------- Siaran Facebook terkini (dari src/fb-posts.json) ---------- */
 .fb-posts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
 .fb-post-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--black-2);
+  color: var(--white);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   overflow: hidden;
@@ -746,16 +747,6 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   word-break: break-word;
 }
 .fb-post-link { color: var(--yellow); font-size: 0.85rem; font-weight: 700; }
-/* Kad gelap pada bahagian terang (laman utama) - teks cerah, konsisten tema */
-.fb-posts-grid--dark .fb-post-card {
-  background: var(--black-2);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
-}
-.fb-posts-grid--dark .fb-post-card:hover { border-color: var(--gold); }
-.fb-posts-grid--dark .fb-post-msg { color: var(--white); }
-.fb-posts-grid--dark .fb-post-date { color: var(--gold); }
-.fb-posts-grid--dark .fb-post-link { color: var(--yellow); }
 .fb-card {
   background: linear-gradient(135deg, #1d2a4a, #0c0c0c);
   border: 1px solid rgba(59, 89, 152, 0.5);

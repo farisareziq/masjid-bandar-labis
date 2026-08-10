@@ -67,9 +67,11 @@ for (const f of htmlFiles) {
 }
 
 function resolveInternal(url, fromFile) {
-  const idx = url.indexOf("#");
-  const filePart = idx === -1 ? url : url.slice(0, idx);
-  const frag = idx === -1 ? "" : url.slice(idx + 1);
+  const qIdx = url.indexOf("?");
+  const noQuery = qIdx === -1 ? url : url.slice(0, qIdx);
+  const idx = noQuery.indexOf("#");
+  const filePart = idx === -1 ? noQuery : noQuery.slice(0, idx);
+  const frag = idx === -1 ? "" : noQuery.slice(idx + 1);
 
   let targetFile;
   if (!filePart) {
@@ -123,7 +125,7 @@ for (const file of htmlFiles) {
     // Pautan dalaman — fail & anchor mesti wujud
     const res = resolveInternal(url, file);
     if (!res.ok) {
-      const clean = url.split("#")[0];
+      const clean = url.split("?")[0].split("#")[0];
       if (OPTIONAL_FILES.includes(clean)) {
         const key = "optional:" + clean;
         if (!seenWarnings.has(key)) {

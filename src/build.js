@@ -11,6 +11,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
@@ -66,6 +67,20 @@ const CONFIG = {
    ============================================================ */
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true });
+}
+
+// Versi aset (hash kandungan) untuk cache-busting:
+// URL berubah bila fail berubah -> pelayar/CDN muat versi baharu
+function assetVersion(relPath) {
+  try {
+    return crypto
+      .createHash("md5")
+      .update(fs.readFileSync(path.join(ROOT, relPath)))
+      .digest("hex")
+      .slice(0, 10);
+  } catch (e) {
+    return "1";
+  }
 }
 
 function write(relPath, content) {
@@ -163,12 +178,12 @@ function head(title, description, canonicalUrl) {
     "frame-ancestors 'self'" +
     '">\n' +
     // Favicon: guna logo masjid (images/logo.png)
-    '<link rel="icon" type="image/png" href="images/logo.png">\n' +
-    '<link rel="apple-touch-icon" href="images/logo.png">\n' +
+    '<link rel="icon" type="image/png" href="images/logo.png?v=' + assetVersion("images/logo.png") + '">\n' +
+    '<link rel="apple-touch-icon" href="images/logo.png?v=' + assetVersion("images/logo.png") + '">\n' +
     '<link rel="preconnect" href="https://fonts.googleapis.com">\n' +
     '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
     '<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">\n' +
-    '<link rel="stylesheet" href="css/style.css">\n' +
+    '<link rel="stylesheet" href="css/style.css?v=' + assetVersion("css/style.css") + '">\n' +
     "</head>\n<body>\n"
   );
 }
@@ -283,14 +298,14 @@ function footer() {
 
 function page(opts) {
   const scripts =
-    opts.prayer ? '<script src="js/prayer-times.js" defer></script>\n' : "";
+    opts.prayer ? '<script src="js/prayer-times.js?v=' + assetVersion("js/prayer-times.js") + '" defer></script>\n' : "";
   return (
     head(opts.title, opts.description, opts.canonical) +
     nav(opts.active) +
     opts.body +
     footer() +
-    '<script src="js/i18n.js" defer></script>\n' +
-    '<script src="js/main.js" defer></script>\n' +
+    '<script src="js/i18n.js?v=' + assetVersion("js/i18n.js") + '" defer></script>\n' +
+    '<script src="js/main.js?v=' + assetVersion("js/main.js") + '" defer></script>\n' +
     scripts +
     "</body>\n</html>\n"
   );
@@ -409,7 +424,7 @@ function buildIndex() {
       "home.aktiviti.title",
       "home.aktiviti.sub"
     ) +
-    fbFeedBlock("fb-posts-grid--dark") +
+    fbFeedBlock() +
     "</div></section>\n" +
 
     // ---------- Sumbangan ----------
