@@ -914,10 +914,9 @@ function buildPerkhidmatan() {
     ) +
     innPhoto +
     '<div class="room-grid">' +
-    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 3 katil single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
-    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 2 katil single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f5"]) +
+    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 3 tilam single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
+    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 2 tilam single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f5"]) +
     "</div>" +
-    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Bilik tidak menyediakan Wi-Fi dan televisyen. Sila tempah awal.</p>' +
     '<div class="inn-facilities" data-reveal>' +
     "<h3 data-i18n=\"inn.fac.title\">Lokasi &amp; Kemudahan</h3>" +
     '<ul class="inn-fac-list">' +
