@@ -16,10 +16,10 @@ Tema: **Royal Yellow & Black**.
 |---|---|
 | `index.html` | Utama — hero, waktu solat, program, **sumbangan** (Bank Rakyat + QR) |
 | `tentang.html` | Sejarah, visi & misi, carta organisasi, senarai pegawai |
-| `aktiviti.html` | **Jadual Kuliah** + **Siaran Media** (Facebook, video) |
+| `aktiviti.html` | **Jadual Kuliah** + **Siaran Media** (Facebook, TikTok, video) |
 | `perkhidmatan.html` | **Urusan Harian** (jenazah, perkahwinan, lawatan) + **Musafir Inn** |
 | `galeri.html` | Galeri foto |
-| `hubungi.html` | Alamat, telefon, e-mel, peta + borang maklum balas |
+| `hubungi.html` | Alamat, telefon, e-mel, TikTok, peta + borang maklum balas |
 
 ---
 
@@ -130,8 +130,9 @@ https://<username>.github.io/masjid-bandar-labis/
 | 4 | **E-mel borang** | `js/main.js` → `SITE_CONFIG.formEmail` | Ditetapkan kepada `masjidbandarlabis@gmail.com`. **Penting:** pada penghantaran pertama, FormSubmit hantar e-mel pengesahan ke alamat ini — klik pautan itu sekali untuk aktifkan |
 | 5 | **Kandungan jadual kuliah / pengumuman** | `src/build.js` | Edit teks dalam fungsi `buildAktiviti()` |
 | 6 | **Galeri & gambar masjid** | `images/` | Ganti placeholder dengan foto sebenar |
+| 7 | **URL TikTok** | `src/build.js` → `CONFIG.tiktokUrl` | Akaun TikTok rasmi masjid: `https://www.tiktok.com/@masjidlabis` |
 
-> **Saluran perhubungan:** Facebook page, e-mel (`masjidbandarlabis@gmail.com`)
+> **Saluran perhubungan:** Facebook page, TikTok (`@masjidlabis`), e-mel (`masjidbandarlabis@gmail.com`)
 > dan borang laman web. Tiada nombor telefon/WhatsApp dipaparkan.
 
 Selepas sebarang perubahan: jalankan `node src/build.js` dan push ke GitHub.

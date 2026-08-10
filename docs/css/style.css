@@ -768,6 +768,12 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   place-items: center;
   color: var(--white);
 }
+.fb-card--tiktok {
+  background: linear-gradient(135deg, #161616, #000);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.fb-card--tiktok .fb-icon { background: #000; }
+.fb-card--tiktok p { color: #c9c9c9; }
 .fb-card h3 { font-size: 1.2rem; }
 .fb-card p { color: #b9c6e0; font-size: 0.9rem; margin: 4px 0 14px; }
 
@@ -1057,6 +1063,15 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   font-size: 0.9rem;
 }
 .social-link:hover { background: #1458bd; }
+.footer-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+.footer-socials .social-link { margin-top: 0; }
+.social-link--tiktok { background: #010101; }
+.social-link--tiktok:hover { background: #202020; }
 .footer-bank {
   background: var(--black-3);
   border: 1px dashed var(--yellow);
