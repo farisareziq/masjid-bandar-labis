@@ -426,7 +426,7 @@ function buildIndex() {
     card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "aktiviti.html#jadual-kuliah", "program.hadis", "program.hadis.d") +
     card("\u{1F393}", "Kuliah Mingguan", "Kuliah tafsir, fiqh dan sirah diadakan setiap minggu.", "aktiviti.html#jadual-kuliah", "program.kuliah", "program.kuliah.d") +
     card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "aktiviti.html#jadual-kuliah", "program.quran", "program.quran.d") +
-    card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian", "program.dewan", "program.dewan.d") +
+    card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#dewan", "program.dewan", "program.dewan.d") +
     card("\u{1F6CC}", "Sewaan Bilik Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn", "program.inn", "program.inn.d") +
     "</div>" +
     "</div></section>\n" +
@@ -838,9 +838,9 @@ function buildPerkhidmatan() {
       "urusan.sub"
     ) +
     '<div class="cards-grid">' +
-    card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan mandi, kafan, solat jenazah dan urusan pengkebumian. Beroperasi 24 jam.", "perkhidmatan.html#urusan-harian", "urusan.jenazah.t", "urusan.jenazah.d") +
-    card("\u{1F48D}", "Perkahwinan & Sewaan", "Pendaftaran perkahwinan mengikut prosedur dan sewaan dewan untuk majlis.", "perkhidmatan.html#urusan-harian", "urusan.perkahwinan.t", "urusan.perkahwinan.d") +
-    card("\u{1F3E2}", "Tempahan Dewan Imam Malik", "Tempah Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian", "urusan.dewan.t", "urusan.dewan.d") +
+    card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan mandi, kafan, solat jenazah dan urusan pengkebumian. Beroperasi 24 jam.", "perkhidmatan.html#jenazah", "urusan.jenazah.t", "urusan.jenazah.d") +
+    card("\u{1F3E2}", "Sewaan Dewan Imam Malik", "Tempah Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#dewan", "urusan.dewan.t", "urusan.dewan.d") +
+    card("\u{1F6CC}", "Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn", "urusan.musafir.t", "urusan.musafir.d") +
     "</div>" +
     "</div></section>\n" +
 
@@ -848,7 +848,7 @@ function buildPerkhidmatan() {
     '<section class="section section--cream">' +
     '<div class="container">' +
     "<div>" +
-    '<div data-reveal>' +
+    '<div id="jenazah" data-reveal>' +
     "<h2 class=\"section-title\" data-i18n-html=\"jenazah.title\">Pengurusan <span>Jenazah</span></h2>" +
     '<p style="color:var(--muted);margin-top:10px;" data-i18n="jenazah.desc">Masjid menyediakan perkhidmatan pengurusan jenazah untuk umat Islam di kawasan Bandar Labis dan sekitarnya:</p>' +
     "<ul style=\"margin:16px 0 0 20px;display:grid;gap:8px;color:var(--muted);list-style:disc;\">" +
@@ -870,7 +870,7 @@ function buildPerkhidmatan() {
     '<a class="spjm-wa" href="https://wa.me/60177494773" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Bro Fizi">' + iconSvg("whatsapp", 16) + "</a></li>" +
     "</ul></div>" +
     "</div>" +
-    '<div class="dewan-form" data-reveal>' +
+    '<div class="dewan-form" id="dewan" data-reveal>' +
     '<h2 class="section-title" style="margin-bottom:16px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
     '<p style="color:var(--muted);margin-top:10px;margin-bottom:16px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
     '<form data-form="dewan">' +

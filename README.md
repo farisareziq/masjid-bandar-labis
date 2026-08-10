@@ -17,7 +17,7 @@ Tema: **Royal Yellow & Black**.
 | `index.html` | Utama — hero, waktu solat, program, **sumbangan** (Bank Rakyat + QR) |
 | `tentang.html` | Sejarah, visi & misi, carta organisasi, senarai pegawai |
 | `aktiviti.html` | **Jadual Kuliah** + **Siaran Media** (Facebook, TikTok, video) |
-| `perkhidmatan.html` | **Urusan Harian** (jenazah, perkahwinan, tempahan dewan) + **Musafir Inn** |
+| `perkhidmatan.html` | **Urusan Harian** (jenazah, sewaan dewan, musafir inn) |
 | `galeri.html` | Galeri foto |
 | `hubungi.html` | Alamat, telefon, e-mel, TikTok, peta + borang maklum balas |
 
