@@ -42,6 +42,12 @@ function initNav() {
     // Tutup menu bila pautan diklik
     menu.querySelectorAll("a").forEach(function (link) {
       link.addEventListener("click", function () {
+        // Jangan tutup menu bila klik parent dropdown di mobile
+        // (submenu perlu dibuka dahulu)
+        const parentItem = link.closest(".nav-item.has-dropdown");
+        const isDropdownParent =
+          parentItem && link === parentItem.querySelector(":scope > .nav-link");
+        if (isDropdownParent && window.innerWidth <= 768) return;
         menu.classList.remove("active");
         toggle.classList.remove("active");
       });

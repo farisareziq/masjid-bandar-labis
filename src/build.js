@@ -404,7 +404,7 @@ function buildIndex() {
       "home.aktiviti.title",
       "home.aktiviti.sub"
     ) +
-    fbFeedBlock("fb-posts-grid--light") +
+    fbFeedBlock("fb-posts-grid--dark") +
     "</div></section>\n" +
 
     // ---------- Sumbangan ----------

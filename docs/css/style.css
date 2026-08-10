@@ -746,16 +746,16 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   word-break: break-word;
 }
 .fb-post-link { color: var(--yellow); font-size: 0.85rem; font-weight: 700; }
-/* Varian untuk bahagian terang (laman utama) */
-.fb-posts-grid--light .fb-post-card {
-  background: var(--white);
+/* Kad gelap pada bahagian terang (laman utama) - teks cerah, konsisten tema */
+.fb-posts-grid--dark .fb-post-card {
+  background: var(--black-2);
   border: 1px solid var(--line);
   box-shadow: var(--shadow);
 }
-.fb-posts-grid--light .fb-post-card:hover { border-color: var(--gold); }
-.fb-posts-grid--light .fb-post-msg { color: var(--black); }
-.fb-posts-grid--light .fb-post-date { color: var(--gold-600); }
-.fb-posts-grid--light .fb-post-link { color: var(--gold-600); }
+.fb-posts-grid--dark .fb-post-card:hover { border-color: var(--gold); }
+.fb-posts-grid--dark .fb-post-msg { color: var(--white); }
+.fb-posts-grid--dark .fb-post-date { color: var(--gold); }
+.fb-posts-grid--dark .fb-post-link { color: var(--yellow); }
 .fb-card {
   background: linear-gradient(135deg, #1d2a4a, #0c0c0c);
   border: 1px solid rgba(59, 89, 152, 0.5);
