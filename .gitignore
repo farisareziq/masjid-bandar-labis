@@ -25,3 +25,7 @@ docs/images/Video Aerial Masjid/
 
 # Sandaran gambar asal daripada scripts/optimize-images.ps1
 backup-images/
+
+# Token TikTok (hasil OAuth) & fail sementara muat turun
+scripts/tiktok/tokens.json
+scripts/tiktok/tmp/

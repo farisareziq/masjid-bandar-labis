@@ -423,10 +423,10 @@ function buildIndex() {
       "program.sub"
     ) +
     '<div class="cards-grid">' +
-    card("\u{1F54C}", "Solat Jemaah", "Solat fardhu berjemaah lima waktu sehari semalam di masjid.", "aktiviti.html", "program.solat", "program.solat.d") +
-    card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "aktiviti.html#jadual-kuliah", "program.hadis", "program.hadis.d") +
+    card("\u{1F54C}", "Solat Jemaah", "Solat fardhu berjemaah lima waktu sehari semalam di masjid.", "", "program.solat", "program.solat.d") +
+    card("\u{1F4DC}", "Bacaan Hadis Selepas Asar", "Bacaan hadis diadakan setiap hari selepas solat Asar.", "", "program.hadis", "program.hadis.d") +
     card("\u{1F393}", "Kuliah Mingguan", "Kuliah tafsir, fiqh dan sirah diadakan setiap minggu.", "aktiviti.html#jadual-kuliah", "program.kuliah", "program.kuliah.d") +
-    card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "aktiviti.html#jadual-kuliah", "program.quran", "program.quran.d") +
+    card("\u{1F4D6}", "Kelas Pengajian Al-Quran", "Kelas pengajian al-Quran untuk kanak-kanak dan dewasa.", "", "program.quran", "program.quran.d") +
     card("\u{1F3DB}\uFE0F", "Sewaan Dewan Imam Malik", "Sewaan Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#dewan", "program.dewan", "program.dewan.d") +
     card("\u{1F6CC}", "Sewaan Bilik Musafir Inn", "Penginapan untuk pengembara dan musafir dengan kadar berpatutan.", "perkhidmatan.html#musafir-inn", "program.inn", "program.inn.d") +
     "</div>" +
