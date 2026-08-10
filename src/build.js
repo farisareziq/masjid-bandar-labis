@@ -914,11 +914,10 @@ function buildPerkhidmatan() {
     ) +
     innPhoto +
     '<div class="room-grid">' +
-    roomCard("\u{1F6CC}", "Bilik Single", "RM60", ["1 katil single", "Aircond & kipas", "Mandi & tandas", "Wi-Fi"], "room.single", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
-    roomCard("\u{1F6CB}\uFE0F", "Bilik Double", "RM90", ["1 katil queen", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"], "room.double", ["room.f5", "room.f2", "room.f3", "room.f6"]) +
-    roomCard("\u{1F6C6}", "Bilik Keluarga", "RM130", ["2 katil double", "Aircond & kipas", "Mandi & tandas", "Wi-Fi & TV"], "room.keluarga", ["room.f7", "room.f2", "room.f3", "room.f6"]) +
+    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 3 katil single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f4"]) +
+    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Boleh tambah 2 katil single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f5"]) +
     "</div>" +
-    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Sila tempah awal.</p>' +
+    '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Bilik tidak menyediakan Wi-Fi dan televisyen. Sila tempah awal.</p>' +
 
     '<div class="cta-banner" data-reveal>' +
     "<h3 data-i18n-html=\"tempahan.title\">Pertanyaan <span>Bilik</span></h3>" +
