@@ -166,7 +166,7 @@ untuk manfaat ummah.
 
 ## 📧 Borang & E-mel
 
-Ketiga-tiga borang (maklum balas, lawatan, tempahan Musafir Inn) menghantar terus
+Ketiga-tiga borang (maklum balas, lawatan, pertanyaan Musafir Inn) menghantar terus
 ke **`masjidbandarlabis@gmail.com`** melalui [FormSubmit.co](https://formsubmit.co)
 — percuma dan tanpa pendaftaran.
 
@@ -179,8 +179,8 @@ ke **`masjidbandarlabis@gmail.com`** melalui [FormSubmit.co](https://formsubmit.
 > Nota: Pelan percuma FormSubmit mengehadkan bilangan penghantaran setiap bulan.
 > Sekiranya mencecah had, boleh naik taraf atau tukar pembekal lain.
 
-> Privasi: Borang tempahan Musafir Inn tidak lagi meminta No. K/P — guna
-> **No. Telefon** untuk pengesahan tempahan oleh pihak masjid.
+> Privasi: Borang pertanyaan Musafir Inn hanya meminta Nama dan No. Telefon —
+> untuk sebarang pertanyaan atau tempahan, hubungi WhatsApp terus.
 
 ## 🙏 Kredit
 

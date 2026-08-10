@@ -122,6 +122,11 @@ function iconSvg(name, size) {
         '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
         '<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>'
       );
+    case "whatsapp":
+      return (
+        '<svg width="' + s + '" height="' + s + '" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+        '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>'
+      );
     case "pin":
       return (
         stroke +
@@ -916,9 +921,12 @@ function buildPerkhidmatan() {
     '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin:20px 0 40px;" data-i18n="musafir.note">Kemudahan: tempat wuduk, surau, parking dan kawasan makan. Sila tempah awal.</p>' +
 
     '<div class="cta-banner" data-reveal>' +
-    "<h3 data-i18n-html=\"tempahan.title\">Tempahan <span>Bilik</span></h3>" +
-    '<p data-i18n="tempahan.desc">Isi borang di bawah untuk membuat tempahan. Kami akan sahkan melalui e-mel atau Facebook page.</p>' +
-    '<form data-form="booking" style="max-width:560px;margin:0 auto;text-align:left;">' +
+    "<h3 data-i18n-html=\"tempahan.title\">Pertanyaan <span>Bilik</span></h3>" +
+    '<p data-i18n="tempahan.desc">Ada soalan tentang bilik atau ingin membuat tempahan? Isi borang di bawah atau hubungi kami terus.</p>' +
+    '<p class="form-note" style="text-align:center;margin:14px 0 0;" data-i18n-html="tempahan.wa">Untuk sebarang pertanyaan atau tempahan, hubungi <strong>+60 19-708 0656</strong> (Ustaz Mohd Najid Md Suyut) atau WhatsApp terus.</p>' +
+    '<a class="btn btn-gold btn-block" style="max-width:560px;margin:12px auto 0;display:block;text-align:center;" href="https://wa.me/60197080656" target="_blank" rel="noopener noreferrer">' +
+    iconSvg("whatsapp", 18) + '<span data-i18n="tempahan.wa.btn"> WhatsApp +60 19-708 0656</span></a>' +
+    '<form data-form="booking" style="max-width:560px;margin:24px auto 0;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
     '<div class="form-grid-2">' +
@@ -927,28 +935,9 @@ function buildPerkhidmatan() {
     '<div class="form-group"><label for="bk-tel" data-i18n="tempahan.tel">No. Telefon</label>' +
     '<input type="tel" class="form-control" id="bk-tel" name="No. Telefon" required maxlength="20" autocomplete="tel"></div>' +
     "</div>" +
-    '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="bk-emel" data-i18n="tempahan.emel">E-mel</label>' +
-    '<input type="email" class="form-control" id="bk-emel" name="E-mel" required maxlength="150"></div>' +
-    '<div class="form-group"><label for="bk-bilik" data-i18n="tempahan.bilik">Jenis Bilik</label>' +
-    '<select class="form-control" id="bk-bilik" name="Jenis Bilik" required>' +
-    '<option value="" data-i18n="tempahan.pilih">-- Pilih --</option>' +
-    '<option value="Single RM60">Single (RM60)</option>' +
-    '<option value="Double RM90">Double (RM90)</option>' +
-    '<option value="Keluarga RM130">Keluarga (RM130)</option>' +
-    "</select></div>" +
-    "</div>" +
-    '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="bk-masuk" data-i18n="tempahan.masuk">Tarikh Masuk</label>' +
-    '<input type="date" class="form-control" id="bk-masuk" name="Tarikh Masuk" required></div>' +
-    '<div class="form-group"><label for="bk-keluar" data-i18n="tempahan.keluar">Tarikh Keluar</label>' +
-    '<input type="date" class="form-control" id="bk-keluar" name="Tarikh Keluar" required></div>' +
-    "</div>" +
-    '<div class="form-group"><label for="bk-nota" data-i18n="tempahan.nota">Nota (pilihan)</label>' +
-    '<textarea class="form-control" id="bk-nota" name="Nota" maxlength="500"></textarea></div>' +
-    '<input type="hidden" name="_subject" value="Tempahan Musafir Inn \u2014 Masjid Bandar Labis">' +
-    '<button type="submit" class="btn btn-gold btn-block" data-i18n="tempahan.hantar">Hantar Tempahan</button>' +
-    '<p class="form-note" style="text-align:center;margin-top:10px;" data-i18n="tempahan.note">Tempahan hanya disahkan selepas pihak masjid menghubungi anda.</p>' +
+    '<input type="hidden" name="_subject" value="Pertanyaan Musafir Inn \u2014 Masjid Bandar Labis">' +
+    '<button type="submit" class="btn btn-gold btn-block" data-i18n="tempahan.hantar">Hantar Pertanyaan</button>' +
+    '<p class="form-note" style="text-align:center;margin-top:10px;" data-i18n="tempahan.note">Pihak masjid akan menghubungi anda untuk sebarang pertanyaan atau tempahan.</p>' +
     "</form>" +
     "</div>" +
     "</div></section>\n";
