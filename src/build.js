@@ -870,17 +870,26 @@ function buildPerkhidmatan() {
     '<a class="spjm-wa" href="https://wa.me/60177494773" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Bro Fizi">' + iconSvg("whatsapp", 16) + "</a></li>" +
     "</ul></div>" +
     "</div>" +
-    '<div class="table-wrap" data-reveal>' +
-    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 18px;padding-top:18px;" data-i18n-html="sewaan.title">Sewaan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
-    "<table>" +
-    "<thead><tr><th data-i18n=\"sewaan.col1\">Pakej Sewaan Dewan</th><th data-i18n=\"sewaan.col2\">Kadar</th></tr></thead>" +
-    "<tbody>" +
-    "<tr><td>Dewan Imam Malik (Pagi)</td><td><strong>RM500</strong></td></tr>" +
-    "<tr><td>Dewan Imam Malik (Petang)</td><td><strong>RM700</strong></td></tr>" +
-    "<tr><td>Dewan Kecil</td><td><strong>RM300</strong></td></tr>" +
-    "<tr><td>Kenduri / Majlis Kecil</td><td><strong>RM200</strong></td></tr>" +
-    "</tbody></table>" +
-    '<p class="form-note" style="margin-top:10px;padding:0 18px;" data-i18n="sewaan.note">Dewan Imam Malik, Masjid Bandar Labis. Kadar boleh berubah &mdash; mohon semak dengan pihak pengurusan.</p>' +
+    '<div class="dewan-form" data-reveal>' +
+    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 4px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
+    '<p class="form-note" style="margin-bottom:14px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
+    '<form data-form="dewan">' +
+    '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
+    '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
+    '<div class="form-grid-2">' +
+    '<div class="form-group"><label for="dw-nama" data-i18n="dewan.nama">Nama</label>' +
+    '<input type="text" class="form-control" id="dw-nama" name="Nama" required maxlength="100"></div>' +
+    '<div class="form-group"><label for="dw-tel" data-i18n="dewan.tel">No. Telefon</label>' +
+    '<input type="tel" class="form-control" id="dw-tel" name="No. Telefon" required maxlength="20" autocomplete="tel"></div>' +
+    "</div>" +
+    '<div class="form-group"><label for="dw-tarikh" data-i18n="dewan.tarikh">Tarikh Majlis (pilihan)</label>' +
+    '<input type="date" class="form-control" id="dw-tarikh" name="Tarikh Majlis"></div>' +
+    '<div class="form-group"><label for="dw-nota" data-i18n="dewan.nota">Nota (pilihan)</label>' +
+    '<textarea class="form-control" id="dw-nota" name="Nota" maxlength="500"></textarea></div>' +
+    '<input type="hidden" name="_subject" value="Tempahan Dewan Imam Malik \u2014 Masjid Bandar Labis">' +
+    '<button type="submit" class="btn btn-gold btn-block" data-i18n="dewan.hantar">Hantar Tempahan</button>' +
+    '<p class="form-note" style="text-align:center;margin-top:10px;" data-i18n="dewan.note">Tempahan hanya disahkan selepas pihak masjid menghubungi anda.</p>' +
+    "</form></div>" +
     "</div>" +
     "</div>" +
     "</div></section>\n" +
@@ -925,8 +934,8 @@ function buildPerkhidmatan() {
     ) +
     innPhoto +
     '<div class="room-grid">' +
-    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Pemanas air", "Mini fridge", "Boleh tambah 3 tilam single"], "room.besar", ["room.f1", "room.f2", "room.f3", "room.f6", "room.f4"]) +
-    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Pemanas air", "Mini fridge", "Boleh tambah 2 tilam single"], "room.kecil", ["room.f1", "room.f2", "room.f3", "room.f6", "room.f5"]) +
+    roomCard("\u{1F6CC}", "Bilik Besar", "RM90", ["1 katil king", "Aircond & kipas", "Mini fridge", "Boleh tambah 3 tilam single"], "room.besar", ["room.f1", "room.f2", "room.f6", "room.f4"]) +
+    roomCard("\u{1F6CF}\uFE0F", "Bilik Kecil", "RM80", ["1 katil king", "Aircond & kipas", "Mini fridge", "Boleh tambah 2 tilam single"], "room.kecil", ["room.f1", "room.f2", "room.f6", "room.f5"]) +
     "</div>" +
     '<div class="inn-facilities" data-reveal>' +
     "<h3 data-i18n=\"inn.fac.title\">Lokasi &amp; Kemudahan</h3>" +
