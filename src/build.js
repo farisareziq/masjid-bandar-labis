@@ -168,7 +168,7 @@ function head(title, description, canonicalUrl) {
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
     "<title>" + title + "</title>\n" +
     '<meta name="description" content="' + description + '">\n' +
-    '<meta name="theme-color" content="#ffc72c">\n' +
+    '<meta name="theme-color" content="#FFFDD0">\n' +
     (canonicalUrl
       ? '<link rel="canonical" href="' + canonicalUrl + '">\n' +
         '<meta property="og:url" content="' + canonicalUrl + '">\n'
@@ -871,7 +871,7 @@ function buildPerkhidmatan() {
     "</ul></div>" +
     "</div>" +
     '<div class="dewan-form" id="dewan" data-reveal>' +
-    '<h2 class="section-title" style="margin-bottom:16px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
+    '<h2 class="section-title" style="margin-bottom:16px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--black);">Dewan Imam Malik</span></h2>' +
     '<p style="color:var(--muted);margin-top:10px;margin-bottom:16px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
     '<form data-form="dewan">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
@@ -1074,7 +1074,7 @@ function buildHubungi() {
     "</div>" +
     "</div>" +
     '<div data-reveal>' +
-    "<h3 style=\"margin-bottom:20px;font-size:1.35rem;\" data-i18n-html=\"contact.form.title\">Hantar <span style=\"color:var(--gold-600);\">Maklum Balas</span></h3>" +
+    "<h3 style=\"margin-bottom:20px;font-size:1.35rem;\" data-i18n-html=\"contact.form.title\">Hantar <span style=\"color:var(--black);\">Maklum Balas</span></h3>" +
     '<form data-form="contact" id="contactForm">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +

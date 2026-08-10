@@ -1,7 +1,7 @@
 # 🕌 Masjid Bandar Labis — Website Rasmi
 
 Laman web statik untuk **Masjid Bandar Labis**, Bandar Labis, Daerah Segamat, Johor.
-Tema: **Royal Yellow & Black**.
+Tema: **Cream Yellow (#FFFDD0) & Black**.
 
 - ✅ **Open Source** (lesen MIT)
 - ✅ **Hosting PERCUMA** — GitHub Pages + SSL percuma
