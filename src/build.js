@@ -307,8 +307,7 @@ function footer() {
     "</div>\n" +
     '<div class="footer-bottom"><div class="container">' +
     '<p>&copy; <span data-year></span> ' + CONFIG.copyright +
-    ' &nbsp;|&nbsp; Dibina oleh komuniti dengan <span class="heart">\u2665</span> &nbsp;|&nbsp; Open Source (MIT)' +
-    ' &nbsp;|&nbsp; <a href="privacy.html">Dasar Privasi</a> &nbsp;|&nbsp; <a href="terms.html">Terma</a></p>' +
+    ' &nbsp;|&nbsp; <a href="privacy.html" data-i18n="footer.privacy">Dasar Privasi</a> &nbsp;|&nbsp; <a href="terms.html" data-i18n="footer.terms">Terma</a></p>' +
     "</div></div>\n</footer>\n" +
     '<button class="scroll-top" id="scrollTop" aria-label="Kembali ke atas">\u2191</button>\n'
   );
@@ -1277,24 +1276,24 @@ function buildHubungi() {
    ============================================================ */
 function buildPrivasi() {
   const body =
-    pageHeader("Dasar <span>Privasi</span>", "Dasar Privasi") +
+    pageHeader("Dasar <span>Privasi</span>", "Dasar Privasi", "privacy.header", "crumb.privacy") +
     '<section class="section"><div class="container">' +
     '<div class="legal-block" data-reveal>' +
-    '<h2>Data yang Kami Kumpul</h2>' +
-    "<p>Laman web ini bersifat maklumat dan tidak memerlukan pendaftaran akaun. Satu-satunya maklumat peribadi yang mungkin kami terima adalah melalui borang maklum balas, iaitu nama, alamat e-mel dan mesej anda. Maklumat ini dihantar terus ke e-mel pentadbir melalui perkhidmatan FormSubmit dan hanya digunakan untuk menjawab pertanyaan anda.</p>" +
-    "<p>Kami tidak menjual, menyewa atau berkongsi maklumat peribadi anda dengan mana-mana pihak ketiga, kecuali yang diperlukan oleh undang-undang Malaysia.</p>" +
+    '<h2 data-i18n="privacy.title1">Data yang Kami Kumpul</h2>' +
+    '<p data-i18n="privacy.p1a">Laman web ini bersifat maklumat dan tidak memerlukan pendaftaran akaun. Satu-satunya maklumat peribadi yang mungkin kami terima adalah melalui borang maklum balas, iaitu nama, alamat e-mel dan mesej anda. Maklumat ini dihantar terus ke e-mel pentadbir melalui perkhidmatan FormSubmit dan hanya digunakan untuk menjawab pertanyaan anda.</p>' +
+    '<p data-i18n="privacy.p1b">Kami tidak menjual, menyewa atau berkongsi maklumat peribadi anda dengan mana-mana pihak ketiga, kecuali yang diperlukan oleh undang-undang Malaysia.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Data daripada Perkhidmatan Pihak Ketiga</h2>" +
-    "<p>Waktu solat dipaparkan daripada API rasmi JAKIM e-Solat. Siaran media di halaman Aktiviti dipaparkan daripada halaman Facebook awam rasmi masjid. Laman ini tidak menyimpan data peribadi daripada perkhidmatan tersebut.</p>" +
+    '<h2 data-i18n="privacy.title2">Data daripada Perkhidmatan Pihak Ketiga</h2>' +
+    '<p data-i18n="privacy.p2">Waktu solat dipaparkan daripada API rasmi JAKIM e-Solat. Siaran media di halaman Aktiviti dipaparkan daripada halaman Facebook awam rasmi masjid. Laman ini tidak menyimpan data peribadi daripada perkhidmatan tersebut.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Kuki dan Pautan Luar</h2>" +
-    "<p>Laman ini tidak menggunakan kuki pelacakan. Kami menyediakan pautan ke platform luar seperti Facebook, TikTok, YouTube dan Google Maps; dasar privasi platform tersebut adalah di luar kawalan kami.</p>" +
+    '<h2 data-i18n="privacy.title3">Kuki dan Pautan Luar</h2>' +
+    '<p data-i18n="privacy.p3">Laman ini tidak menggunakan kuki pelacakan. Kami menyediakan pautan ke platform luar seperti Facebook, TikTok, YouTube dan Google Maps; dasar privasi platform tersebut adalah di luar kawalan kami.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Hubungi</h2>" +
-    "<p>Sebarang pertanyaan mengenai dasar privasi ini boleh dihantar kepada " +
+    '<h2 data-i18n="privacy.title4">Hubungi</h2>' +
+    '<p><span data-i18n="privacy.p4a">Sebarang pertanyaan mengenai dasar privasi ini boleh dihantar kepada </span>' +
     '<a href="mailto:' + CONFIG.email + '">' + CONFIG.email + "</a>.</p>" +
     "</div>" +
     "</div></section>\n";
@@ -1316,27 +1315,27 @@ function buildPrivasi() {
    ============================================================ */
 function buildTerma() {
   const body =
-    pageHeader("Terma <span>Penggunaan</span>", "Terma Penggunaan") +
+    pageHeader("Terma <span>Penggunaan</span>", "Terma Penggunaan", "terms.header", "crumb.terms") +
     '<section class="section"><div class="container">' +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Penggunaan Kandungan</h2>" +
-    "<p>Maklumat di laman web ini disediakan untuk kegunaan umum jemaah dan masyarakat. Walaupun kami berusaha memastikan ketepatannya, pihak pengurusan berhak membuat kemas kini, pindaan atau pembuangan maklumat pada bila-bila masa tanpa notis awal.</p>" +
+    '<h2 data-i18n="terms.title1">Penggunaan Kandungan</h2>' +
+    '<p data-i18n="terms.p1">Maklumat di laman web ini disediakan untuk kegunaan umum jemaah dan masyarakat. Walaupun kami berusaha memastikan ketepatannya, pihak pengurusan berhak membuat kemas kini, pindaan atau pembuangan maklumat pada bila-bila masa tanpa notis awal.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Hak Cipta</h2>" +
-    "<p>Kandungan laman ini adalah milik Masjid Bandar Labis melainkan dinyatakan sebaliknya. Pengagihan semula digalakkan untuk tujuan dakwah dengan menyatakan sumber asal.</p>" +
+    '<h2 data-i18n="terms.title2">Hak Cipta</h2>' +
+    '<p data-i18n="terms.p2">Kandungan laman ini adalah milik Masjid Bandar Labis melainkan dinyatakan sebaliknya. Pengagihan semula digalakkan untuk tujuan dakwah dengan menyatakan sumber asal.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Pautan Pihak Ketiga</h2>" +
-    "<p>Laman ini mengandungi pautan ke platform dan laman pihak ketiga. Kami tidak bertanggungjawab ke atas kandungan, ketepatan atau dasar platform tersebut.</p>" +
+    '<h2 data-i18n="terms.title3">Pautan Pihak Ketiga</h2>' +
+    '<p data-i18n="terms.p3">Laman ini mengandungi pautan ke platform dan laman pihak ketiga. Kami tidak bertanggungjawab ke atas kandungan, ketepatan atau dasar platform tersebut.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Sumbangan</h2>" +
-    "<p>Maklumat akaun sumbangan yang dipaparkan adalah rasmi. Sila hubungi pejabat pentadbiran masjid untuk sebarang pengesahan sebelum membuat pindahan.</p>" +
+    '<h2 data-i18n="terms.title4">Sumbangan</h2>' +
+    '<p data-i18n="terms.p4">Maklumat akaun sumbangan yang dipaparkan adalah rasmi. Sila hubungi pejabat pentadbiran masjid untuk sebarang pengesahan sebelum membuat pindahan.</p>' +
     "</div>" +
     '<div class="legal-block" data-reveal>' +
-    "<h2>Undang-Undang</h2>" +
-    "<p>Terma ini ditadbir mengikut undang-undang Malaysia. Sebarang pertanyaan boleh diajukan melalui " +
+    '<h2 data-i18n="terms.title5">Undang-Undang</h2>' +
+    '<p><span data-i18n="terms.p5a">Terma ini ditadbir mengikut undang-undang Malaysia. Sebarang pertanyaan boleh diajukan melalui </span>' +
     '<a href="mailto:' + CONFIG.email + '">' + CONFIG.email + "</a>.</p>" +
     "</div>" +
     "</div></section>\n";
