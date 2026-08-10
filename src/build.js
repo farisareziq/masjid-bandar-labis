@@ -840,7 +840,7 @@ function buildPerkhidmatan() {
     '<div class="cards-grid">' +
     card("\u{1F54A}\uFE0F", "Pengurusan Jenazah", "Bantuan mandi, kafan, solat jenazah dan urusan pengkebumian. Beroperasi 24 jam.", "perkhidmatan.html#urusan-harian", "urusan.jenazah.t", "urusan.jenazah.d") +
     card("\u{1F48D}", "Perkahwinan & Sewaan", "Pendaftaran perkahwinan mengikut prosedur dan sewaan dewan untuk majlis.", "perkhidmatan.html#urusan-harian", "urusan.perkahwinan.t", "urusan.perkahwinan.d") +
-    card("\u{1F9F3}", "Borang Lawatan", "Tempahan lawatan ke masjid untuk sekolah, institusi atau kumpulan.", "perkhidmatan.html#urusan-harian", "urusan.lawatan.t", "urusan.lawatan.d") +
+    card("\u{1F3E2}", "Tempahan Dewan Imam Malik", "Tempah Dewan Imam Malik untuk majlis, kenduri dan program.", "perkhidmatan.html#urusan-harian", "urusan.dewan.t", "urusan.dewan.d") +
     "</div>" +
     "</div></section>\n" +
 
@@ -882,10 +882,12 @@ function buildPerkhidmatan() {
     '<div class="form-group"><label for="dw-tel" data-i18n="dewan.tel">No. Telefon</label>' +
     '<input type="tel" class="form-control" id="dw-tel" name="No. Telefon" required maxlength="20" autocomplete="tel"></div>' +
     "</div>" +
-    '<div class="form-group"><label for="dw-tarikh" data-i18n="dewan.tarikh">Tarikh Majlis (pilihan)</label>' +
-    '<input type="date" class="form-control" id="dw-tarikh" name="Tarikh Majlis"></div>' +
-    '<div class="form-group"><label for="dw-nota" data-i18n="dewan.nota">Nota (pilihan)</label>' +
-    '<textarea class="form-control" id="dw-nota" name="Nota" maxlength="500"></textarea></div>' +
+    '<div class="form-grid-2">' +
+    '<div class="form-group"><label for="dw-guna" data-i18n="dewan.guna">Kegunaan Dewan</label>' +
+    '<input type="text" class="form-control" id="dw-guna" name="Kegunaan Dewan" required maxlength="100"></div>' +
+    '<div class="form-group"><label for="dw-tarikh" data-i18n="dewan.tarikh">Tarikh</label>' +
+    '<input type="date" class="form-control" id="dw-tarikh" name="Tarikh" required></div>' +
+    "</div>" +
     '<input type="hidden" name="_subject" value="Tempahan Dewan Imam Malik \u2014 Masjid Bandar Labis">' +
     '<button type="submit" class="btn btn-gold btn-block" data-i18n="dewan.hantar">Hantar Tempahan</button>' +
     '<p class="form-note" style="text-align:center;margin-top:10px;" data-i18n="dewan.note">Tempahan hanya disahkan selepas pihak masjid menghubungi anda.</p>' +
@@ -893,34 +895,6 @@ function buildPerkhidmatan() {
     "</div>" +
     "</div>" +
     "</div></section>\n" +
-
-    // ---------- Borang lawatan ----------
-    '<section class="section">' +
-    '<div class="container">' +
-    '<div class="cta-banner" data-reveal>' +
-    "<h3 data-i18n-html=\"lawatan.title\">Borang <span>Lawatan</span></h3>" +
-    '<p data-i18n="lawatan.desc">Rancang lawatan kumpulan anda ke masjid. Isi borang di bawah dan pihak kami akan menghubungi anda.</p>' +
-    '<form data-form="lawatan" style="max-width:560px;margin:0 auto;text-align:left;">' +
-    '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
-    '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
-    '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="lv-nama" data-i18n="lawatan.nama">Nama Organisasi / Kumpulan</label>' +
-    '<input type="text" class="form-control" id="lv-nama" name="Nama Organisasi" required maxlength="100"></div>' +
-    '<div class="form-group"><label for="lv-hubungi" data-i18n="lawatan.wakil">Nama Wakil</label>' +
-    '<input type="text" class="form-control" id="lv-hubungi" name="Nama Wakil" required maxlength="100"></div>' +
-    "</div>" +
-    '<div class="form-grid-2">' +
-    '<div class="form-group"><label for="lv-tarikh" data-i18n="lawatan.tarikh">Tarikh Cadangan</label>' +
-    '<input type="date" class="form-control" id="lv-tarikh" name="Tarikh" required></div>' +
-    '<div class="form-group"><label for="lv-bilangan" data-i18n="lawatan.bilangan">Bilangan Peserta</label>' +
-    '<input type="number" class="form-control" id="lv-bilangan" name="Bilangan" min="1" max="999" required></div>' +
-    "</div>" +
-    '<div class="form-group"><label for="lv-nota" data-i18n="lawatan.nota">Maklumat Tambahan</label>' +
-    '<textarea class="form-control" id="lv-nota" name="Maklumat Tambahan" maxlength="500"></textarea></div>' +
-    '<input type="hidden" name="_subject" value="Permohonan Lawatan \u2014 Masjid Bandar Labis">' +
-    '<button type="submit" class="btn btn-gold btn-block" data-i18n="lawatan.hantar">Hantar Permohonan</button>' +
-    "</form>" +
-    "</div></div></section>\n" +
 
     // ---------- Musafir Inn ----------
     '<section class="section section--dark" id="musafir-inn">' +
@@ -974,7 +948,7 @@ function buildPerkhidmatan() {
       title: "Perkhidmatan \u2014 Masjid Bandar Labis",
       canonical: "https://" + CONFIG.customDomain + "/perkhidmatan.html",
       description:
-        "Urusan harian masjid — pengurusan jenazah, perkahwinan, sewaan dewan, borang lawatan — dan tempahan Musafir Inn.",
+        "Urusan harian masjid — pengurusan jenazah, perkahwinan, tempahan dewan — dan tempahan Musafir Inn.",
       active: "perkhidmatan",
       body: body,
     })

@@ -17,7 +17,7 @@ Tema: **Royal Yellow & Black**.
 | `index.html` | Utama — hero, waktu solat, program, **sumbangan** (Bank Rakyat + QR) |
 | `tentang.html` | Sejarah, visi & misi, carta organisasi, senarai pegawai |
 | `aktiviti.html` | **Jadual Kuliah** + **Siaran Media** (Facebook, TikTok, video) |
-| `perkhidmatan.html` | **Urusan Harian** (jenazah, perkahwinan, lawatan) + **Musafir Inn** |
+| `perkhidmatan.html` | **Urusan Harian** (jenazah, perkahwinan, tempahan dewan) + **Musafir Inn** |
 | `galeri.html` | Galeri foto |
 | `hubungi.html` | Alamat, telefon, e-mel, TikTok, peta + borang maklum balas |
 
@@ -166,7 +166,7 @@ untuk manfaat ummah.
 
 ## 📧 Borang & E-mel
 
-Ketiga-tiga borang (maklum balas, lawatan, pertanyaan Musafir Inn) menghantar terus
+Ketiga-tiga borang (maklum balas, tempahan Dewan Imam Malik, pertanyaan Musafir Inn) menghantar terus
 ke **`masjidbandarlabis@gmail.com`** melalui [FormSubmit.co](https://formsubmit.co)
 — percuma dan tanpa pendaftaran.
 
