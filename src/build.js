@@ -723,6 +723,168 @@ function fbFeedBlock(extraClass) {
   );
 }
 
+/* ============================================================
+   JADUAL KULIAH OGOS & SEPTEMBER 2026
+   (Sumber: PDF Senarai Bayaran Saguhanti Kuliah Mingguan)
+   Semua kuliah selepas solat Maghrib, kecuali Khamis =
+   Kuliah Dhuha pada waktu pagi. null = tiada kuliah.
+   ============================================================ */
+const JADUAL_KULIAH = [
+  {
+    bulan: "Ogos 2026",
+    minggu: [
+      {
+        label: "Minggu 1", tarikh: "1 - 7 Ogos",
+        rows: [
+          ["1", "Sabtu", false, "Ust. Khairul Anuar bin Isnin", "Zakat, Fekah, Wakaf"],
+          ["2", "Ahad", false, "Ust. Muhamad Syafie bin Bachok", "Bab Akidah"],
+          ["3", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+          ["4", "Selasa", false, "Ust. Wan Ismail bin Wan Dagang", "Tafsir Al-Quran"],
+          ["5", "Rabu", false, "Ust. Muhd Syahmi Wahiduddin bin Hasnol Hadi", "Fekh & Tasauf"],
+          ["6", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["7", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+        ],
+      },
+      {
+        label: "Minggu 2", tarikh: "8 - 14 Ogos",
+        rows: [
+          ["8", "Sabtu", false, "As-Sheikh Haji Nasri bin Rahman", "Risalah Tauhid"],
+          ["9", "Ahad", false, "Ust. Abdul Hadi bin Mohamed Suhaimi", "Hadis"],
+          ["10", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+          null,
+          ["12", "Rabu", false, "Imam Daerah Segamat", "Tajuk Khas"],
+          ["13", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["14", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+        ],
+      },
+      {
+        label: "Minggu 3", tarikh: "15 - 21 Ogos",
+        rows: [
+          ["15", "Sabtu", false, "Ust. Khairul Anuar bin Isnin", "Zakat, Fekah, Wakaf"],
+          ["16", "Ahad", false, "Ust. Muhamad Syafie bin Bachok", "Bab Akidah"],
+          ["17", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+          ["18", "Selasa", false, "Ust. Wan Ismail bin Wan Dagang", "Tafsir Al-Quran"],
+          ["19", "Rabu", false, "Ust. Solihin bin Abd Rahman", "Feqah"],
+          ["20", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["21", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+        ],
+      },
+      {
+        label: "Minggu 4", tarikh: "22 - 28 Ogos",
+        rows: [
+          ["22", "Sabtu", false, "As-Sheikh Haji Nasri bin Rahman", "Risalah Tauhid"],
+          ["23", "Ahad", false, "Ust. Abdul Hadi bin Mohamed Suhaimi", "Hadis"],
+          ["24", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+          null,
+          ["26", "Rabu", false, "Ust. Muhd Syahmi Wahiduddin bin Hasnol Hadi", "Fekh & Tasauf"],
+          ["27", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["28", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+        ],
+      },
+      {
+        label: "Minggu 5", tarikh: "29 - 31 Ogos",
+        rows: [
+          null,
+          null,
+          ["31", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+        ],
+      },
+    ],
+  },
+  {
+    bulan: "September 2026",
+    minggu: [
+      {
+        label: "Minggu 1", tarikh: "1 - 7 September",
+        rows: [
+          ["1", "Selasa", false, "Ust. Wan Ismail bin Wan Dagang", "Tafsir Al-Quran"],
+          ["2", "Rabu", false, "Ust. Muhd Syahmi Wahiduddin bin Hasnol Hadi", "Fekh & Tasauf"],
+          ["3", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["4", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+          ["5", "Sabtu", false, "Ust. Khairul Anuar bin Isnin", "Zakat, Fekah, Wakaf"],
+          ["6", "Ahad", false, "Ust. Muhamad Syafie bin Bachok", "Bab Akidah"],
+          ["7", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+        ],
+      },
+      {
+        label: "Minggu 2", tarikh: "8 - 14 September",
+        rows: [
+          null,
+          ["9", "Rabu", false, "Imam Daerah Segamat", "Tajuk Khas"],
+          ["10", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["11", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+          ["12", "Sabtu", false, "As-Sheikh Haji Nasri bin Rahman", "Risalah Tauhid"],
+          ["13", "Ahad", false, "Ust. Abdul Hadi bin Mohamed Suhaimi", "Hadis"],
+          ["14", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+        ],
+      },
+      {
+        label: "Minggu 3", tarikh: "15 - 21 September",
+        rows: [
+          ["15", "Selasa", false, "Ust. Wan Ismail bin Wan Dagang", "Tafsir Al-Quran"],
+          ["16", "Rabu", false, "Ust. Solihin bin Abd Rahman", "Feqah"],
+          ["17", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["18", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+          ["19", "Sabtu", false, "Ust. Khairul Anuar bin Isnin", "Zakat, Fekah, Wakaf"],
+          ["20", "Ahad", false, "Ust. Muhamad Syafie bin Bachok", "Bab Akidah"],
+          ["21", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+        ],
+      },
+      {
+        label: "Minggu 4", tarikh: "22 - 28 September",
+        rows: [
+          null,
+          ["23", "Rabu", false, "Ust. Muhd Syahmi Wahiduddin bin Hasnol Hadi", "Fekh & Tasauf"],
+          ["24", "Khamis", true, "Ust. Norizam bin Suradi", "Kuliah Dhuha Pagi"],
+          ["25", "Jumaat", false, "As-Sheikh Kadi Daerah Segamat", "Tajuk Khas"],
+          ["26", "Sabtu", false, "As-Sheikh Haji Nasri bin Rahman", "Risalah Tauhid"],
+          ["27", "Ahad", false, "Ust. Abdul Hadi bin Mohamed Suhaimi", "Hadis"],
+          ["28", "Isnin", false, "Imam Bertugas", "Ratib Al-Attas"],
+        ],
+      },
+      {
+        label: "Minggu 5", tarikh: "29 - 30 September",
+        rows: [
+          ["29", "Selasa", false, "Ust. Wan Ismail bin Wan Dagang", "Tafsir Al-Quran"],
+          null,
+        ],
+      },
+    ],
+  },
+];
+
+function jadualKuliahHtml() {
+  return JADUAL_KULIAH.map(function (bulan) {
+    var body = bulan.minggu.map(function (w) {
+      var weekHead =
+        '<tr class="week-row"><td colspan="5"><strong>' + esc(w.label) + "</strong> &mdash; " + esc(w.tarikh) + "</td></tr>";
+      var weekRows = w.rows
+        .map(function (r) {
+          if (!r) return "";
+          var masa = r[2] ? "Dhuha Pagi" : "Selepas Maghrib";
+          return (
+            "<tr>" +
+            "<td>" + esc(r[0]) + "</td>" +
+            "<td>" + esc(r[1]) + "</td>" +
+            "<td>" + masa + "</td>" +
+            "<td>" + esc(r[3]) + "</td>" +
+            "<td>" + esc(r[4]) + "</td>" +
+            "</tr>"
+          );
+        })
+        .join("");
+      return weekHead + weekRows;
+    }).join("");
+    return (
+      '<h3 class="jadual-bulan">' + esc(bulan.bulan) + "</h3>" +
+      '<div class="table-wrap" data-reveal>' +
+      "<table>" +
+      "<thead><tr><th>Tarikh</th><th>Hari</th><th>Masa</th><th>Penceramah</th><th>Tajuk</th></tr></thead>" +
+      "<tbody>" + body + "</tbody></table></div>"
+    );
+  }).join("");
+}
+
 function buildAktiviti() {
   const body =
     pageHeader("Aktiviti <span>Masjid</span>", "Aktiviti", "aktiviti.header", "crumb.aktiviti") +
@@ -737,20 +899,8 @@ function buildAktiviti() {
       "jadual.title",
       "jadual.sub"
     ) +
-    '<div class="table-wrap" data-reveal>' +
-    "<table>" +
-    "<thead><tr><th data-i18n=\"jadual.col.hari\">Hari</th><th data-i18n=\"jadual.col.masa\">Masa</th><th data-i18n=\"jadual.col.tajuk\">Tajuk / Aktiviti</th><th data-i18n=\"jadual.col.penceramah\">Penceramah / Pihak</th></tr></thead>" +
-    "<tbody>" +
-    '<tr><td><span class="badge-day" data-i18n="day.isnin">Isnin</span></td><td>9:30 malam</td><td data-i18n="jadual.t1">Tafsir Al-Quran</td><td data-i18n="jadual.s1">Ustaz Jemputan</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.selasa">Selasa</span></td><td>9:30 malam</td><td data-i18n="jadual.t2">Fiqh Ibadah</td><td data-i18n="jadual.s2">Imam Masjid</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.rabu">Rabu</span></td><td>9:30 malam</td><td data-i18n="jadual.t3">Hadis & Sirah</td><td data-i18n="jadual.s1">Ustaz Jemputan</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.khamis">Khamis</span></td><td>9:30 malam</td><td data-i18n="jadual.t4">Tazkirah & Doa</td><td data-i18n="jadual.s2">Imam Masjid</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.jumaat">Jumaat</span></td><td>1:15 petang</td><td data-i18n="jadual.t5">Khutbah Jumaat</td><td data-i18n="jadual.s3">Khatib / Panel</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.sabtu">Sabtu</span></td><td>10:00 pagi</td><td data-i18n="jadual.t6">Kelas Fardhu Ain</td><td data-i18n="jadual.s4">Jawatankuasa Pendidikan</td></tr>' +
-    '<tr><td><span class="badge-day" data-i18n="day.ahad">Ahad</span></td><td>10:00 pagi</td><td data-i18n="jadual.t7">Tadarus & Tafsir</td><td data-i18n="jadual.s5">Bilal / Fasilitator</td></tr>' +
-    "</tbody></table>" +
-    "</div>" +
-    '<p class="form-note" style="margin-top:16px;text-align:center;" data-i18n="jadual.note">* Jadual boleh berubah. Sila rujuk pengumuman rasmi masjid atau Facebook page untuk pengesahan.</p>' +
+    jadualKuliahHtml() +
+    '<p class="form-note" style="margin-top:16px;text-align:center;" data-i18n="jadual.note">Semua kuliah selepas solat Maghrib, kecuali Khamis (Kuliah Dhuha pagi). Jadual boleh berubah &mdash; sila rujuk pengumuman rasmi masjid atau Facebook page untuk pengesahan.</p>' +
     "</div></section>\n" +
 
     // ---------- Siaran media ----------

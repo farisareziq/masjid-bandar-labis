@@ -669,6 +669,18 @@ td { padding: 13px 18px; border-top: 1px solid #f0e8cf; font-size: 0.93rem; }
 tbody tr:nth-child(even) { background: rgba(255, 253, 208, 0.045); }
 .section--dark tbody tr:nth-child(even) { background: rgba(255, 253, 208, 0.04); }
 tbody tr:hover { background: rgba(255, 253, 208, 0.09); }
+.jadual-bulan {
+  margin: 30px 0 12px;
+  font-size: 1.15rem;
+  color: var(--black);
+}
+.jadual-bulan:first-of-type { margin-top: 4px; }
+.week-row td {
+  background: var(--black-2);
+  color: var(--yellow);
+  font-weight: 700;
+  border: 0;
+}
 .badge-day {
   display: inline-block;
   background: linear-gradient(135deg, var(--yellow), var(--gold));
