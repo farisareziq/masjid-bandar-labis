@@ -16,7 +16,8 @@
    PENTING (keselamatan):
    - Token TIDAK PERNAH dimasukkan ke dalam HTML/JS yang di-deploy.
      Ia hanya digunakan di komputer anda semasa bina.
-   - Fail src/fb-posts.json diabaikan oleh git (.gitignore).
+   - Fail src/fb-posts.json DI-COMMIT ke repo (kandungannya awam sahaja,
+     bukan rahsia) supaya CI/GitHub Actions dan fallback sentiasa ada cache.
    - Jika token tiada / gagal, cache lama dikekalkan dan skrip
      keluar dengan kod 0 supaya deploy diteruskan dengan fallback.
    ============================================================ */
@@ -82,7 +83,9 @@ function httpsGetJson(url) {
     req.setTimeout(TIMEOUT_MS, function () {
       req.destroy(new Error("Masa tamat (Graph API)"));
     });
-    req.on("error", reject);
+    req.on("error", function (err) {
+      reject(new Error((err && err.message) ? err.message : "Ralat rangkaian"));
+    });
   });
 }
 

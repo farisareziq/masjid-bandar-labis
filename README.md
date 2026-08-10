@@ -52,7 +52,7 @@ Gambar asal disalin ke `backup-images/` sebelum fail dikompres (maks. 1600px, ku
    ```
 2. Token mesti daripada **System User** Facebook dengan permission `pages_read_engagement`, dan halaman `masjidbandarlabis` perlu di-assign kepada system user itu.
 3. Setiap kali `scripts\deploy-branch.ps1` dijalankan, skrip akan muat turun **6 siaran terkini** halaman dan memasukkannya ke `aktiviti.html` (bahagian Siaran Media).
-4. Jika token tiada / gagal / luar talian, laman menggunakan kad statik sedia ada sebagai fallback.
+4. Jika token tiada / gagal / luar talian, laman menggunakan cache terakhir (`src/fb-posts.json`, kandungan awam sahaja) sebagai fallback.
 
 > Skrip mendapatkan **Page Access Token** secara automatik melalui `/me/accounts`
 > (diperlukan oleh Facebook untuk endpoint /posts) — anda hanya perlu sediakan
@@ -60,6 +60,20 @@ Gambar asal disalin ke `backup-images/` sebelum fail dikompres (maks. 1600px, ku
 
 > **Keselamatan:** Token hanya digunakan pada komputer anda semasa bina dan TIDAK PERNAH
 > dimasukkan ke dalam kod website yang di-deploy. Jangan kongsi token atau fail `.env`.
+
+### Auto-deploy (GitHub Actions) - kemas kini automatik
+Workflow `.github/workflows/deploy.yml` berjalan secara automatik:
+- **Setiap 30 minit** (cron) - siaran baharu muncul di laman dalam masa <=30 minit.
+- Setiap kali ada push ke `main`.
+- Manual: GitHub -> **Actions** -> "Auto-deploy siaran Facebook" -> **Run workflow**.
+
+Sediakan sekali sahaja:
+1. Buka repo di GitHub -> **Settings -> Secrets and variables -> Actions -> New repository secret**.
+2. Nama: `FB_ACCESS_TOKEN` - Nilai: token System User (sama seperti dalam `.env`).
+3. Token hanya digunakan oleh runner Actions (disulitkan oleh GitHub), tidak pernah masuk ke kod website.
+
+Jika fetch gagal atau token belum diset, workflow menggunakan cache terakhir
+(`src/fb-posts.json`) - laman tidak terjejas.
 
 > Tiada `npm install` diperlukan — projek ini **sifar dependency** (lebih selamat,
 > tiada pakej pihak ketiga yang boleh diserang/diaudit).

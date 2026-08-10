@@ -1,0 +1,65 @@
+# ============================================================
+# Auto-deploy: muat turun siaran Facebook -> bina -> docs/ -> push
+# Berjalan: setiap 30 minit (cron) + setiap push ke main + manual.
+# Token dibaca daripada repository secret FB_ACCESS_TOKEN
+# (Settings -> Secrets and variables -> Actions).
+# ============================================================
+name: Auto-deploy siaran Facebook
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Elak kerja bertindih antara run
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    # Jangan jalankan semula untuk komit auto-deploy sendiri (elak gelung)
+    if: ${{ !(github.event_name == 'push' && startsWith(github.event.head_commit.message, 'auto-deploy:')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Sediakan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Muat turun siaran Facebook
+        env:
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+        run: node src/fetch-fb-posts.js
+
+      - name: Bina website
+        run: node src/build.js
+
+      - name: Semak pautan & keselamatan
+        run: node src/check-links.js
+
+      - name: Kemas kini folder docs/
+        run: |
+          rm -rf docs
+          mkdir -p docs
+          cp -r dist/. docs/
+
+      - name: Commit & push jika ada perubahan
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "Tiada perubahan - selesai."
+          else
+            git commit -m "auto-deploy: kemas kini siaran Facebook"
+            git push
+          fi
