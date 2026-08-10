@@ -719,10 +719,11 @@ function buildAktiviti() {
 
     // Video grid / Siaran Facebook terkini
     "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\" data-i18n-html=\"siaran.video.title\">Video &amp; Siaran Terkini</h3>" +
+    "<!-- FB-FEED-START -->\n" +
     (fbFeed && fbFeed.length
       ? '<div class="fb-posts-grid">' + fbFeed.map(fbPostCard).join("") + "</div>"
       : fbTiles) +
-    "\n" +
+    "\n<!-- FB-FEED-END -->\n" +
     '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin-top:16px;" data-i18n="siaran.video.note">Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.</p>' +
 
     // Pengumuman
