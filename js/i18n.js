@@ -9,6 +9,10 @@ var I18N_DATA = {
     // ---- Navigasi ----
     "nav.utama": "Utama",
     "nav.tentang": "Tentang",
+    "nav.tentang.sejarah": "Sejarah",
+    "nav.tentang.visi": "Visi & Misi",
+    "nav.tentang.carta": "Carta Organisasi",
+    "nav.tentang.pegawai": "Senarai Pegawai",
     "nav.aktiviti": "Aktiviti",
     "nav.aktiviti.jadual": "Jadual Kuliah",
     "nav.aktiviti.siaran": "Siaran Media",
@@ -126,7 +130,6 @@ var I18N_DATA = {
     "siaran.fb.btn": "Lawati Facebook Page",
     "siaran.video.title": "Video &amp; Siaran Terkini",
     "siaran.video.note": "Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.",
-    "siaran.news.title": "Pengumuman &amp; Surat Berita",
 
     // ---- Serpihan crumb, hari, jadual, video, berita ----
     "crumb.tentang": "Tentang Masjid",
@@ -156,14 +159,6 @@ var I18N_DATA = {
     "video.cap1": "Kuliah Tafsir Al-Quran",
     "video.cap2": "Sambutan Maulidur Rasul",
     "video.cap3": "Program Ihya' Ramadan",
-    "news1.t": "Kursus Pra Perkahwinan",
-    "news1.d": "Pendaftaran dibuka untuk sesi akan datang. Hubungi pejabat kadi untuk maklumat lanjut.",
-    "news2.t": "Program Kutipan Dana Musafir Inn",
-    "news2.d": "Kutipan tahunan untuk penyelenggaraan dan naik taraf Musafir Inn dijalankan.",
-    "news3.t": "Kelas Al-Quran Kanak-Kanak",
-    "news3.d": "Pendaftaran kelas mengaji untuk kanak-kanak dibuka sepanjang tahun.",
-    "news4.t": "Gotong-Royong Perdana",
-    "news4.d": "Terima kasih kepada semua sukarelawan yang menyertai gotong-royong membersihkan masjid.",
 
     // ---- Perkhidmatan ----
     "perkhidmatan.header": "Perkhidmatan <span>Masjid</span>",
@@ -275,6 +270,10 @@ var I18N_DATA = {
     // ---- Navigasi ----
     "nav.utama": "Home",
     "nav.tentang": "About",
+    "nav.tentang.sejarah": "History",
+    "nav.tentang.visi": "Vision & Mission",
+    "nav.tentang.carta": "Organization Chart",
+    "nav.tentang.pegawai": "List of Officials",
     "nav.aktiviti": "Activities",
     "nav.aktiviti.jadual": "Lecture Schedule",
     "nav.aktiviti.siaran": "Media Broadcasts",
@@ -392,7 +391,6 @@ var I18N_DATA = {
     "siaran.fb.btn": "Visit Facebook Page",
     "siaran.video.title": "Latest Videos &amp; Broadcasts",
     "siaran.video.note": "Videos will be updated from time to time through the mosque's official page.",
-    "siaran.news.title": "Announcements &amp; Newsletter",
 
     // ---- Serpihan crumb, hari, jadual, video, berita ----
     "crumb.tentang": "About the Mosque",
@@ -422,14 +420,6 @@ var I18N_DATA = {
     "video.cap1": "Tafsir Al-Quran Lecture",
     "video.cap2": "Maulidur Rasul Celebration",
     "video.cap3": "Ihya' Ramadan Programme",
-    "news1.t": "Pre-Marriage Course",
-    "news1.d": "Registration is open for the upcoming session. Contact the kadi office for details.",
-    "news2.t": "Musafir Inn Fundraising Programme",
-    "news2.d": "Annual fundraising for the maintenance and upgrade of Musafir Inn is underway.",
-    "news3.t": "Children's Al-Quran Classes",
-    "news3.d": "Registration for children's recitation classes is open throughout the year.",
-    "news4.t": "Grand Clean-up",
-    "news4.d": "Thank you to all volunteers who joined the mosque clean-up programme.",
 
     // ---- Perkhidmatan ----
     "perkhidmatan.header": "Mosque <span>Services</span>",

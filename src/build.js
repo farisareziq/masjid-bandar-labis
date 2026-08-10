@@ -211,7 +211,12 @@ function nav(active) {
     "</a>\n" +
     '<ul class="nav-menu" id="navMenu">' +
     item("index.html", "Utama", active === "index", null, "nav.utama") +
-    item("tentang.html", "Tentang", active === "tentang", null, "nav.tentang") +
+    dropdown("tentang.html", "Tentang", active === "tentang", [
+      { href: "tentang.html#sejarah", label: "Sejarah", key: "nav.tentang.sejarah" },
+      { href: "tentang.html#visi-misi", label: "Visi & Misi", key: "nav.tentang.visi" },
+      { href: "tentang.html#carta", label: "Carta Organisasi", key: "nav.tentang.carta" },
+      { href: "tentang.html#pegawai", label: "Senarai Pegawai", key: "nav.tentang.pegawai" },
+    ], "nav.tentang") +
     dropdown("aktiviti.html", "Aktiviti", active === "aktiviti", [
       { href: "aktiviti.html#jadual-kuliah", label: "Jadual Kuliah", key: "nav.aktiviti.jadual" },
       { href: "aktiviti.html#siaran-media", label: "Siaran Media", key: "nav.aktiviti.siaran" },
@@ -521,7 +526,7 @@ function buildTentang() {
     pageHeader("Tentang <span>Masjid</span>", "Tentang Masjid", "tentang.header", "crumb.tentang") +
 
     // ---------- Sejarah ----------
-    '<section class="section">' +
+    '<section class="section" id="sejarah">' +
     '<div class="container">' +
     sectionHeader(
       "Sejarah <span>Masjid</span>",
@@ -565,7 +570,7 @@ function buildTentang() {
     "</div></section>\n" +
 
     // ---------- Visi & Misi ----------
-    '<section class="section section--cream">' +
+    '<section class="section section--cream" id="visi-misi">' +
     '<div class="container">' +
     sectionHeader("Visi & <span>Misi</span>", undefined, undefined, "visi.title") +
     '<div class="cards-grid">' +
@@ -744,15 +749,6 @@ function buildAktiviti() {
     "\n<!-- FB-FEED-END -->\n" +
     '<p style="text-align:center;color:#b8b8b8;font-size:0.85rem;margin-top:16px;" data-i18n="siaran.video.note">Video akan dikemas kini dari semasa ke semasa melalui page rasmi masjid.</p>' +
 
-    // Pengumuman
-    '<div style="margin-top:52px;">' +
-    "<h3 style=\"text-align:center;color:var(--white);margin-bottom:24px;font-size:1.25rem;\" data-i18n-html=\"siaran.news.title\">Pengumuman &amp; Surat Berita</h3>" +
-    '<div class="news-list">' +
-    newsItem("01", "Jun", "Kursus Pra Perkahwinan", "Pendaftaran dibuka untuk sesi akan datang. Hubungi pejabat kadi untuk maklumat lanjut.", "news1.t", "news1.d") +
-    newsItem("16", "Mei", "Program Kutipan Dana Musafir Inn", "Kutipan tahunan untuk penyelenggaraan dan naik taraf Musafir Inn dijalankan.", "news2.t", "news2.d") +
-    newsItem("01", "Mei", "Kelas Al-Quran Kanak-Kanak", "Pendaftaran kelas mengaji untuk kanak-kanak dibuka sepanjang tahun.", "news3.t", "news3.d") +
-    newsItem("20", "Apr", "Gotong-Royong Perdana", "Terima kasih kepada semua sukarelawan yang menyertai gotong-royong membersihkan masjid.", "news4.t", "news4.d") +
-    "</div></div>\n" +
     "</div></section>\n";
 
   write(
@@ -1116,15 +1112,6 @@ function initials(name) {
   const first = parts[0] ? parts[0].charAt(0) : "";
   const last = parts.length > 1 ? parts[parts.length - 1].charAt(0) : "";
   return (first + last).toUpperCase();
-}
-
-function newsItem(day, month, title, desc, titleKey, descKey) {
-  return (
-    '<div class="news-item" data-reveal>' +
-    '<div class="news-date"><span class="d">' + day + '</span><span class="m">' + month + "</span></div>" +
-    "<div><h4" + (titleKey ? ' data-i18n="' + titleKey + '"' : "") + ">" + title + "</h4><p" + (descKey ? ' data-i18n="' + descKey + '"' : "") + ">" + desc + "</p></div>" +
-    "</div>"
-  );
 }
 
 function roomCard(icon, name, price, features, nameKey, featKeys) {
