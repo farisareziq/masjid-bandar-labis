@@ -210,7 +210,7 @@ var I18N_DATA = {
     "tempahan.hantar": "Hantar Pertanyaan",
     "tempahan.note": "Pihak masjid akan menghubungi anda untuk sebarang pertanyaan atau tempahan.",
     "tempahan.wa": "Untuk sebarang pertanyaan atau tempahan, hubungi <strong>+60 19-708 0656</strong> (Ustaz Mohd Najid Md Suyut) atau WhatsApp terus.",
-    "tempahan.wa.btn": "WhatsApp +60 19-708 0656",
+    "tempahan.wa.btn": "WhatsApp",
 
     // ---- Galeri ----
     "galeri.header": "Galeri <span>Masjid</span>",
@@ -467,7 +467,7 @@ var I18N_DATA = {
     "tempahan.hantar": "Send Inquiry",
     "tempahan.note": "The mosque will contact you for any inquiry or booking.",
     "tempahan.wa": "For any inquiry or booking, contact <strong>+60 19-708 0656</strong> (Ustaz Mohd Najid Md Suyut) or WhatsApp directly.",
-    "tempahan.wa.btn": "WhatsApp +60 19-708 0656",
+    "tempahan.wa.btn": "WhatsApp",
 
     // ---- Galeri ----
     "galeri.header": "Mosque <span>Gallery</span>",

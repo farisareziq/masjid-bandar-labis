@@ -924,8 +924,8 @@ function buildPerkhidmatan() {
     "<h3 data-i18n-html=\"tempahan.title\">Pertanyaan <span>Bilik</span></h3>" +
     '<p data-i18n="tempahan.desc">Ada soalan tentang bilik atau ingin membuat tempahan? Isi borang di bawah atau hubungi kami terus.</p>' +
     '<p class="form-note" style="text-align:center;margin:14px 0 0;" data-i18n-html="tempahan.wa">Untuk sebarang pertanyaan atau tempahan, hubungi <strong>+60 19-708 0656</strong> (Ustaz Mohd Najid Md Suyut) atau WhatsApp terus.</p>' +
-    '<a class="btn btn-gold btn-block" style="max-width:560px;margin:12px auto 0;display:block;text-align:center;" href="https://wa.me/60197080656" target="_blank" rel="noopener noreferrer">' +
-    iconSvg("whatsapp", 18) + '<span data-i18n="tempahan.wa.btn"> WhatsApp +60 19-708 0656</span></a>' +
+    '<a class="btn btn-gold btn-block" style="max-width:560px;margin:12px auto 0;" href="https://wa.me/60197080656" target="_blank" rel="noopener noreferrer">' +
+    iconSvg("whatsapp", 18) + '<span data-i18n="tempahan.wa.btn">WhatsApp</span></a>' +
     '<form data-form="booking" style="max-width:560px;margin:24px auto 0;text-align:left;">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
