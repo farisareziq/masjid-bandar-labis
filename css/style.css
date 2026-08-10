@@ -744,6 +744,16 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   overflow: hidden;
 }
 .fb-post-link { color: var(--yellow); font-size: 0.85rem; font-weight: 700; }
+/* Varian untuk bahagian terang (laman utama) */
+.fb-posts-grid--light .fb-post-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.fb-posts-grid--light .fb-post-card:hover { border-color: var(--gold); }
+.fb-posts-grid--light .fb-post-msg { color: var(--black); }
+.fb-posts-grid--light .fb-post-date { color: var(--gold-600); }
+.fb-posts-grid--light .fb-post-link { color: var(--gold-600); }
 .fb-card {
   background: linear-gradient(135deg, #1d2a4a, #0c0c0c);
   border: 1px solid rgba(59, 89, 152, 0.5);

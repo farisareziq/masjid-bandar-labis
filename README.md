@@ -51,7 +51,7 @@ Gambar asal disalin ke `backup-images/` sebelum fail dikompres (maks. 1600px, ku
    FB_ACCESS_TOKEN=token-system-user-anda
    ```
 2. Token mesti daripada **System User** Facebook dengan permission `pages_read_engagement`, dan halaman `masjidbandarlabis` perlu di-assign kepada system user itu.
-3. Setiap kali `scripts\deploy-branch.ps1` dijalankan, skrip akan muat turun **6 siaran terkini** halaman dan memasukkannya ke `aktiviti.html` (bahagian Siaran Media).
+3. Setiap kali `scripts\deploy-branch.ps1` dijalankan, skrip akan muat turun **6 siaran terkini** halaman dan memasukkannya ke laman utama (bahagian **Aktiviti Masjid**) dan `aktiviti.html` (bahagian **Siaran Media**).
 4. Jika token tiada / gagal / luar talian, laman menggunakan cache terakhir (`src/fb-posts.json`, kandungan awam sahaja) sebagai fallback.
 
 > Skrip mendapatkan **Page Access Token** secara automatik melalui `/me/accounts`
