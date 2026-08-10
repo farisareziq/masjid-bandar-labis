@@ -1,0 +1,11 @@
+{
+  "name": "tiktok-autopost",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Auto-poster Facebook Page -> TikTok (API rasmi, tanpa dependency luar)",
+  "scripts": {
+    "auth": "node auth-server.js",
+    "post": "node post-video.js",
+    "autopost": "node autopost.js"
+  }
+}

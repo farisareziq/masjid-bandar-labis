@@ -1,0 +1,67 @@
+# ============================================================
+# Auto-post siaran video Facebook ke TikTok
+# Berjalan: setiap 15 minit + manual (workflow_dispatch)
+# Secrets diperlukan:
+#   FB_ACCESS_TOKEN        (sedia ada)
+#   TIKTOK_CLIENT_KEY
+#   TIKTOK_CLIENT_SECRET
+#   TIKTOK_REFRESH_TOKEN   (dari scripts/tiktok/tokens.json)
+#   TIKTOK_PRIVACY         (SELF_ONLY / PUBLIC_TO_EVERYONE)
+# ============================================================
+name: Auto-post TikTok
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: tiktok-autopost
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  autopost:
+    # Elak gelung: jangan jalankan semula untuk komit auto sendiri
+    if: ${{ !(github.event_name == 'push' && startsWith(github.event.head_commit.message, 'auto-deploy:')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Sediakan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Semak secrets (langkau jika belum disediakan)
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+        run: |
+          if [ -z "$TIKTOK_CLIENT_KEY" ]; then
+            echo "Secrets TikTok belum disediakan - workflow dilangkau (tunggu setup)."
+            exit 0
+          fi
+
+      - name: Auto-post ke TikTok
+        env:
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+          TIKTOK_PRIVACY: ${{ secrets.TIKTOK_PRIVACY }}
+        run: node scripts/tiktok/autopost.js
+
+      - name: Commit state jika berubah
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add scripts/tiktok/state.json
+          if git diff --cached --quiet; then
+            echo "Tiada perubahan - selesai."
+          else
+            git commit -m "auto-deploy: kemas kini state TikTok"
+            git push
+          fi

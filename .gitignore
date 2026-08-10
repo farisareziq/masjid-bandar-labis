@@ -29,3 +29,6 @@ backup-images/
 # Token TikTok (hasil OAuth) & fail sementara muat turun
 scripts/tiktok/tokens.json
 scripts/tiktok/tmp/
+
+# Contoh konfigurasi ikut di-commit (bukan rahsia)
+!.env.example
