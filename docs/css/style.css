@@ -898,6 +898,7 @@ tbody tr:hover { background: rgba(255, 199, 44, 0.09); }
   line-height: 1.6;
 }
 .fac-icon { font-size: 1.15rem; line-height: 1.4; }
+.dewan-form { margin-top: 40px; max-width: 760px; }
 .spjm-box {
   margin-top: 20px;
   background: var(--white);

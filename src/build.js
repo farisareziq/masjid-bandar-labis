@@ -847,7 +847,7 @@ function buildPerkhidmatan() {
     // ---------- Butiran urusan harian ----------
     '<section class="section section--cream">' +
     '<div class="container">' +
-    '<div class="about-grid">' +
+    "<div>" +
     '<div data-reveal>' +
     "<h2 class=\"section-title\" data-i18n-html=\"jenazah.title\">Pengurusan <span>Jenazah</span></h2>" +
     '<p style="color:var(--muted);margin-top:10px;" data-i18n="jenazah.desc">Masjid menyediakan perkhidmatan pengurusan jenazah untuk umat Islam di kawasan Bandar Labis dan sekitarnya:</p>' +
@@ -871,8 +871,8 @@ function buildPerkhidmatan() {
     "</ul></div>" +
     "</div>" +
     '<div class="dewan-form" data-reveal>' +
-    '<h2 class="section-title" style="font-size:1.35rem;margin-bottom:16px;padding:0 4px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
-    '<p class="form-note" style="margin-bottom:14px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
+    '<h2 class="section-title" style="margin-bottom:16px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--gold-600);">Dewan Imam Malik</span></h2>' +
+    '<p style="color:var(--muted);margin-top:10px;margin-bottom:16px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
     '<form data-form="dewan">' +
     '<input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">' +
     '<input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">' +
