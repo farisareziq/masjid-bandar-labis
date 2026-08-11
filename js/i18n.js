@@ -198,6 +198,10 @@ var I18N_DATA = {
     "galeri.video.title": "Video aerial Masjid Bandar Labis",
     "galeri.aerial": "Pandangan Aerial Masjid Bandar Labis",
     "galeri.photo": "Galeri Masjid Bandar Labis",
+    "galeri.tahun2023": "Galeri 2023",
+    "galeri.tahun2026": "Galeri 2026 (Baharu)",
+    "galeri.aerial2026": "Pandangan Aerial Masjid Bandar Labis (2026)",
+    "galeri.photo2026": "Galeri Masjid Bandar Labis (2026)",
 
     // ---- Hubungi ----
     "hubungi.header": "Hubungi <span>Kami</span>",
@@ -456,6 +460,10 @@ var I18N_DATA = {
     "galeri.video.title": "Aerial video of Masjid Bandar Labis",
     "galeri.aerial": "Aerial View of Masjid Bandar Labis",
     "galeri.photo": "Masjid Bandar Labis Gallery",
+    "galeri.tahun2023": "Gallery 2023",
+    "galeri.tahun2026": "Gallery 2026 (New)",
+    "galeri.aerial2026": "Aerial View of Masjid Bandar Labis (2026)",
+    "galeri.photo2026": "Masjid Bandar Labis Gallery (2026)",
 
     // ---- Hubungi ----
     "hubungi.header": "Contact <span>Us</span>",

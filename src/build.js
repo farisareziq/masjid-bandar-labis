@@ -86,6 +86,27 @@ function assetVersion(relPath) {
   }
 }
 
+/* Senarai gambar galeri: root = 2023, subfolder 2026/ = 2026 */
+function listGalleryImages() {
+  const root = path.join(ROOT, "images", "Galeri");
+  const imgRe = /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/;
+  const out = [];
+  if (fs.existsSync(root)) {
+    fs.readdirSync(root)
+      .filter(function (f) { return imgRe.test(f); })
+      .sort()
+      .forEach(function (f) { out.push({ file: f, year: "2023", sub: "" }); });
+  }
+  const sub = path.join(root, "2026");
+  if (fs.existsSync(sub)) {
+    fs.readdirSync(sub)
+      .filter(function (f) { return imgRe.test(f); })
+      .sort()
+      .forEach(function (f) { out.push({ file: f, year: "2026", sub: "2026/" }); });
+  }
+  return out;
+}
+
 function write(relPath, content) {
   const file = path.join(DIST, relPath);
   ensureDir(path.dirname(file));
@@ -353,23 +374,15 @@ function sectionHeader(title, subtitle, dark, titleKey, subKey) {
    MUKA SURAT 1 — index.html (Utama + Sumbangan)
    ============================================================ */
 function buildIndex() {
-  // Slider gambar masjid: baca semua gambar dari folder images/Galeri
-  const galDir = path.join(ROOT, "images", "Galeri");
-  let galFiles = [];
-  if (fs.existsSync(galDir)) {
-    galFiles = fs
-      .readdirSync(galDir)
-      .filter(function (f) {
-        return /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/.test(f);
-      })
-      .sort();
-  }
+  // Slider gambar masjid: galeri 2023 + 2026
+  const galFiles = listGalleryImages();
   const sliderSlides = galFiles.length
     ? galFiles
-        .map(function (file, idx) {
+        .map(function (it, idx) {
           return (
             '<img src="images/Galeri/' +
-            encodeURIComponent(file) +
+            it.sub +
+            encodeURIComponent(it.file) +
             '" alt="Galeri Masjid Bandar Labis" class="mosque-slide' +
             (idx === 0 ? " active" : "") +
             '" loading="lazy">'
@@ -1021,6 +1034,7 @@ function buildPerkhidmatan() {
     "</ul></div>" +
     "</div>" +
     '<div class="dewan-form" id="dewan" data-reveal>' +
+    '<div class="dewan-photo"><img src="images/Dewan Imam Malik/dewan-imam-malik-2026.jpg" alt="Dewan Imam Malik Masjid Bandar Labis" loading="lazy"></div>' +
     '<h2 class="section-title" style="margin-bottom:16px;" data-i18n-html="dewan.title">Tempahan <span style="color:var(--black);">Dewan Imam Malik</span></h2>' +
     '<p style="color:var(--muted);margin-top:10px;margin-bottom:16px;" data-i18n="dewan.desc">Untuk menempah Dewan Imam Malik, isi borang di bawah. Pihak masjid akan menghubungi anda untuk pengesahan.</p>' +
     '<form data-form="dewan">' +
@@ -1109,38 +1123,30 @@ function buildPerkhidmatan() {
    MUKA SURAT 5 — galeri.html
    ============================================================ */
 function buildGaleri() {
-  // Baca semua gambar dari folder images/Galeri
-  const dir = path.join(ROOT, "images", "Galeri");
-  let files = [];
-  if (fs.existsSync(dir)) {
-    files = fs
-      .readdirSync(dir)
-      .filter(function (f) {
-        return /\.[jJ][pP][gG]$|\.[jJ][pP][eE][gG]$|\.png$|\.webp$/.test(f);
-      })
-      .sort();
-  }
+  // Baca semua gambar: root = 2023, subfolder 2026/ = 2026
+  const galItems = listGalleryImages();
+  const byYear = { "2023": [], "2026": [] };
+  galItems.forEach(function (it) {
+    (byYear[it.year] = byYear[it.year] || []).push(it);
+  });
 
-  let tiles;
-  if (!files.length) {
-    // Fallback placeholder jika folder kosong
-    tiles =
-      '<div class="gallery-item" data-reveal>' +
-      '<span aria-hidden="true">\u{1F54C}</span>' +
-      '<span class="gallery-cap">Masjid Bandar Labis</span>' +
-      "</div>";
-  } else {
-    tiles = files
-      .map(function (file) {
-        const isAerial = /^DJI_/i.test(file);
-        const cap = isAerial
-          ? "Pandangan Aerial Masjid Bandar Labis"
-          : "Galeri Masjid Bandar Labis";
-        const capKey = isAerial ? "galeri.aerial" : "galeri.photo";
+  function galeriTiles(items, year) {
+    if (!items.length) return "";
+    return items
+      .map(function (it) {
+        const isAerial = /^aerial|^DJI_/i.test(it.file);
+        const isNew = year === "2026";
+        const capKey = isNew
+          ? isAerial ? "galeri.aerial2026" : "galeri.photo2026"
+          : isAerial ? "galeri.aerial" : "galeri.photo";
+        const cap = isNew
+          ? isAerial ? "Pandangan Aerial Masjid Bandar Labis (2026)" : "Galeri Masjid Bandar Labis (2026)"
+          : isAerial ? "Pandangan Aerial Masjid Bandar Labis" : "Galeri Masjid Bandar Labis";
         return (
           '<figure class="gallery-item" data-reveal>' +
           '<img src="images/Galeri/' +
-          encodeURIComponent(file) +
+          it.sub +
+          encodeURIComponent(it.file) +
           '" alt="' +
           cap +
           '" loading="lazy" data-i18n-attr="alt:' + capKey + '">' +
@@ -1150,6 +1156,22 @@ function buildGaleri() {
         );
       })
       .join("");
+  }
+
+  let tiles;
+  if (!galItems.length) {
+    // Fallback placeholder jika folder kosong
+    tiles =
+      '<div class="gallery-item" data-reveal>' +
+      '<span aria-hidden="true">\u{1F54C}</span>' +
+      '<span class="gallery-cap">Masjid Bandar Labis</span>' +
+      "</div>";
+  } else {
+    tiles =
+      '<h3 class="galeri-tahun" data-i18n="galeri.tahun2023">Galeri 2023</h3>' +
+      '<div class="gallery-grid">' + galeriTiles(byYear["2023"], "2023") + "</div>" +
+      '<h3 class="galeri-tahun" data-i18n="galeri.tahun2026">Galeri 2026 (Baharu)</h3>' +
+      '<div class="gallery-grid">' + galeriTiles(byYear["2026"], "2026") + "</div>";
   }
 
   const body =
@@ -1172,7 +1194,7 @@ function buildGaleri() {
     "</div>" +
     '<p class="video-caption" data-i18n="galeri.video.title">\u{1F3A5} Video aerial Masjid Bandar Labis</p>' +
     "</div>" +
-    '<div class="gallery-grid">' + tiles + "</div>" +
+    tiles +
     '<p class="form-note" style="text-align:center;margin-top:24px;" data-i18n="galeri.note">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
     "</div></section>\n";
 
