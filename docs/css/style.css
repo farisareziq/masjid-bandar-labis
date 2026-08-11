@@ -684,6 +684,20 @@ tbody tr:hover { background: rgba(255, 253, 208, 0.09); }
   font-weight: 700;
   border: 0;
 }
+.galeri-tahun {
+  margin: 34px 0 14px;
+  font-size: 1.15rem;
+  color: var(--black);
+}
+.galeri-tahun:first-of-type { margin-top: 6px; }
+.dewan-photo img {
+  width: 100%;
+  max-height: 380px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  box-shadow: var(--shadow);
+}
 .badge-day {
   display: inline-block;
   background: linear-gradient(135deg, var(--yellow), var(--gold));
