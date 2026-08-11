@@ -37,6 +37,8 @@ const CONFIG = {
   tiktokUsername: "@masjidlabis",
   // Video aerial masjid (YouTube embed)
   videoAerial: "https://www.youtube-nocookie.com/embed/YbEaCgKmAC8",
+  // Video aerial 2026 (YouTube embed)
+  videoAerial2026: "https://www.youtube-nocookie.com/embed/03jG01K-D2g",
   // Imej QR sumbangan (DuitNow) & carta organisasi
   qrImage: "images/qr-sumbangan.jpg",
   cartaImage: "images/carta-pentadbiran.jpg",
@@ -1193,6 +1195,15 @@ function buildGaleri() {
     '" title="Video aerial Masjid Bandar Labis" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" data-i18n-attr="title:galeri.video.title"></iframe>' +
     "</div>" +
     '<p class="video-caption" data-i18n="galeri.video.title">\u{1F3A5} Video aerial Masjid Bandar Labis</p>' +
+    "</div>" +
+    // ---------- Video aerial 2026 ----------
+    '<div class="video-feature" data-reveal>' +
+    '<div class="video-frame">' +
+    '<iframe src="' +
+    CONFIG.videoAerial2026 +
+    '" title="Video aerial 2026 Masjid Bandar Labis" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" data-i18n-attr="title:galeri.video2026.title"></iframe>' +
+    "</div>" +
+    '<p class="video-caption" data-i18n="galeri.video2026.title">\u{1F3A5} Video Aerial 2026 Masjid Bandar Labis</p>' +
     "</div>" +
     tiles +
     '<p class="form-note" style="text-align:center;margin-top:24px;" data-i18n="galeri.note">Untuk foto terkini, ikuti Facebook page masjid.</p>' +
