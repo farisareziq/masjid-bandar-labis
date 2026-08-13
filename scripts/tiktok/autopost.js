@@ -26,6 +26,13 @@ const TIMEOUT_MS = 30000;
 const TMP_DIR = path.join(__dirname, "tmp");
 const DRY_RUN = process.argv.indexOf("--dry-run") !== -1;
 
+if (process.env.GITHUB_ACTIONS === "true") {
+  console.log(
+    "::notice::mode=" +
+      (process.argv.indexOf("--test-dummy") !== -1 ? "dummy" : "normal")
+  );
+}
+
 function fbToken() {
   return tiktok.cfg("FB_ACCESS_TOKEN", "");
 }
@@ -463,7 +470,17 @@ async function main() {
 
 const run = process.argv.indexOf("--test-dummy") !== -1 ? testDummyMain() : main();
 run.catch(function (err) {
-  console.error("Ralat: " + err.message);
+  const msg = "Ralat: " + err.message;
+  console.error(msg);
   if (err.body) console.error(JSON.stringify(err.body, null, 2));
+  if (process.env.GITHUB_ACTIONS === "true") {
+    console.log(
+      "::error::" +
+        String(msg)
+          .replace(/%/g, "%25")
+          .replace(/\r/g, "%0D")
+          .replace(/\n/g, "%0A")
+    );
+  }
   process.exit(1);
 });
