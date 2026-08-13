@@ -258,6 +258,7 @@ function nav(active) {
     '<a href="index.html" class="nav-logo">' +
     '<img src="images/logo.png" class="nav-logo-img logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
     '<span class="nav-logo-icon logo-fallback">\u{1F54C}</span>' +
+    '<img src="images/jata-negeri-johor.png" class="nav-jata" alt="Jata Negeri Johor" loading="lazy">' +
     '<span class="nav-logo-text">Masjid <b>Bandar Labis</b></span>' +
     "</a>\n" +
     '<ul class="nav-menu" id="navMenu">' +
@@ -292,8 +293,11 @@ function footer() {
     '<footer class="footer">\n' +
     '<div class="container footer-grid">\n' +
     '<div class="footer-col footer-about">' +
+    '<div class="footer-logos">' +
     '<img src="images/logo.png" class="footer-logo logo-img" alt="Logo Masjid Bandar Labis" hidden>' +
     '<span class="logo-fallback footer-logo-fallback" hidden>\u{1F54C}</span>' +
+    '<img src="images/jata-negeri-johor.png" class="footer-jata" alt="Jata Negeri Johor" loading="lazy">' +
+    "</div>" +
     "<h3>Masjid <b>Bandar Labis</b></h3>" +
     '<p data-i18n="footer.about">Jalan Muar, 85300 Labis, Johor Darul Ta\'azim.</p>' +
     '<p data-i18n="footer.seliaan">Di bawah seliaan ' + CONFIG.admin + "</p>" +

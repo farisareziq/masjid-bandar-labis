@@ -145,6 +145,13 @@ h1, h2, h3, h4 { font-family: var(--font-head); line-height: 1.25; }
   background: var(--white);
   padding: 3px;
 }
+.nav-jata {
+  width: 38px; height: 38px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: var(--white);
+  padding: 3px;
+}
 
 .nav-menu { display: flex; align-items: center; gap: 4px; }
 .nav-item { position: relative; }
@@ -1129,6 +1136,22 @@ textarea.form-control { min-height: 120px; resize: vertical; }
   border-radius: 16px;
   padding: 4px;
   margin-bottom: 12px;
+}
+/* Logo masjid + jata negeri Johor bersebelahan */
+.footer-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.footer-logos .footer-logo,
+.footer-logos .footer-logo-fallback { margin-bottom: 0; }
+.footer-jata {
+  width: 72px; height: 72px;
+  object-fit: contain;
+  background: var(--white);
+  border-radius: 16px;
+  padding: 4px;
 }
 /* Apabila logo imej dipaparkan, sembunyikan emoji fallback di sebelahnya */
 .footer-logo:not([hidden]) + .footer-logo-fallback { display: none; }
