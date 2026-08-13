@@ -303,10 +303,14 @@ async function hostViaGithubRelease(file, postId) {
   const name = "kuliah-" + String(postId).replace(/[^0-9]/g, "") + "-trim.mp4";
 
   // Buang release video-cache lama (run sebelumnya sudah diambil Buffer)
-  const old = runCmd("gh", ["release", "list", "--repo", owner, "--limit", "50"], {}, 60000);
+  const old = runCmd(
+    "gh",
+    ["release", "list", "--repo", owner, "--limit", "50", "--json", "tagName", "--jq", ".[].tagName"],
+    {},
+    60000
+  );
   if (old.status === 0) {
-    for (const line of String(old.stdout).split(/\r?\n/)) {
-      const tagName = line.split(/\s+/)[0];
+    for (const tagName of String(old.stdout).split(/\r?\n/).map(function (s) { return s.trim(); })) {
       if (tagName && tagName.indexOf("video-cache-") === 0) {
         runCmd("gh", ["release", "delete", tagName, "--repo", owner, "--yes", "--cleanup-tag"], {}, 60000);
       }
@@ -325,8 +329,9 @@ async function hostViaGithubRelease(file, postId) {
   }
   const up = runCmd("gh", ["release", "upload", tag, file, "--repo", owner, "--clobber"], {}, 300000);
   if (up.status !== 0) {
-    console.warn("    Gagal upload release: " + String(up.stderr || "").slice(-300));
-    return null;
+    const reason = "Gagal upload release: " + String(up.stderr || up.stdout || "").slice(-300);
+    console.warn("    " + reason);
+    return { error: reason };
   }
   return "https://github.com/" + owner + "/releases/download/" + tag + "/" + encodeURIComponent(name);
 }
@@ -334,6 +339,9 @@ async function hostViaGithubRelease(file, postId) {
 // Hos fail video sedia ada -> hantar ke Buffer
 async function hostAndPost(filePath, postId, caption, channelId) {
   const url = await hostViaGithubRelease(filePath, postId);
+  if (url && url.error) {
+    return { posted: false, reason: url.error };
+  }
   if (!url) {
     return { posted: false, reason: "gh/GITHUB_TOKEN tiada - tidak dapat hoskan video" };
   }
