@@ -222,17 +222,14 @@ async function hostViaGithubRelease(file, postId) {
   return "https://github.com/" + owner + "/releases/download/" + tag + "/" + encodeURIComponent(name);
 }
 
-// Video panjang: muat turun -> pangkas -> hos -> hantar ke Buffer
-async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, channelId) {
-  if (!fs.existsSync(tmpFile)) {
-    await downloadVideo(media.source, tmpFile);
-  }
-  const trimmedFile = tmpFile.replace(/\.mp4$/i, "-trim.mp4");
+// Pangkas fail video sedia ada -> hos -> hantar ke Buffer
+async function trimHostAndPost(filePath, postId, caption, maxDuration, channelId) {
+  const trimmedFile = filePath.replace(/\.mp4$/i, "-trim.mp4");
   console.log("    Memangkas video kepada " + Math.round(maxDuration / 60) + " minit (ffmpeg)...");
-  if (!trimWithFfmpeg(tmpFile, trimmedFile, maxDuration)) {
+  if (!trimWithFfmpeg(filePath, trimmedFile, maxDuration)) {
     return { posted: false, reason: "ffmpeg tiada/gagal" };
   }
-  const url = await hostViaGithubRelease(trimmedFile, post.id);
+  const url = await hostViaGithubRelease(trimmedFile, postId);
   if (!url) {
     return { posted: false, reason: "gh/GITHUB_TOKEN tiada - tidak dapat hoskan video" };
   }
@@ -247,6 +244,64 @@ async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, 
     return { posted: true };
   }
   return { posted: false, reason: (result && result.message) || "respons tidak dijangka" };
+}
+
+// Video panjang dari Facebook: muat turun -> pangkas -> hos -> hantar
+async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, channelId) {
+  if (!fs.existsSync(tmpFile)) {
+    await downloadVideo(media.source, tmpFile);
+  }
+  const out = await trimHostAndPost(tmpFile, post.id, caption, maxDuration, channelId);
+  try {
+    fs.unlinkSync(tmpFile.replace(/\.mp4$/i, "-trim.mp4"));
+  } catch (e) {
+    // abaikan
+  }
+  return out;
+}
+
+// UJIAN DUMMY: cipta video ujian 11 minit -> pangkas -> hos -> hantar ke Buffer
+async function testDummyMain() {
+  if (!hasCommand("ffmpeg")) {
+    throw new Error("ffmpeg tidak dijumpai - jalankan ujian ini dalam GitHub Actions (ubuntu-latest).");
+  }
+  if (!process.env.GITHUB_TOKEN && !process.env.GH_TOKEN) {
+    throw new Error("GITHUB_TOKEN tidak dijumpai - jalankan ujian ini dalam GitHub Actions.");
+  }
+  const channel = await buffer.findTikTokChannel();
+  const maxDuration = Number(tiktok.cfg("BUFFER_MAX_DURATION_SEC", "600")) || 600;
+  const dummyFile = path.join(TMP_DIR, "dummy-long.mp4");
+  console.log("Mencipta video ujian dummy 11 minit (ffmpeg testsrc)...");
+  const gen = runCmd(
+    "ffmpeg",
+    [
+      "-y",
+      "-f", "lavfi", "-i", "testsrc=duration=660:size=720x1280:rate=30",
+      "-f", "lavfi", "-i", "sine=frequency=440:duration=660",
+      "-c:v", "libx264", "-preset", "veryfast", "-crf", "28", "-pix_fmt", "yuv420p",
+      "-c:a", "aac", "-shortest",
+      dummyFile,
+    ],
+    {},
+    600000
+  );
+  if (gen.status !== 0) {
+    throw new Error("Gagal cipta video dummy: " + String(gen.stderr || "").slice(-300));
+  }
+  const dur = mp4.durationSeconds(dummyFile);
+  console.log("Video dummy: " + (dur === null ? "?" : Math.round(dur)) + " saat");
+
+  const caption = withHashtag("UJIAN AUTO-POST: video dummy untuk menguji pangkas automatik");
+  const out = await trimHostAndPost(dummyFile, "dummy-test", caption, maxDuration, channel.id);
+  try {
+    fs.unlinkSync(dummyFile);
+  } catch (e) {
+    // abaikan
+  }
+  if (!out.posted) {
+    throw new Error("Ujian dummy gagal: " + out.reason);
+  }
+  console.log("UJIAN DUMMY SELESAI - video ujian dihantar ke TikTok (boleh dipadam selepas semak).");
 }
 
 async function main() {
@@ -406,7 +461,8 @@ async function main() {
   }
 }
 
-main().catch(function (err) {
+const run = process.argv.indexOf("--test-dummy") !== -1 ? testDummyMain() : main();
+run.catch(function (err) {
   console.error("Ralat: " + err.message);
   if (err.body) console.error(JSON.stringify(err.body, null, 2));
   process.exit(1);
