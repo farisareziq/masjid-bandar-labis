@@ -300,7 +300,8 @@ async function hostViaGithubRelease(file, postId) {
     return null;
   }
   const tag = "video-cache-" + new Date().toISOString().replace(/[-:]/g, "").slice(0, 13);
-  const name = "kuliah-" + String(postId).replace(/[^0-9]/g, "") + "-trim.mp4";
+  // gh release upload menamakan asset mengikut nama fail sebenar (basename)
+  const name = path.basename(file);
 
   // Buang release video-cache lama (run sebelumnya sudah diambil Buffer)
   const old = runCmd(
