@@ -96,6 +96,19 @@ function isVideoFileUrl(u) {
   return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(u) || /fbcdn/i.test(u);
 }
 
+// Tempoh video (saat) daripada parameter `efg` dalam URL fbcdn, atau null.
+function durationFromUrl(u) {
+  try {
+    const m = String(u).match(/[?&]efg=([^&]+)/);
+    if (!m) return null;
+    const json = JSON.parse(Buffer.from(decodeURIComponent(m[1]), "base64").toString("utf8"));
+    const d = json.duration_s;
+    return typeof d === "number" && d > 0 ? d : null;
+  } catch (e) {
+    return null;
+  }
+}
+
 function findVideo(post) {
   const sources = collectSources(post.attachments ? post.attachments.data : null, []);
   return (
@@ -166,7 +179,7 @@ async function main() {
     }
     const caption = (post.message || "Video Masjid Bandar Labis").slice(0, 2200);
     const tmpFile = path.join(TMP_DIR, "fb-" + String(post.id).replace(/[^0-9]/g, "") + ".mp4");
-    console.log("  > " + post.id + ": muat turun video (semak tempoh)...");
+    console.log("  > " + post.id + ": semak tempoh video...");
 
     if (DRY_RUN) {
       console.log("    [DRY-RUN] caption: " + caption.slice(0, 120));
@@ -175,24 +188,47 @@ async function main() {
       continue;
     }
 
-    try {
-      await downloadVideo(media.source, tmpFile);
-      const dur = mp4.durationSeconds(tmpFile);
-      if (dur !== null && maxDuration && dur > maxDuration) {
-        console.log(
-          "    Langkau: video " + Math.round(dur / 60) + " minit melebihi had TikTok " +
-            Math.round(maxDuration / 60) + " minit."
-        );
-        tooLong++;
+    let dur = durationFromUrl(media.source);
+    if (dur === null) {
+      console.log("    Tempoh tidak diketahui - muat turun untuk semak...");
+      try {
+        await downloadVideo(media.source, tmpFile);
+      } catch (e) {
+        console.warn("    Gagal muat turun: " + e.message + " (langkau)");
         processed.add(post.id);
         continue;
       }
-      if (dur !== null && dur < 3) {
-        console.log("    Langkau: video terlalu pendek (" + dur.toFixed(1) + " saat).");
-        processed.add(post.id);
-        continue;
-      }
+      dur = mp4.durationSeconds(tmpFile);
+    } else {
+      console.log("    Tempoh: " + Math.round(dur) + " saat");
+    }
 
+    if (dur !== null && maxDuration && dur > maxDuration) {
+      console.log(
+        "    Langkau: video " + Math.round(dur / 60) + " minit melebihi had TikTok " +
+          Math.round(maxDuration / 60) + " minit."
+      );
+      tooLong++;
+      processed.add(post.id);
+      try {
+        fs.unlinkSync(tmpFile);
+      } catch (e) {
+        // abaikan
+      }
+      continue;
+    }
+    if (dur !== null && dur < 3) {
+      console.log("    Langkau: video terlalu pendek (" + dur.toFixed(1) + " saat).");
+      processed.add(post.id);
+      try {
+        fs.unlinkSync(tmpFile);
+      } catch (e) {
+        // abaikan
+      }
+      continue;
+    }
+
+    try {
       const result = await buffer.createVideoPost({
         channelId: tiktokChannel.id,
         text: caption,
@@ -203,14 +239,14 @@ async function main() {
           "    Dihantar ke Buffer (post " + result.post.id + ", status " + result.post.status + ")"
         );
         posted++;
+        processed.add(post.id);
       } else if (result && result.message) {
-        console.log("    Buffer tolak: " + result.message);
+        console.log("    Buffer tolak: " + result.message + " (akan cuba semula)");
       } else {
         console.log("    Respons Buffer tidak dijangka.");
       }
-      processed.add(post.id);
     } catch (e) {
-      console.warn("    Ralat semasa memproses " + post.id + ": " + e.message);
+      console.warn("    Ralat hantar ke Buffer: " + e.message);
     } finally {
       try {
         fs.unlinkSync(tmpFile);

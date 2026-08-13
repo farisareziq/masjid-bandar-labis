@@ -70,22 +70,24 @@ async function findTikTokChannel() {
 }
 
 async function createVideoPost(opts) {
-  const text = String(opts.text || "").slice(0, 2200).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-  const videoUrl = String(opts.videoUrl || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
-  const dueAt = new Date().toISOString();
+  // Buffer memerlukan masa jadual pada masa hadapan - tetapkan +1 minit
+  const dueAt = new Date(Date.now() + 60000).toISOString();
   const query =
-    "mutation { createPost(input: { " +
-    'text: "' + text + '", ' +
-    'channelId: "' + opts.channelId + '", ' +
-    "schedulingType: automatic, " +
-    "mode: customScheduled, " +
-    'dueAt: "' + dueAt + '", ' +
-    'assets: [{ video: { url: "' + videoUrl + '" } }] ' +
-    "}) { " +
+    "mutation CreatePost($input: CreatePostInput!) { " +
+    "createPost(input: $input) { " +
     "... on PostActionSuccess { post { id status dueAt } } " +
     "... on MutationError { message } " +
     "} }";
-  const d = await gql(query);
+  const d = await gql(query, {
+    input: {
+      text: String(opts.text || "").slice(0, 2200),
+      channelId: opts.channelId,
+      schedulingType: "automatic",
+      mode: "customScheduled",
+      dueAt: dueAt,
+      assets: [{ video: { url: String(opts.videoUrl || "") } }],
+    },
+  });
   return d.createPost;
 }
 
