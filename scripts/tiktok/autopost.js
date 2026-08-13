@@ -25,6 +25,7 @@ const GRAPH_VERSION = "v21.0";
 const TIMEOUT_MS = 30000;
 const TMP_DIR = path.join(__dirname, "tmp");
 const DRY_RUN = process.argv.indexOf("--dry-run") !== -1;
+let FFMPEG_BIN = "ffmpeg";
 
 if (process.env.GITHUB_ACTIONS === "true") {
   console.log(
@@ -163,10 +164,19 @@ function hasCommand(cmd) {
   return runCmd(cmd, ["--version"], {}, 15000).status === 0;
 }
 
+function resolveFfmpeg() {
+  const candidates = ["ffmpeg", "/usr/bin/ffmpeg", "/usr/local/bin/ffmpeg", "C:\\ffmpeg\\bin\\ffmpeg.exe"];
+  for (const c of candidates) {
+    if (c === "ffmpeg" && hasCommand("ffmpeg")) return c;
+    if (c !== "ffmpeg" && fs.existsSync(c)) return c;
+  }
+  return null;
+}
+
 // Pangkas video ke had tempoh TikTok (ffmpeg - tersedia pada ubuntu-latest)
 function trimWithFfmpeg(input, output, seconds) {
   const r = runCmd(
-    "ffmpeg",
+    FFMPEG_BIN,
     [
       "-y",
       "-ss", "0",
@@ -269,8 +279,12 @@ async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, 
 
 // UJIAN DUMMY: cipta video ujian 11 minit -> pangkas -> hos -> hantar ke Buffer
 async function testDummyMain() {
-  if (!hasCommand("ffmpeg")) {
+  FFMPEG_BIN = resolveFfmpeg();
+  if (!FFMPEG_BIN) {
     throw new Error("ffmpeg tidak dijumpai - jalankan ujian ini dalam GitHub Actions (ubuntu-latest).");
+  }
+  if (process.env.GITHUB_ACTIONS === "true") {
+    console.log("::notice::ffmpeg_bin=" + FFMPEG_BIN);
   }
   if (!process.env.GITHUB_TOKEN && !process.env.GH_TOKEN) {
     throw new Error("GITHUB_TOKEN tidak dijumpai - jalankan ujian ini dalam GitHub Actions.");
@@ -280,7 +294,7 @@ async function testDummyMain() {
   const dummyFile = path.join(TMP_DIR, "dummy-long.mp4");
   console.log("Mencipta video ujian dummy 11 minit (ffmpeg testsrc)...");
   const gen = runCmd(
-    "ffmpeg",
+    FFMPEG_BIN,
     [
       "-y",
       "-f", "lavfi", "-i", "testsrc=duration=660:size=720x1280:rate=30",

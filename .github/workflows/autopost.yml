@@ -42,7 +42,10 @@ jobs:
 
       - name: Pasang ffmpeg (untuk ujian dummy)
         if: ${{ github.event.inputs.test_dummy == 'true' }}
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          echo "::notice::ffmpeg_path=$(command -v ffmpeg || echo MISSING)"
 
       - name: Semak secrets (langkau jika belum disediakan)
         env:
