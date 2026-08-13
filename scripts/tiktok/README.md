@@ -3,8 +3,8 @@
 Skrip tanpa dependency luar (Node.js built-in sahaja) untuk auto-post siaran
 video daripada Facebook Page rasmi masjid ke akaun TikTok @masjidlabis.
 
-Aliran: **Facebook Page (Graph API) -> muat turun video (semak tempoh) ->
-Buffer API (GraphQL) -> TikTok**.
+Aliran: **Facebook Page (Graph API) -> muat turun media -> (video: semak
+tempoh / teks & gambar: cipta video kad) -> Buffer API (GraphQL) -> TikTok**.
 
 Mengapa Buffer? App TikTok rasmi tidak meluluskan penggunaan peribadi/internal
 (seperti yang diterima semasa review). Buffer sudah ada sambungan TikTok yang
@@ -67,6 +67,11 @@ dan dikemas kini balik ke repo oleh workflow supaya tiada post duplikat.
 ## Nota
 
 - Hanya siaran **video** dihantar (TikTok tidak terima teks/gambar sahaja).
+- **Post teks & gambar kini turut dihantar** sebagai video kad pendek (6 saat):
+  - Post gambar -> video foto (1080x1920, potong tengah)
+  - Post teks -> video kad teks (latar gelap + teks)
+  - Kapsyen penuh (termasuk emoji) + `#MasjidBandarLabis` kekal dalam caption
+  - Memerlukan ffmpeg (automatik dalam GitHub Actions)
 - Had TikTok: 15-25 video sehari, 3 saat - 10 minit (ikut akaun), MP4/MOV.
 - Video kuliah langsung Facebook yang lebih daripada had tempoh akan
   **dipangkas automatik** kepada had tersebut (ffmpeg) dan dihoskan sebagai
