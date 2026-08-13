@@ -279,6 +279,7 @@ async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, 
 
 // UJIAN DUMMY: cipta video ujian 11 minit -> pangkas -> hos -> hantar ke Buffer
 async function testDummyMain() {
+  fs.mkdirSync(TMP_DIR, { recursive: true });
   FFMPEG_BIN = resolveFfmpeg();
   if (!FFMPEG_BIN) {
     throw new Error("ffmpeg tidak dijumpai - jalankan ujian ini dalam GitHub Actions (ubuntu-latest).");
