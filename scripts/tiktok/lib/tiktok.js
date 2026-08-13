@@ -57,7 +57,10 @@ function authorizeUrl(opts) {
   const params = new URLSearchParams();
   params.set("client_key", opts.clientKey || cfg("TIKTOK_CLIENT_KEY"));
   params.set("response_type", "code");
-  params.set("scope", opts.scope || cfg("TIKTOK_SCOPES", "user.info.basic,video.publish"));
+  params.set(
+    "scope",
+    opts.scope || cfg("TIKTOK_SCOPES", "user.info.basic,video.publish,video.upload")
+  );
   params.set(
     "redirect_uri",
     opts.redirectUri || cfg("TIKTOK_REDIRECT_URI", "http://localhost:8080/callback")

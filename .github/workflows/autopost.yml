@@ -1,14 +1,13 @@
 # ============================================================
-# Auto-post siaran video Facebook ke TikTok
+# Auto-post siaran video Facebook ke TikTok (via Buffer)
 # Berjalan: setiap 15 minit + manual (workflow_dispatch)
 # Secrets diperlukan:
-#   FB_ACCESS_TOKEN        (sedia ada)
-#   TIKTOK_CLIENT_KEY
-#   TIKTOK_CLIENT_SECRET
-#   TIKTOK_REFRESH_TOKEN   (dari scripts/tiktok/tokens.json)
-#   TIKTOK_PRIVACY         (SELF_ONLY / PUBLIC_TO_EVERYONE)
+#   FB_ACCESS_TOKEN     (sedia ada)
+#   BUFFER_API_KEY      (Settings -> API di buffer.com)
+#   BUFFER_CHANNEL_ID   (ID saluran TikTok; boleh auto-kesan)
+#   BUFFER_MAX_DURATION_SEC (600 = 10 minit)
 # ============================================================
-name: Auto-post TikTok
+name: Auto-post TikTok (Buffer)
 
 on:
   schedule:
@@ -38,20 +37,19 @@ jobs:
 
       - name: Semak secrets (langkau jika belum disediakan)
         env:
-          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
         run: |
-          if [ -z "$TIKTOK_CLIENT_KEY" ]; then
-            echo "Secrets TikTok belum disediakan - workflow dilangkau (tunggu setup)."
+          if [ -z "$BUFFER_API_KEY" ]; then
+            echo "Secrets Buffer belum disediakan - workflow dilangkau (tunggu setup)."
             exit 0
           fi
 
-      - name: Auto-post ke TikTok
+      - name: Auto-post ke TikTok (via Buffer)
         env:
           FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
-          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
-          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
-          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
-          TIKTOK_PRIVACY: ${{ secrets.TIKTOK_PRIVACY }}
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+          BUFFER_MAX_DURATION_SEC: ${{ secrets.BUFFER_MAX_DURATION_SEC }}
         run: node scripts/tiktok/autopost.js
 
       - name: Commit state jika berubah

@@ -1,11 +1,13 @@
 /* ============================================================
-   AUTO-POSTER: Facebook Page -> TikTok
+   AUTO-POSTER: Facebook Page -> TikTok (via Buffer)
    Jalankan:  node scripts/tiktok/autopost.js [--dry-run]
 
    - Baca siaran baharu halaman Facebook (Graph API)
-   - Untuk siaran video sahaja: muat turun video, hantar ke TikTok
+   - Untuk siaran video sahaja: muat turun video (semak tempoh),
+     kemudian hantar ke TikTok melalui Buffer API (GraphQL)
+   - Buffer sudah ada sambungan TikTok yang diluluskan, jadi
+     tiada keperluan review app TikTok
    - Simpan ID siaran yang sudah diproses dalam state.json
-   - Privasi: TIKTOK_PRIVACY (SELF_ONLY sehingga review TikTok lulus)
    ============================================================ */
 "use strict";
 
@@ -14,6 +16,7 @@ const path = require("path");
 const tiktok = require("./lib/tiktok");
 const state = require("./lib/state");
 const mp4 = require("./lib/mp4");
+const buffer = require("./lib/buffer");
 
 const PAGE_REF = tiktok.cfg("FB_PAGE_USERNAME", "masjidbandarlabis");
 const POST_LIMIT = 10;
@@ -89,13 +92,19 @@ function collectSources(node, out) {
   return out;
 }
 
+function isVideoFileUrl(u) {
+  return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(u) || /fbcdn/i.test(u);
+}
+
 function findVideo(post) {
   const sources = collectSources(post.attachments ? post.attachments.data : null, []);
   return (
     sources.find(function (s) {
-      return String(s.mediaType).toLowerCase().indexOf("video") !== -1;
+      return String(s.mediaType).toLowerCase().indexOf("video") !== -1 && isVideoFileUrl(s.source);
     }) ||
-    sources[0] ||
+    sources.find(function (s) {
+      return isVideoFileUrl(s.source);
+    }) ||
     null
   );
 }
@@ -125,31 +134,22 @@ async function main() {
     page.access_token
   );
 
+  let tiktokChannel = null;
+  let maxDuration = null;
+  if (!DRY_RUN) {
+    tiktokChannel = await buffer.findTikTokChannel();
+    maxDuration = Number(tiktok.cfg("BUFFER_MAX_DURATION_SEC", "600")) || 600;
+    console.log(
+      "Saluran TikTok Buffer: " + tiktokChannel.name + " (had tempoh: " + maxDuration + " saat)"
+    );
+  }
+
   const st = state.loadState();
   const processed = new Set(st.processed || []);
   const list = posts.data || [];
   let posted = 0;
   let skipped = 0;
   let tooLong = 0;
-
-  let maxDuration = null;
-  let tokens = null;
-  let privacy = "SELF_ONLY";
-  if (!DRY_RUN) {
-    tokens = await state.ensureFreshToken(tiktok);
-    privacy = tiktok.cfg("TIKTOK_PRIVACY", "SELF_ONLY");
-    try {
-      const info = await tiktok.creatorInfo(tokens.access_token);
-      const ci = info && info.data && info.data.creator_info ? info.data.creator_info : {};
-      maxDuration = ci.max_video_post_duration_sec || null;
-      console.log(
-        "Akaun: " + (ci.display_name || tokens.open_id) +
-          " | had tempoh video: " + (maxDuration ? Math.round(maxDuration / 60) + " minit" : "tidak diketahui")
-      );
-    } catch (e) {
-      console.warn("Amaran: tidak dapat semak had tempoh video -> " + e.message);
-    }
-  }
 
   fs.mkdirSync(TMP_DIR, { recursive: true });
 
@@ -166,8 +166,16 @@ async function main() {
     }
     const caption = (post.message || "Video Masjid Bandar Labis").slice(0, 2200);
     const tmpFile = path.join(TMP_DIR, "fb-" + String(post.id).replace(/[^0-9]/g, "") + ".mp4");
-    console.log("  > " + post.id + ": muat turun video...");
-    if (!DRY_RUN) {
+    console.log("  > " + post.id + ": muat turun video (semak tempoh)...");
+
+    if (DRY_RUN) {
+      console.log("    [DRY-RUN] caption: " + caption.slice(0, 120));
+      console.log("    [DRY-RUN] video: " + media.source);
+      processed.add(post.id);
+      continue;
+    }
+
+    try {
       await downloadVideo(media.source, tmpFile);
       const dur = mp4.durationSeconds(tmpFile);
       if (dur !== null && maxDuration && dur > maxDuration) {
@@ -175,44 +183,41 @@ async function main() {
           "    Langkau: video " + Math.round(dur / 60) + " minit melebihi had TikTok " +
             Math.round(maxDuration / 60) + " minit."
         );
-        try {
-          fs.unlinkSync(tmpFile);
-        } catch (e) {
-          // abaikan
-        }
         tooLong++;
         processed.add(post.id);
         continue;
       }
       if (dur !== null && dur < 3) {
         console.log("    Langkau: video terlalu pendek (" + dur.toFixed(1) + " saat).");
-        try {
-          fs.unlinkSync(tmpFile);
-        } catch (e) {
-          // abaikan
-        }
         processed.add(post.id);
         continue;
       }
-      const init = await tiktok.videoInit(tokens.access_token, {
-        title: caption,
-        privacyLevel: privacy,
+
+      const result = await buffer.createVideoPost({
+        channelId: tiktokChannel.id,
+        text: caption,
+        videoUrl: media.source,
       });
-      console.log("    Publish ID: " + init.data.publish_id + " - upload...");
-      await tiktok.uploadVideo(init.data.upload_url, tmpFile);
-      await tiktok.videoFinalize(tokens.access_token, init.data.publish_id);
-      console.log("    Finalize dihantar (semak status di akaun TikTok).");
+      if (result && result.post) {
+        console.log(
+          "    Dihantar ke Buffer (post " + result.post.id + ", status " + result.post.status + ")"
+        );
+        posted++;
+      } else if (result && result.message) {
+        console.log("    Buffer tolak: " + result.message);
+      } else {
+        console.log("    Respons Buffer tidak dijangka.");
+      }
+      processed.add(post.id);
+    } catch (e) {
+      console.warn("    Ralat semasa memproses " + post.id + ": " + e.message);
+    } finally {
       try {
         fs.unlinkSync(tmpFile);
       } catch (e) {
         // fail sementara boleh kekal
       }
-      posted++;
-    } else {
-      console.log("    [DRY-RUN] caption: " + caption.slice(0, 120));
-      console.log("    [DRY-RUN] video: " + media.source);
     }
-    processed.add(post.id);
   }
 
   st.processed = Array.from(processed);
