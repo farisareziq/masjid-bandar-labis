@@ -13,6 +13,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { spawnSync } = require("child_process");
 const tiktok = require("./lib/tiktok");
 const state = require("./lib/state");
 const mp4 = require("./lib/mp4");
@@ -132,6 +133,122 @@ async function downloadVideo(url, dest) {
   return dest;
 }
 
+function withHashtag(caption) {
+  const c = String(caption || "").trim();
+  const tag = "#MasjidBandarLabis";
+  if (!c) return tag;
+  return (c.indexOf(tag) === -1 ? c + "\n\n" + tag : c).slice(0, 2200);
+}
+
+function runCmd(cmd, args, env, timeoutMs) {
+  try {
+    return spawnSync(cmd, args, {
+      encoding: "utf8",
+      timeout: timeoutMs || 300000,
+      env: Object.assign({}, process.env, env || {}),
+    });
+  } catch (e) {
+    return { status: -1, error: e };
+  }
+}
+
+function hasCommand(cmd) {
+  return runCmd(cmd, ["--version"], {}, 15000).status === 0;
+}
+
+// Pangkas video ke had tempoh TikTok (ffmpeg - tersedia pada ubuntu-latest)
+function trimWithFfmpeg(input, output, seconds) {
+  const r = runCmd(
+    "ffmpeg",
+    [
+      "-y",
+      "-ss", "0",
+      "-i", input,
+      "-t", String(seconds),
+      "-vf", "scale=-2:720",
+      "-c:v", "libx264",
+      "-preset", "veryfast",
+      "-crf", "28",
+      "-c:a", "aac",
+      "-b:a", "128k",
+      "-movflags", "+faststart",
+      output,
+    ],
+    {},
+    600000
+  );
+  if (r.status !== 0) {
+    console.warn("    ffmpeg gagal: " + String(r.stderr || "").slice(-300));
+    return false;
+  }
+  return true;
+}
+
+// Hoskan video yang dipangkas sebagai GitHub Release asset (URL awam percuma)
+async function hostViaGithubRelease(file, postId) {
+  const owner = process.env.GITHUB_REPOSITORY || "";
+  if (!owner || !(process.env.GITHUB_TOKEN || process.env.GH_TOKEN) || !hasCommand("gh")) {
+    return null;
+  }
+  const tag = "video-cache-" + new Date().toISOString().replace(/[-:]/g, "").slice(0, 13);
+  const name = "kuliah-" + String(postId).replace(/[^0-9]/g, "") + "-trim.mp4";
+
+  // Buang release video-cache lama (run sebelumnya sudah diambil Buffer)
+  const old = runCmd("gh", ["release", "list", "--repo", owner, "--limit", "50"], {}, 60000);
+  if (old.status === 0) {
+    for (const line of String(old.stdout).split(/\r?\n/)) {
+      const tagName = line.split(/\s+/)[0];
+      if (tagName && tagName.indexOf("video-cache-") === 0) {
+        runCmd("gh", ["release", "delete", tagName, "--repo", owner, "--yes", "--cleanup-tag"], {}, 60000);
+      }
+    }
+  }
+
+  const create = runCmd(
+    "gh",
+    ["release", "create", tag, "--repo", owner, "--title", "Video cache", "--notes", "Video sementara untuk auto-post TikTok"],
+    {},
+    60000
+  );
+  if (create.status !== 0) {
+    console.warn("    Gagal cipta release: " + String(create.stderr || "").slice(-300));
+    return null;
+  }
+  const up = runCmd("gh", ["release", "upload", tag, file, "--repo", owner, "--clobber"], {}, 300000);
+  if (up.status !== 0) {
+    console.warn("    Gagal upload release: " + String(up.stderr || "").slice(-300));
+    return null;
+  }
+  return "https://github.com/" + owner + "/releases/download/" + tag + "/" + encodeURIComponent(name);
+}
+
+// Video panjang: muat turun -> pangkas -> hos -> hantar ke Buffer
+async function trimAndPostLongVideo(post, media, caption, tmpFile, maxDuration, channelId) {
+  if (!fs.existsSync(tmpFile)) {
+    await downloadVideo(media.source, tmpFile);
+  }
+  const trimmedFile = tmpFile.replace(/\.mp4$/i, "-trim.mp4");
+  console.log("    Memangkas video kepada " + Math.round(maxDuration / 60) + " minit (ffmpeg)...");
+  if (!trimWithFfmpeg(tmpFile, trimmedFile, maxDuration)) {
+    return { posted: false, reason: "ffmpeg tiada/gagal" };
+  }
+  const url = await hostViaGithubRelease(trimmedFile, post.id);
+  if (!url) {
+    return { posted: false, reason: "gh/GITHUB_TOKEN tiada - tidak dapat hoskan video" };
+  }
+  console.log("    Video dipangkas dihoskan: " + url);
+  const result = await buffer.createVideoPost({
+    channelId: channelId,
+    text: caption,
+    videoUrl: url,
+  });
+  if (result && result.post) {
+    console.log("    Dihantar ke Buffer (post " + result.post.id + ", status " + result.post.status + ")");
+    return { posted: true };
+  }
+  return { posted: false, reason: (result && result.message) || "respons tidak dijangka" };
+}
+
 async function main() {
   const token = fbToken();
   if (!token) {
@@ -177,7 +294,7 @@ async function main() {
       processed.add(post.id);
       continue;
     }
-    const caption = (post.message || "Video Masjid Bandar Labis").slice(0, 2200);
+    const caption = withHashtag(post.message || "Video Masjid Bandar Labis");
     const tmpFile = path.join(TMP_DIR, "fb-" + String(post.id).replace(/[^0-9]/g, "") + ".mp4");
     console.log("  > " + post.id + ": semak tempoh video...");
 
@@ -205,13 +322,31 @@ async function main() {
 
     if (dur !== null && maxDuration && dur > maxDuration) {
       console.log(
-        "    Langkau: video " + Math.round(dur / 60) + " minit melebihi had TikTok " +
-          Math.round(maxDuration / 60) + " minit."
+        "    Video " + Math.round(dur / 60) + " minit melebihi had " +
+          Math.round(maxDuration / 60) + " minit - cuba pangkas..."
       );
-      tooLong++;
+      const trimmed = await trimAndPostLongVideo(
+        post,
+        media,
+        caption,
+        tmpFile,
+        maxDuration,
+        tiktokChannel.id
+      );
+      if (trimmed.posted) {
+        posted++;
+      } else {
+        tooLong++;
+        console.log("    " + trimmed.reason + " (langkau)");
+      }
       processed.add(post.id);
       try {
         fs.unlinkSync(tmpFile);
+      } catch (e) {
+        // abaikan
+      }
+      try {
+        fs.unlinkSync(tmpFile.replace(/\.mp4$/i, "-trim.mp4"));
       } catch (e) {
         // abaikan
       }

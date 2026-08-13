@@ -36,7 +36,8 @@ BUFFER_MAX_DURATION_SEC=600
 
 > `BUFFER_API_KEY` adalah rahsia - jangan kongsi, jangan commit.
 > `BUFFER_MAX_DURATION_SEC` = had tempoh video (saat). Video lebih panjang
-> daripada had TikTok akan dilangkau dengan log.
+> daripada had TikTok akan **dipangkas automatik** kepada had tersebut
+> menggunakan ffmpeg (tersedia dalam GitHub Actions).
 
 ## 3. Ujian tempatan
 
@@ -67,8 +68,12 @@ dan dikemas kini balik ke repo oleh workflow supaya tiada post duplikat.
 
 - Hanya siaran **video** dihantar (TikTok tidak terima teks/gambar sahaja).
 - Had TikTok: 15-25 video sehari, 3 saat - 10 minit (ikut akaun), MP4/MOV.
-- Video kuliah langsung Facebook yang lebih daripada 10 minit akan **dilangkau**
-  secara automatik (had API TikTok). Untuk menghantar video panjang, video
-  perlu dipangkas dahulu (ffmpeg) - boleh ditambah kemudian.
+- Video kuliah langsung Facebook yang lebih daripada had tempoh akan
+  **dipangkas automatik** kepada had tersebut (ffmpeg) dan dihoskan sebagai
+  GitHub Release (URL awam percuma) sebelum dihantar ke Buffer. Ini berfungsi
+  dalam GitHub Actions (ffmpeg + gh CLI sudah tersedia). Secara tempatan tanpa
+  gh/token GitHub, video panjang dilangkau dengan log.
+- **Kapsyen automatik**: `#MasjidBandarLabis` ditambah pada setiap video jika
+  belum ada dalam teks siaran.
 - Fail `scripts/tiktok/tokens.json` dan folder `scripts/tiktok/tmp/` tidak
   di-commit (token OAuth & fail sementara).
