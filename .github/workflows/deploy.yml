@@ -61,5 +61,13 @@ jobs:
             echo "Tiada perubahan - selesai."
           else
             git commit -m "auto-deploy: kemas kini siaran Facebook"
-            git push
+            for i in 1 2 3; do
+              if git push; then
+                exit 0
+              fi
+              echo "Push ditolak (konflik) - rebase dan cuba semula..."
+              git pull --rebase origin main
+            done
+            echo "Gagal push selepas 3 cubaan."
+            exit 1
           fi
