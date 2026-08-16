@@ -6,7 +6,7 @@
 # ============================================================
 
 $REPO = 'farisareziq/masjid-bandar-labis'
-$LOG  = 'C:\Users\faris\Documents\masjid-https-log.txt'
+$LOG  = Join-Path $env:TEMP 'masjid-https-log.txt'
 
 Add-Content $LOG ("(" + (Get-Date -Format 'HH:mm:ss') + ") Pemantau dimulakan.")
 Add-Content $LOG ("(" + (Get-Date -Format 'HH:mm:ss') + ") Menunggu sijil SSL untuk masjidlabis.my...")

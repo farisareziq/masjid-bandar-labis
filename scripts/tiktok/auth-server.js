@@ -7,13 +7,25 @@
 "use strict";
 
 const http = require("http");
+const crypto = require("crypto");
 const tiktok = require("./lib/tiktok");
 const state = require("./lib/state");
 
 const PORT = Number(tiktok.cfg("TIKTOK_PORT", "8080"));
 const REDIRECT = tiktok.cfg("TIKTOK_REDIRECT_URI", "http://localhost:" + PORT + "/callback");
-const STATE = "tiktok-auth";
+// State rawak setiap proses - perlindungan CSRF
+const STATE = crypto.randomBytes(16).toString("hex");
 const pkce = tiktok.pkcePair();
+
+// Escape teks sebelum dimasukkan ke dalam HTML (elak reflected XSS)
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
 
 function page(title, body) {
   return (
@@ -85,7 +97,7 @@ function callback(req, res, url) {
     })
     .catch(function (err) {
       res.writeHead(500, { "Content-Type": "text/html; charset=utf-8" });
-      res.end(page("Ralat", "<h1>Ralat</h1><p>" + String(err.message) + "</p>"));
+      res.end(page("Ralat", "<h1>Ralat</h1><p>" + escapeHtml(err.message) + "</p>"));
     });
 }
 
@@ -99,7 +111,7 @@ const server = http.createServer(function (req, res) {
   res.end(home());
 });
 
-server.listen(PORT, function () {
+server.listen(PORT, "127.0.0.1", function () {
   console.log("OAuth TikTok berjalan: http://localhost:" + PORT);
   console.log("Buka URL ini dalam browser dan login akaun TikTok masjid.");
   console.log("Redirect URI (daftar dalam portal TikTok): " + REDIRECT);
