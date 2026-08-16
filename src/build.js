@@ -380,8 +380,10 @@ function sectionHeader(title, subtitle, dark, titleKey, subKey) {
    MUKA SURAT 1 — index.html (Utama + Sumbangan)
    ============================================================ */
 function buildIndex() {
-  // Slider gambar masjid: galeri 2023 + 2026
-  const galFiles = listGalleryImages();
+  // Slider gambar masjid: edisi 2026 sahaja (fallback: semua galeri)
+  const allGal = listGalleryImages();
+  const gal2026 = allGal.filter(function (it) { return it.year === "2026"; });
+  const galFiles = gal2026.length ? gal2026 : allGal;
   const sliderSlides = galFiles.length
     ? galFiles
         .map(function (it, idx) {
