@@ -278,7 +278,7 @@ function buildImageVideo(imagePath, outputPath) {
       "-i", imagePath,
       "-f", "lavfi", "-i", "anullsrc=r=44100:cl=stereo",
       "-t", "6",
-      "-vf", "scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1",
+      "-vf", "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2:color=0x141414,setsar=1",
       "-c:v", "libx264", "-preset", "veryfast", "-crf", "26", "-pix_fmt", "yuv420p",
       "-c:a", "aac", "-shortest",
       outputPath,
