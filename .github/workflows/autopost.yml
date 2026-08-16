@@ -70,18 +70,21 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add scripts/tiktok/state.json
-          if git diff --cached --quiet; then
-            echo "Tiada perubahan - selesai."
-            exit 0
-          fi
           for i in 1 2 3; do
+            git add scripts/tiktok/state.json
+            if git diff --cached --quiet; then
+              echo "Tiada perubahan - selesai."
+              exit 0
+            fi
             git commit -m "auto-deploy: kemas kini state TikTok"
             if git push; then
               exit 0
             fi
-            echo "Push ditolak (konflik) - rebase dan cuba semula..."
-            git pull --rebase origin main
+            echo "Push ditolak (remote bergerak) - selaraskan tanpa konflik dan cuba semula..."
+            # state.json ialah output automasi: sentiasa guna versi terbaru,
+            # reset --soft elak konflik rebase sepenuhnya
+            git fetch origin main
+            git reset --soft FETCH_HEAD
           done
           echo "Gagal push selepas 3 cubaan."
           exit 1
