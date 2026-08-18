@@ -30,9 +30,17 @@ async function main() {
     console.log("Introspek Post gagal: " + e.message);
   }
 
+  // Medan PostPublishingError
+  try {
+    const t = await gql('{ __type(name: "PostPublishingError") { fields { name } } }');
+    console.log("PostPublishingError fields: " + JSON.stringify(t.__type.fields.map(function (f) { return f.name; })));
+  } catch (e) {
+    console.log("Introspek gagal: " + e.message);
+  }
+
   // Detail penuh semua post (cari yang error)
   const d = await gql(
-    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt error { code message } text channel { id name service } } } } }",
+    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt error { message } text channel { id name service } } } } }",
     { org: org }
   );
   const edges = (d.posts && d.posts.edges) || [];
