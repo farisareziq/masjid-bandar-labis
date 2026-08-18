@@ -1,55 +1,40 @@
-/* Debug satu kali: semak saluran & senarai post dalam queue Buffer.
-   Jalankan dalam GitHub Actions dengan secret BUFFER_API_KEY. */
+/* Debug: introspek skema GraphQL Buffer untuk jenis PostsResults */
 "use strict";
 
-const buffer = require("./lib/buffer");
 const tiktok = require("./lib/tiktok");
 
-async function gql(query, variables) {
+async function introspect(typeName) {
   const key = tiktok.cfg("BUFFER_API_KEY", "");
+  const query =
+    '{ __type(name: "' + typeName + '") { fields { name type { name kind ofType { name kind } } } } }';
   const res = await fetch("https://api.buffer.com", {
     method: "POST",
     headers: { "Content-Type": "application/json", Authorization: "Bearer " + key },
-    body: JSON.stringify({ query: query, variables: variables || {} }),
+    body: JSON.stringify({ query: query }),
   });
   const json = await res.json();
-  if (!res.ok || json.errors) {
-    const msg = (json.errors && json.errors.map(function (e) { return e.message; }).join("; ")) || "HTTP " + res.status;
-    const err = new Error("Buffer API: " + msg);
-    err.body = json;
-    throw err;
+  if (json.errors) {
+    console.log(typeName + ": " + json.errors.map(function (e) { return e.message; }).join("; "));
+    return;
   }
-  return json.data;
+  const t = json.data.__type;
+  if (!t) {
+    console.log(typeName + ": tiada jenis dijumpai");
+    return;
+  }
+  console.log("=== " + typeName + " ===");
+  for (const f of t.fields || []) {
+    const ft = f.type.ofType ? f.type.ofType.name + (f.type.kind === "LIST" ? "[]" : "") : f.type.name;
+    console.log("  " + f.name + " : " + ft);
+  }
 }
 
 async function main() {
-  const org = await buffer.getOrganizationId();
-  console.log("Organization ID: " + org);
-
-  const channels = await buffer.getChannels(org);
-  for (const c of channels) {
-    console.log("Channel: " + c.displayName + " | service=" + c.service + " | id=" + c.id + " | disconnected=" + c.isDisconnected);
-  }
-
-  // Senarai post (queue) - query sekali untuk seluruh organisasi
-  try {
-    const d = await gql(
-      "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { posts { id status dueAt text channel { id name } } } }",
-      { org: org }
-    );
-    const list = (d.posts && d.posts.posts) || [];
-    console.log("\n=== Queue (jumlah " + list.length + " post) ===");
-    for (const p of list) {
-      const ch = p.channel ? p.channel.name : "?";
-      console.log("- [" + p.status + "] ch=" + ch + " due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
-    }
-  } catch (e) {
-    console.log("=== Queue gagal: " + e.message);
-  }
+  await introspect("PostsResults");
+  await introspect("PostsInput");
 }
 
 main().catch(function (e) {
   console.error("Ralat: " + e.message);
-  if (e.body) console.error(JSON.stringify(e.body, null, 2));
   process.exit(1);
 });
