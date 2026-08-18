@@ -32,7 +32,7 @@ async function main() {
 
   // Detail penuh semua post (cari yang error)
   const d = await gql(
-    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt error text channel { id name service } } } } }",
+    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt error { code message } text channel { id name service } } } } }",
     { org: org }
   );
   const edges = (d.posts && d.posts.edges) || [];
