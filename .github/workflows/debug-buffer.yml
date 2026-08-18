@@ -1,0 +1,24 @@
+name: Debug Buffer queue (sekali gus)
+
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Sediakan Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Semak queue Buffer
+        env:
+          BUFFER_API_KEY: ${{ secrets.BUFFER_API_KEY }}
+          BUFFER_CHANNEL_ID: ${{ secrets.BUFFER_CHANNEL_ID }}
+        run: node scripts/tiktok/debug-queue.js
