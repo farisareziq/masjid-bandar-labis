@@ -1,4 +1,4 @@
-/* Debug: introspek + senarai queue Buffer */
+/* Debug: detail post error + introspek jenis Post */
 "use strict";
 
 const buffer = require("./lib/buffer");
@@ -14,50 +14,33 @@ async function gql(query, variables) {
   const json = await res.json();
   if (!res.ok || json.errors) {
     const msg = (json.errors && json.errors.map(function (e) { return e.message; }).join("; ")) || "HTTP " + res.status;
-    const err = new Error("Buffer API: " + msg);
-    err.body = json;
-    throw err;
+    throw new Error("Buffer API: " + msg);
   }
   return json.data;
 }
 
 async function main() {
   const org = await buffer.getOrganizationId();
-  console.log("Organization ID: " + org);
-  const channels = await buffer.getChannels(org);
-  for (const c of channels) {
-    console.log("Channel: " + c.displayName + " | service=" + c.service + " | id=" + c.id + " | disconnected=" + c.isDisconnected);
+
+  // Medan pada jenis Post
+  try {
+    const t = await gql('{ __type(name: "Post") { fields { name } } }');
+    console.log("Post fields: " + JSON.stringify(t.__type.fields.map(function (f) { return f.name; })));
+  } catch (e) {
+    console.log("Introspek Post gagal: " + e.message);
   }
 
-  // Introspek jenis edge/node untuk tahu medan Post
-  try {
-    const t = await gql('{ __type(name: "PostsResults") { fields { name type { kind name ofType { kind name ofType { kind name } } } } } }');
-    console.log("\nPostsResults: " + JSON.stringify(t.__type.fields.map(function (f) { return f.name; })));
-    const edgeType = t.__type.fields.find(function (f) { return f.name === "edges"; });
-    const nodeType = edgeType && edgeType.type.ofType && edgeType.type.ofType.ofType ? edgeType.type.ofType.ofType.name : null;
-    console.log("edge node type: " + (edgeType && edgeType.type.ofType ? JSON.stringify(edgeType.type) : "?"));
-    if (nodeType) {
-      const nt = await gql('{ __type(name: "' + nodeType + '") { fields { name } } }');
-      console.log("node fields: " + JSON.stringify(nt.__type.fields.map(function (f) { return f.name; })));
-    }
-  } catch (e) {
-    console.log("Introspek gagal: " + e.message);
-  }
-
-  // Query queue dengan edges
-  try {
-    const d = await gql(
-      "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt text } } } }",
-      { org: org }
-    );
-    const edges = (d.posts && d.posts.edges) || [];
-    console.log("\n=== Queue (jumlah " + edges.length + " post) ===");
-    for (const e of edges) {
-      const p = e.node || {};
-      console.log("- [" + p.status + "] due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
-    }
-  } catch (e) {
-    console.log("=== Queue gagal: " + e.message);
+  // Detail penuh semua post (cari yang error)
+  const d = await gql(
+    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt text channel { id name service } } } } }",
+    { org: org }
+  );
+  const edges = (d.posts && d.posts.edges) || [];
+  for (const e of edges) {
+    const p = e.node || {};
+    const ch = p.channel ? p.channel.name + "/" + p.channel.service : "?";
+    console.log("- [" + p.status + "] ch=" + ch + " id=" + p.id + " due=" + (p.dueAt || "-"));
+    console.log("  text: " + String(p.text || "").replace(/\s+/g, " ").slice(0, 100));
   }
 }
 
