@@ -35,14 +35,16 @@ async function main() {
   for (const c of channels) {
     try {
       const d = await gql(
-        "query ($channel: ChannelId!) { posts(input: { channelId: $channel, status: [DRAFT, SCHEDULED, ERROR, SENT] }) { id status dueAt text } }",
-        { channel: c.id }
+        "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { ... on PostConnection { edges { node { id status dueAt text } } } } }",
+        { org: org }
       );
-      const posts = (d.posts || []);
-      console.log("\n=== Queue " + c.displayName + " (" + posts.length + " post) ===");
-      for (const p of posts) {
-        console.log("- [" + p.status + "] due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
+      const edges = (d.posts && d.posts.edges) || [];
+      console.log("\n=== Queue " + c.displayName + " (-org-wide " + edges.length + " post) ===");
+      for (const e of edges) {
+        const p = e.node || {};
+        console.log("- [" + p.status + "] channel=" + (p.channelId || c.id) + " due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
       }
+      break; // query ini org-wide, sekali cukup
     } catch (e) {
       console.log("\n=== Queue " + c.displayName + ": gagal dapatkan - " + e.message);
     }
