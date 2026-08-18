@@ -32,7 +32,7 @@ async function main() {
 
   // Detail penuh semua post (cari yang error)
   const d = await gql(
-    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt text channel { id name service } } } } }",
+    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id status dueAt error text channel { id name service } } } } }",
     { org: org }
   );
   const edges = (d.posts && d.posts.edges) || [];
@@ -40,7 +40,7 @@ async function main() {
     const p = e.node || {};
     const ch = p.channel ? p.channel.name + "/" + p.channel.service : "?";
     console.log("- [" + p.status + "] ch=" + ch + " id=" + p.id + " due=" + (p.dueAt || "-"));
-    console.log("  text: " + String(p.text || "").replace(/\s+/g, " ").slice(0, 100));
+    if (p.error) console.log("  ERROR: " + JSON.stringify(p.error));
   }
 }
 
