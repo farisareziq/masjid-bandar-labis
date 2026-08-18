@@ -303,16 +303,23 @@ async function hostViaGithubRelease(file, postId) {
   // gh release upload menamakan asset mengikut nama fail sebenar (basename)
   const name = path.basename(file);
 
-  // Buang release video-cache lama (run sebelumnya sudah diambil Buffer)
+  // Buang release video-cache lama sahaja (>48 jam).
+  // Jangan buang yang baharu - Buffer mungkin belum ambil URL video lagi
+  // (post dijadualkan ~1 minit + masa proses; padam terlalu awal menyebabkan
+  //  error "media URL not publicly accessible" dalam Buffer).
+  const cutoff = Date.now() - 48 * 60 * 60 * 1000;
   const old = runCmd(
     "gh",
-    ["release", "list", "--repo", owner, "--limit", "50", "--json", "tagName", "--jq", ".[].tagName"],
+    ["release", "list", "--repo", owner, "--limit", "50", "--json", "tagName,createdAt", "--jq", ".[] | [.tagName, .createdAt] | @tsv"],
     {},
     60000
   );
   if (old.status === 0) {
-    for (const tagName of String(old.stdout).split(/\r?\n/).map(function (s) { return s.trim(); })) {
-      if (tagName && tagName.indexOf("video-cache-") === 0) {
+    for (const line of String(old.stdout).split(/\r?\n/)) {
+      const cols = line.split(/\t/).map(function (s) { return s.trim(); });
+      const tagName = cols[0];
+      const created = cols[1] ? Date.parse(cols[1]) : NaN;
+      if (tagName && tagName.indexOf("video-cache-") === 0 && (!isNaN(created) && created < cutoff)) {
         runCmd("gh", ["release", "delete", tagName, "--repo", owner, "--yes", "--cleanup-tag"], {}, 60000);
       }
     }
@@ -339,6 +346,16 @@ async function hostViaGithubRelease(file, postId) {
 
 // Hos fail video sedia ada -> hantar ke Buffer
 async function hostAndPost(filePath, postId, caption, channelId) {
+  // Elak duplikasi jika run automation bertindih: semak queue Buffer dahulu
+  try {
+    const dupe = await buffer.findRecentDuplicate(channelId, caption, 6 * 60 * 60 * 1000);
+    if (dupe) {
+      console.log("    Duplikasi dikesan (post Buffer " + dupe.id + ", status " + dupe.status + ") - langkau.");
+      return { posted: true, duplicate: true };
+    }
+  } catch (e) {
+    console.warn("    Semakan duplikasi gagal (" + e.message + ") - teruskan.");
+  }
   const url = await hostViaGithubRelease(filePath, postId);
   if (url && url.error) {
     return { posted: false, reason: url.error };
@@ -546,6 +563,18 @@ async function main() {
       }
 
       try {
+        // Elak duplikasi jika run automation bertindih
+        try {
+          const dupe = await buffer.findRecentDuplicate(tiktokChannel.id, caption, 6 * 60 * 60 * 1000);
+          if (dupe) {
+            console.log("    Duplikasi dikesan (post Buffer " + dupe.id + ", status " + dupe.status + ") - langkau.");
+            posted++;
+            processed.add(post.id);
+            continue;
+          }
+        } catch (dupeErr) {
+          console.warn("    Semakan duplikasi gagal (" + dupeErr.message + ") - teruskan.");
+        }
         const result = await buffer.createVideoPost({
           channelId: tiktokChannel.id,
           text: caption,

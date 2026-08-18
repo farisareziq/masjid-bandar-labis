@@ -69,6 +69,31 @@ async function findTikTokChannel() {
   return found;
 }
 
+function normalizeText(s) {
+  return String(s || "").replace(/\s+/g, " ").trim();
+}
+
+// Semak post dengan teks sama pada saluran tersebut dalam tetingkap masa -
+// elak duplikasi jika dua run automation bertindih
+async function findRecentDuplicate(channelId, text, windowMs) {
+  const org = await getOrganizationId();
+  const d = await gql(
+    "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { edges { node { id channelId text createdAt status } } } }",
+    { org: org }
+  );
+  const edges = (d.posts && d.posts.edges) || [];
+  const want = normalizeText(text);
+  const cutoff = Date.now() - (windowMs || 6 * 60 * 60 * 1000);
+  for (const e of edges) {
+    const p = e.node || {};
+    if (p.channelId !== channelId) continue;
+    if (normalizeText(p.text) !== want) continue;
+    if (!p.createdAt || Date.parse(p.createdAt) < cutoff) continue;
+    return p;
+  }
+  return null;
+}
+
 async function createVideoPost(opts) {
   // Buffer memerlukan masa jadual pada masa hadapan - tetapkan +1 minit
   const dueAt = new Date(Date.now() + 60000).toISOString();
@@ -95,5 +120,6 @@ module.exports = {
   getOrganizationId: getOrganizationId,
   getChannels: getChannels,
   findTikTokChannel: findTikTokChannel,
+  findRecentDuplicate: findRecentDuplicate,
   createVideoPost: createVideoPost,
 };
