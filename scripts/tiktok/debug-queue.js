@@ -31,23 +31,20 @@ async function main() {
     console.log("Channel: " + c.displayName + " | service=" + c.service + " | id=" + c.id + " | disconnected=" + c.isDisconnected);
   }
 
-  // Senarai post (queue) setiap saluran
-  for (const c of channels) {
-    try {
-      const d = await gql(
-        "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { ... on PostConnection { edges { node { id status dueAt text } } } } }",
-        { org: org }
-      );
-      const edges = (d.posts && d.posts.edges) || [];
-      console.log("\n=== Queue " + c.displayName + " (-org-wide " + edges.length + " post) ===");
-      for (const e of edges) {
-        const p = e.node || {};
-        console.log("- [" + p.status + "] channel=" + (p.channelId || c.id) + " due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
-      }
-      break; // query ini org-wide, sekali cukup
-    } catch (e) {
-      console.log("\n=== Queue " + c.displayName + ": gagal dapatkan - " + e.message);
+  // Senarai post (queue) - query sekali untuk seluruh organisasi
+  try {
+    const d = await gql(
+      "query ($org: OrganizationId!) { posts(input: { organizationId: $org }) { posts { id status dueAt text channel { id name } } } }",
+      { org: org }
+    );
+    const list = (d.posts && d.posts.posts) || [];
+    console.log("\n=== Queue (jumlah " + list.length + " post) ===");
+    for (const p of list) {
+      const ch = p.channel ? p.channel.name : "?";
+      console.log("- [" + p.status + "] ch=" + ch + " due=" + (p.dueAt || "-") + " | " + String(p.text || "").replace(/\s+/g, " ").slice(0, 80));
     }
+  } catch (e) {
+    console.log("=== Queue gagal: " + e.message);
   }
 }
 
