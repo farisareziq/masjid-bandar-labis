@@ -183,13 +183,13 @@ function iconSvg(name, size) {
 /* ============================================================
    TEMPLAT LAMAN
    ============================================================ */
-function head(title, description, canonicalUrl) {
+function head(title, description, canonicalUrl, titleKey) {
   return (
     "<!DOCTYPE html>\n" +
     '<html lang="ms">\n<head>\n' +
     '<meta charset="UTF-8">\n' +
     '<meta name="viewport" content="width=device-width, initial-scale=1.0">\n' +
-    "<title>" + title + "</title>\n" +
+    "<title" + (titleKey ? ' data-i18n="' + titleKey + '"' : "") + ">" + title + "</title>\n" +
     '<meta name="description" content="' + description + '">\n' +
     '<meta name="theme-color" content="#FFFDD0">\n' +
     (canonicalUrl
@@ -344,7 +344,7 @@ function page(opts) {
   const scripts =
     opts.prayer ? '<script src="js/prayer-times.js?v=' + assetVersion("js/prayer-times.js") + '" defer></script>\n' : "";
   return (
-    head(opts.title, opts.description, opts.canonical) +
+    head(opts.title, opts.description, opts.canonical, opts.titleKey) +
     nav(opts.active) +
     opts.body +
     footer() +
@@ -540,6 +540,7 @@ function buildIndex() {
     "index.html",
     page({
       title: "Masjid Bandar Labis \u2014 Utama",
+      titleKey: "title.index",
       canonical: "https://" + CONFIG.customDomain + "/",
       description:
         "Laman rasmi Masjid Bandar Labis, Segamat, Johor. Waktu solat, aktiviti, perkhidmatan dan maklumat sumbangan.",
@@ -662,6 +663,7 @@ function buildTentang() {
     "tentang.html",
     page({
       title: "Tentang Masjid \u2014 Masjid Bandar Labis",
+      titleKey: "title.tentang",
       canonical: "https://" + CONFIG.customDomain + "/tentang.html",
       description:
         "Sejarah, visi dan misi serta carta organisasi Masjid Bandar Labis, Segamat, Johor.",
@@ -874,19 +876,50 @@ const JADUAL_KULIAH = [
   },
 ];
 
+// Padanan hari BM -> kunci i18n
+const HARI_KEYS = {
+  "Sabtu": "hari.sabtu", "Ahad": "hari.ahad", "Isnin": "hari.isnin",
+  "Selasa": "hari.selasa", "Rabu": "hari.rabu", "Khamis": "hari.khamis",
+  "Jumaat": "hari.jumaat",
+};
+
+// Padanan nama bulan BM -> kunci i18n (untuk teks "1 - 7 Ogos" dsb.)
+const BULAN_KEYS = {
+  "Januari": "bulan.januari", "Februari": "bulan.februari", "Mac": "bulan.mac",
+  "April": "bulan.april", "Mei": "bulan.mei", "Jun": "bulan.jun",
+  "Julai": "bulan.julai", "Ogos": "bulan.ogos", "September": "bulan.september",
+  "Oktober": "bulan.oktober", "November": "bulan.november", "Disember": "bulan.disember",
+};
+
+// Gantikan nama bulan dalam teks dengan span i18n
+function i18nBulan(text) {
+  var out = esc(text);
+  for (var nama in BULAN_KEYS) {
+    out = out.split(nama).join('<span data-i18n="' + BULAN_KEYS[nama] + '">' + nama + "</span>");
+  }
+  return out;
+}
+
 function jadualKuliahHtml() {
   return JADUAL_KULIAH.map(function (bulan) {
     var body = bulan.minggu.map(function (w) {
       var weekHead =
-        '<tr class="week-row"><td colspan="5"><strong>' + esc(w.label) + "</strong> &mdash; " + esc(w.tarikh) + "</td></tr>";
+        '<tr class="week-row"><td colspan="5"><strong><span data-i18n="jadual.minggu">Minggu</span> ' +
+        esc(w.label.replace(/^Minggu\s*/, "")) + "</strong> &mdash; " + i18nBulan(w.tarikh) + "</td></tr>";
       var weekRows = w.rows
         .map(function (r) {
           if (!r) return "";
-          var masa = r[2] ? "Dhuha Pagi" : "Selepas Maghrib";
+          var masa = r[2]
+            ? '<span data-i18n="jadual.masa.dhuha">Dhuha Pagi</span>'
+            : '<span data-i18n="jadual.masa.maghrib">Selepas Maghrib</span>';
+          var hariKey = HARI_KEYS[r[1]];
+          var hari = hariKey
+            ? '<span data-i18n="' + hariKey + '">' + esc(r[1]) + "</span>"
+            : esc(r[1]);
           return (
             "<tr>" +
             "<td>" + esc(r[0]) + "</td>" +
-            "<td>" + esc(r[1]) + "</td>" +
+            "<td>" + hari + "</td>" +
             "<td>" + masa + "</td>" +
             "<td>" + esc(r[3]) + "</td>" +
             "<td>" + esc(r[4]) + "</td>" +
@@ -897,10 +930,10 @@ function jadualKuliahHtml() {
       return weekHead + weekRows;
     }).join("");
     return (
-      '<h3 class="jadual-bulan">' + esc(bulan.bulan) + "</h3>" +
+      '<h3 class="jadual-bulan">' + i18nBulan(bulan.bulan) + "</h3>" +
       '<div class="table-wrap" data-reveal>' +
       "<table>" +
-      "<thead><tr><th>Tarikh</th><th>Hari</th><th>Masa</th><th>Penceramah</th><th>Tajuk</th></tr></thead>" +
+      '<thead><tr><th data-i18n="jadual.th.tarikh">Tarikh</th><th data-i18n="jadual.th.hari">Hari</th><th data-i18n="jadual.th.masa">Masa</th><th data-i18n="jadual.th.penceramah">Penceramah</th><th data-i18n="jadual.th.tajuk">Tajuk</th></tr></thead>' +
       "<tbody>" + body + "</tbody></table></div>"
     );
   }).join("");
@@ -947,10 +980,10 @@ function buildAktiviti() {
     '<div class="fb-card fb-card--tiktok" data-reveal>' +
     '<div class="fb-icon">' + iconSvg("tiktok", 30) + "</div>" +
     "<div>" +
-    "<h3>TikTok Rasmi Masjid Bandar Labis</h3>" +
-    '<p>Video pendek aktiviti, kuliah dan program masjid dikongsi melalui akaun TikTok rasmi.</p>' +
+    '<h3 data-i18n="siaran.tiktok.title">TikTok Rasmi Masjid Bandar Labis</h3>' +
+    '<p data-i18n="siaran.tiktok.text">Video pendek aktiviti, kuliah dan program masjid dikongsi melalui akaun TikTok rasmi.</p>' +
     '<a class="btn btn-gold" href="' + CONFIG.tiktokUrl + '" target="_blank" rel="noopener noreferrer">' +
-    iconSvg("tiktok", 18) + "<span> Ikuti TikTok " + CONFIG.tiktokUsername + "</span></a>" +
+    iconSvg("tiktok", 18) + '<span data-i18n="siaran.tiktok.btn"> Ikuti TikTok</span> ' + CONFIG.tiktokUsername + "</a>" +
     "</div></div>\n" +
 
     // Video grid / Siaran Facebook terkini
@@ -966,6 +999,7 @@ function buildAktiviti() {
     "aktiviti.html",
     page({
       title: "Aktiviti \u2014 Masjid Bandar Labis",
+      titleKey: "title.aktiviti",
       canonical: "https://" + CONFIG.customDomain + "/aktiviti.html",
       description:
         "Jadual kuliah mingguan dan siaran media Masjid Bandar Labis — video, siaran langsung dan pengumuman terkini.",
@@ -1118,6 +1152,7 @@ function buildPerkhidmatan() {
     "perkhidmatan.html",
     page({
       title: "Perkhidmatan \u2014 Masjid Bandar Labis",
+      titleKey: "title.perkhidmatan",
       canonical: "https://" + CONFIG.customDomain + "/perkhidmatan.html",
       description:
         "Urusan harian masjid — pengurusan jenazah, perkahwinan, tempahan dewan — dan tempahan Musafir Inn.",
@@ -1219,6 +1254,7 @@ function buildGaleri() {
     "galeri.html",
     page({
       title: "Galeri \u2014 Masjid Bandar Labis",
+      titleKey: "title.galeri",
       canonical: "https://" + CONFIG.customDomain + "/galeri.html",
       description:
         "Galeri foto aktiviti dan suasana Masjid Bandar Labis, Segamat, Johor.",
@@ -1301,6 +1337,7 @@ function buildHubungi() {
     "hubungi.html",
     page({
       title: "Hubungi Kami \u2014 Masjid Bandar Labis",
+      titleKey: "title.hubungi",
       canonical: "https://" + CONFIG.customDomain + "/hubungi.html",
       description:
         "Alamat, e-mel, Facebook page, waktu operasi dan borang maklum balas Masjid Bandar Labis, Segamat, Johor.",
@@ -1341,6 +1378,7 @@ function buildPrivasi() {
     "privacy.html",
     page({
       title: "Dasar Privasi \u2014 Masjid Bandar Labis",
+      titleKey: "title.privacy",
       canonical: "https://" + CONFIG.customDomain + "/privacy.html",
       description: "Dasar privasi laman web rasmi Masjid Bandar Labis, Bandar Labis, Johor.",
       active: "",
@@ -1383,6 +1421,7 @@ function buildTerma() {
     "terms.html",
     page({
       title: "Terma Penggunaan \u2014 Masjid Bandar Labis",
+      titleKey: "title.terms",
       canonical: "https://" + CONFIG.customDomain + "/terms.html",
       description: "Terma penggunaan laman web rasmi Masjid Bandar Labis, Bandar Labis, Johor.",
       active: "",
