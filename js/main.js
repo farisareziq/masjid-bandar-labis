@@ -274,6 +274,7 @@ function initForms() {
         fd.get("_subject") || "Maklum balas daripada laman web";
       payload._captcha = "false"; // borang AJAX: elak reCAPTCHA
       payload._template = "table";
+      payload._cc = "faris.zamri97@gmail.com"; // salinan (CC) semua borang
 
       // Reply-To: mesej boleh dibalas terus kepada pengirim
       const senderEmail = fd.get("E-mel") || fd.get("email") || "";
