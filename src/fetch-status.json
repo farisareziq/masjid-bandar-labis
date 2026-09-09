@@ -1,4 +1,4 @@
 {
-  "ok": true,
-  "count": 6
+  "ok": false,
+  "reason": "fetch-failed"
 }
