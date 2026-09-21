@@ -1,6 +1,6 @@
 # ============================================================
 # Auto-post siaran video Facebook ke TikTok (via Buffer)
-# Berjalan: setiap 15 minit + manual (workflow_dispatch)
+# Berjalan: setiap 30 minit + manual (workflow_dispatch)
 # Secrets diperlukan:
 #   FB_ACCESS_TOKEN     (sedia ada)
 #   BUFFER_API_KEY      (Settings -> API di buffer.com)
@@ -12,7 +12,7 @@ name: Auto-post TikTok (Buffer)
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:
       test_dummy:
